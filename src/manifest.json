@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "default_locale": "en",
   "name": "A-Traductor",
   "description": "__MSG_extensionDescription__",
@@ -66,36 +66,31 @@
     "64": "/icons/icon-64.png",
     "128": "/icons/icon-128.png"
   },
-  "permissions": [
-    "<all_urls>",
-    "storage",
-    "activeTab",
-    "contextMenus",
-    "webRequest"
-  ],
+  "permissions": ["storage", "activeTab", "contextMenus", "webRequest"],
+  "host_permissions": ["<all_urls>"],
   "optional_permissions": ["webNavigation"],
   "web_accessible_resources": [
-    "/icons/icon-32.png",
-    "/icons/google-translate-32.png",
-    "/icons/bing-translate-32.png",
-    "/icons/yandex-translate-32.png",
-    "/icons/swap-32.png",
-    "/contentScript/css/*"
+    {
+      "resources": [
+        "/icons/icon-32.png",
+        "/icons/google-translate-32.png",
+        "/icons/bing-translate-32.png",
+        "/icons/yandex-translate-32.png",
+        "/icons/swap-32.png",
+        "/contentScript/css/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
   ],
   "options_ui": {
     "page": "/options/options.html",
     "open_in_tab": false,
     "browser_style": false
   },
-  "browser_action": {
-    "browser_style": false,
+  "action": {
     "default_icon": "/icons/icon-32.png",
-    "default_title": "__MSG_pageActionTitle__"
-  },
-  "page_action": {
-    "browser_style": false,
-    "default_icon": "/icons/icon-32.png",
-    "default_title": "__MSG_pageActionTitle__"
+    "default_title": "__MSG_pageActionTitle__",
+    "default_popup": "/popup/popup.html"
   },
   "content_scripts": [
     {
@@ -144,7 +139,6 @@
     }
   ],
   "background": {
-    "persistent": true,
     "scripts": [
       "/lib/polyfill.js",
       "/lib/checkedLastError.js",

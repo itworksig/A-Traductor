@@ -477,22 +477,23 @@ const textToSpeech = (function () {
     },
     function getRequestBody(text, targetLanguage) {
       const languageData = BingHelper.getLanguageData(targetLanguage);
-
-      const domParser = new DOMParser();
-      const doc = domParser.parseFromString(
-        `<speak version='1.0' xml:lang=''><voice xml:lang='' xml:gender='' name=''><prosody rate='-20.00%'></prosody></voice></speak>`,
-        "text/xml"
-      );
-      doc.querySelector("speak").setAttribute("xml:lang", languageData.locale);
-      doc.querySelector("voice").setAttribute("xml:lang", languageData.locale);
-      doc
-        .querySelector("voice")
-        .setAttribute("xml:gender", languageData.gender);
-      doc.querySelector("voice").setAttribute("xml:name", languageData.voice);
-      doc.querySelector("prosody").textContent = text;
+      const escapeXml = (value) =>
+        value
+          .replace(/\&/g, "&amp;")
+          .replace(/\</g, "&lt;")
+          .replace(/\>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/\'/g, "&apos;");
+      const ssml =
+        `<speak version="1.0" xml:lang="${escapeXml(languageData.locale)}">` +
+        `<voice xml:lang="${escapeXml(languageData.locale)}" ` +
+        `xml:gender="${escapeXml(languageData.gender)}" ` +
+        `name="${escapeXml(languageData.voice)}">` +
+        `<prosody rate="-20.00%">${escapeXml(text)}</prosody>` +
+        `</voice></speak>`;
 
       const params = new URLSearchParams();
-      params.append("ssml", new XMLSerializer().serializeToString(doc));
+      params.append("ssml", ssml);
       params.append("token", BingHelper.token);
       params.append("key", BingHelper.key.toString());
       return params.toString();

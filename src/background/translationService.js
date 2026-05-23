@@ -958,25 +958,24 @@ const translationService = (function () {
         },
         function cbTransformResponse(result, dontSortResults) {
           const resultArray = [];
-
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(result, "text/html");
           let currText = "";
-          doc.body.childNodes.forEach((node) => {
+
+          result.split(/(<b\d+>[\s\S]*?<\/b\d+>)/gi).forEach((part) => {
+            const match = part.match(/^<b(\d+)>([\s\S]*?)<\/b\d+>$/i);
             if (dontSortResults) {
-              if (node.nodeName == "#text") {
-                currText += node.textContent;
-              } else {
-                resultArray.push(currText + node.textContent);
+              if (match) {
+                resultArray.push(currText + Utils.unescapeHTML(match[2]));
                 currText = "";
+              } else {
+                currText += Utils.unescapeHTML(part);
               }
             } else {
-              if (node.nodeName == "#text") {
-                currText += node.textContent;
-              } else {
-                const id = parseInt(node.nodeName.slice(1)) - 10;
-                resultArray[id] = currText + node.textContent;
+              if (match) {
+                const id = parseInt(match[1]) - 10;
+                resultArray[id] = currText + Utils.unescapeHTML(match[2]);
                 currText = "";
+              } else {
+                currText += Utils.unescapeHTML(part);
               }
             }
           });

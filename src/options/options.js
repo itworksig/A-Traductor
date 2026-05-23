@@ -749,7 +749,11 @@ twpConfig
     }
 
     function addHotkey(hotkeyname, description) {
-      if (hotkeyname === "_execute_browser_action" && !description) {
+      if (
+        (hotkeyname === "_execute_browser_action" ||
+          hotkeyname === "_execute_action") &&
+        !description
+      ) {
         description = "Enable the extension";
       }
 

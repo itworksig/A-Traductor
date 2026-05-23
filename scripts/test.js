@@ -84,6 +84,34 @@ function testAiProviders() {
   );
 }
 
+function testManifestV3() {
+  const firefoxManifest = JSON.parse(read("src/manifest.json"));
+  const chromiumManifest = JSON.parse(read("src/chrome_manifest.json"));
+
+  [firefoxManifest, chromiumManifest].forEach((manifest) => {
+    assert(manifest.manifest_version === 3, `${manifest.name} must use Manifest V3`);
+    assert(manifest.action, `${manifest.name} must use the MV3 action key`);
+    assert(!manifest.browser_action, `${manifest.name} must not use browser_action`);
+    assert(!manifest.page_action, `${manifest.name} must not use page_action`);
+    assert(Array.isArray(manifest.host_permissions), `${manifest.name} must use host_permissions`);
+    assert(!manifest.permissions.includes("<all_urls>"), `${manifest.name} must not put host access in permissions`);
+    assert(
+      Array.isArray(manifest.web_accessible_resources) &&
+        manifest.web_accessible_resources.every((entry) => Array.isArray(entry.resources)),
+      `${manifest.name} must use MV3 web_accessible_resources objects`
+    );
+  });
+
+  assert(
+    chromiumManifest.background?.service_worker === "/background/service-worker.js",
+    "Chromium MV3 build must use a background service worker"
+  );
+  assert(
+    Array.isArray(firefoxManifest.background?.scripts),
+    "Firefox MV3 build must keep explicit background scripts"
+  );
+}
+
 [
   "src/manifest.json",
   "src/chrome_manifest.json",
@@ -101,5 +129,6 @@ function testAiProviders() {
 testLocales();
 testPopupMenu();
 testAiProviders();
+testManifestV3();
 
 console.log("All project checks passed.");

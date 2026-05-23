@@ -111,6 +111,7 @@ Maintained at [itworksig/A-Traductor](https://github.com/itworksig/A-Traductor).
 
 ## Notes
 
-- Firefox currently uses the Manifest V2 build.
-- Chromium uses the Chromium package generated from the Firefox build.
-- See [docs/MV3_MIGRATION.md](docs/MV3_MIGRATION.md) for the Manifest V3 migration plan.
+- Firefox and Chromium builds both use Manifest V3.
+- Chromium uses a background service worker.
+- Firefox keeps explicit MV3 background scripts for cross-browser compatibility.
+- See [docs/MV3_MIGRATION.md](docs/MV3_MIGRATION.md) for implementation notes.

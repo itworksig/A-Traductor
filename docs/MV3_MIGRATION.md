@@ -1,22 +1,32 @@
-# Manifest V3 Migration
+# Manifest V3 Notes
 
-A-Traductor currently keeps Manifest V2 for Firefox compatibility. Chromium MV3 should be introduced as a separate build target instead of replacing the Firefox build in one step.
+A-Traductor now uses Manifest V3 manifests for both build targets.
 
-## Target Shape
+## Build Shape
 
-- Keep `src/manifest.json` as the Firefox MV2 manifest.
-- Keep `src/chrome_manifest.json` as the current Chromium MV2 manifest until the MV3 background migration is complete.
-- Add a future `src/chrome_manifest_v3.json` when the background scripts can run as a service worker.
+- `src/manifest.json` is the Firefox MV3 manifest.
+- `src/chrome_manifest.json` is the Chromium MV3 manifest.
+- Chromium uses `/background/service-worker.js` as the MV3 background service worker.
+- Firefox keeps the explicit background script list because Firefox and Chromium handle MV3 background execution differently.
 
-## Required Work
+## Runtime Compatibility
 
-1. Replace persistent background pages with an MV3 service worker entry.
-2. Audit all background state that currently assumes a long-lived page.
-3. Replace blocking `webRequest` usage where needed.
-4. Move any DOM-dependent background code out of the service worker path.
-5. Validate message handlers return `true` for async responses.
-6. Add a Chromium MV3 build task only after the service worker path is stable.
+The Chromium service worker imports the existing background modules from `/background/service-worker.js`.
 
-## Current Status
+Because service workers do not expose all page-style APIs used by the old persistent background page, `/background/mv3-shims.js` provides the small compatibility layer currently needed by the existing translation and text-to-speech modules:
 
-The build now preserves binary assets correctly, which is a prerequisite for an additional Chromium build target. The actual MV3 runtime conversion is intentionally tracked here because shipping a manifest-only MV3 file before the background code is service-worker-safe would create a broken extension.
+- `XMLHttpRequest` backed by `fetch`
+- `FileReader.readAsDataURL` backed by `Blob.arrayBuffer`
+
+DOM-dependent background parsing was removed from the service worker path.
+
+## Validation
+
+`npm test` checks that:
+
+- both manifests use Manifest V3,
+- host access is declared through `host_permissions`,
+- `browser_action` and `page_action` are not used,
+- web-accessible resources use the MV3 object format,
+- the Chromium manifest points to the service worker,
+- the Firefox manifest keeps explicit background scripts.
