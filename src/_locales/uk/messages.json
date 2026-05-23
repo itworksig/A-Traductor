@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Відкрити в Google Перекладачі"
   },
-  "btnDonate": {
-    "message": "Пожертвувати"
-  },
   "btnNeverTranslate": {
     "message": "Ніколи не перекладати цей сайт"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Більше опцій"
   },
-  "lblPlsDonate": {
-    "message": "Матеріально подякувати розробнику"
-  },
   "msgTranslateFor": {
     "message": "Перекласти на $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Темний режим"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Показувати нотатки щодо випуску під час оновлення"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Відображати кнопку для перекладу виділеного тексту"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Гарячі клавіші"
   },
-  "lblMakeDonation": {
-    "message": "Пожертвувати"
-  },
-  "lblReleaseNotes": {
-    "message": "Примітки до випуску"
-  },
-  "lblReport": {
-    "message": "Повідомити про проблему"
-  },
   "lblSettings": {
     "message": "Налаштування"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Дякуємо, що використовуєте це розширення."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Буду вдячний, якщо зробите пожертву."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Показувати перекладений текст при наведенні на цих сайтах"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Перемикання між простим і комплексним інтерфейсом"
-  },
-  "lblTranslateInterface": {
-    "message": "Перекласти інтерфейс"
   },
   "lblButtonInTheAddressBar": {
     "message": "Показувати значок в адресному рядку"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Підрахувати"
-  },
-  "donatewithpaypal": {
-    "message": "Зробити пожертву через PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Автоматично перекладати при натисканні на посилання, яке веде на той самий домен, що й поточний сайт"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Виберіть іншу мову"
   },
-  "msgHasBeenUpdated": {
-    "message": "Розширення $EXTENSION_NAME$ оновлено до версії $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Ваша пожертва йде розробнику розширення $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Я розробляю, оновлюю та підтримую це розширення більше трьох років. Дивно бачити, що ми маємо понад 600 000 щоденних користувачів, і всі ці люди змогли назавжди перейти на Firefox.\n\nЯ маю на меті випускати нову версію цього розширення щомісяця та постійно вдосконалювати його.\n\nЯ був би вдячний, якщо б ви допомогли мені фінансово, ставши членом Patreon і підтримавши мене в покращенні цього розширення.\n\nДякуємо всім, хто вже долучився до цього проекту."
-  },
   "lblEnableDiskCache": {
     "message": "Ввімкнути постійне кешування перекладів (кеш на диску)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Служба синтезу мовлення"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

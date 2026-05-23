@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "فتح في مترجم جوجل"
   },
-  "btnDonate": {
-    "message": "تبرع"
-  },
   "btnNeverTranslate": {
     "message": "لا تترجم هذا الموقع ابدًا"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "المزيد من الخيارات"
   },
-  "lblPlsDonate": {
-    "message": "مساعدة المطور بالتبرع"
-  },
   "msgTranslateFor": {
     "message": "ترجم إلى $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "الوضع المظلم"
-  },
-  "lblShowReleaseNotes": {
-    "message": "إظهار ملاحظات الإصدار عند التحديث"
   },
   "lblShowTranslateSelectedButton": {
     "message": "أظهر الزر لترجمة النص المحدد"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "مفاتيح التشغيل السريع"
   },
-  "lblMakeDonation": {
-    "message": "التبرع"
-  },
-  "lblReleaseNotes": {
-    "message": "ملاحظات الإصدار"
-  },
-  "lblReport": {
-    "message": "الإبلاغ عن مشكلة"
-  },
   "lblSettings": {
     "message": "إعدادات"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "شكرا لك على استخدام هذا الامتداد."
-  },
-  "msgIWillBeGrateful": {
-    "message": "سأكون ممتنًا إذا أمكنك التبرع."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "إظهار النص المترجم عند التمرير فوق هذه المواقع"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "التبديل بين الواجهة البسيطة و المعقدة"
-  },
-  "lblTranslateInterface": {
-    "message": "ترجمة الواجهة"
   },
   "lblButtonInTheAddressBar": {
     "message": "إظهار الزر في شريط العنوان"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "احسب"
-  },
-  "donatewithpaypal": {
-    "message": "تبرع بواسطة PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "ترجمة تلقائية عند النقر على رابط يأخذك إلى نفس النطاق مثل الموقع الحالي"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "اختر لغة أخرى"
   },
-  "msgHasBeenUpdated": {
-    "message": "تم تحديث الامتداد $EXTENSION_NAME$ إلى الإصدار $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "يذهب تبرعك إلى مطور الامتداد $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "لقد عملت على تطوير وتحديث ودعم هذا التمديد لأكثر من ثلاث سنوات. إنه لأمر مدهش أن نرى أن لدينا أكثر من 600000 مستخدم يوميًا ، وقد تمكن كل هؤلاء الأشخاص من الانتقال إلى Firefox بشكل دائم.\n\nأهدف إلى إصدار نسخة جديدة من هذا التمديد كل شهر ومواصلة تحسينه.\n\nسأكون ممتنًا لو أمكنك مساعدتي ماليًا من خلال أن تصبح عضوًا في Patreon ودعمي في إدخال تحسينات على هذا التمديد.\n\nشكرا لكل من ساهم بالفعل في هذا المشروع."
-  },
   "lblEnableDiskCache": {
     "message": "تمكين ذاكرة التخزين المؤقت للترجمة الدائمة (ذاكرة التخزين المؤقت على القرص)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "خدمة تحويل النص إلى كلام"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "গুগল ট্রান্সলেটরে খুলুন"
   },
-  "btnDonate": {
-    "message": "দান করুন"
-  },
   "btnNeverTranslate": {
     "message": "সাইটটি কখনো অনুবাদ করবেন না"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "আরও অপশন"
   },
-  "lblPlsDonate": {
-    "message": "অনুদান দিয়ে সৃষ্টিকারীরকে সাহায্য করুন"
-  },
   "msgTranslateFor": {
     "message": "$LANGUAGE_NAME$ তে অনুবাদ করুন",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "অন্ধকার মোড"
-  },
-  "lblShowReleaseNotes": {
-    "message": "আপডেট করার সময় রিলিজ নোট দেখান"
   },
   "lblShowTranslateSelectedButton": {
     "message": "নির্বাচিত লেখা অনুবাদ করার বোতামটি দেখান"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "হটকীগুলো"
   },
-  "lblMakeDonation": {
-    "message": "দান করুন"
-  },
-  "lblReleaseNotes": {
-    "message": "রিলিজ নোটসমূহ"
-  },
-  "lblReport": {
-    "message": "সমস্যা রিপোর্ট করুন"
-  },
   "lblSettings": {
     "message": "সেটিংস"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "এক্সটেনশনটি ব্যবহার করার জন্য আপনাকে ধন্যবাদ।"
-  },
-  "msgIWillBeGrateful": {
-    "message": "আপনি যদি দান করতে পারেন, আমি কৃতজ্ঞ হব।"
   },
   "lblShowTranslatedHoveringSites": {
     "message": "এই সাইটগুলিতে মাউস ভাসানোর সময় অনুবাদিত পাঠ্য দেখাবেন"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "সহজ এবং জটিল ইন্টারফেসের মধ্যে স্যুইচ করুন"
-  },
-  "lblTranslateInterface": {
-    "message": "ইন্টারফেস অনুবাদ করুন"
   },
   "lblButtonInTheAddressBar": {
     "message": "ঠিকানা বারে বোতাম দেখান"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "হিসাব করুন"
-  },
-  "donatewithpaypal": {
-    "message": "পেপ্যাল এর মাধ্যমে দান করুন"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "কোনো লিঙ্ক যদি বর্তমান সাইটের অন্য একই ডোমেনে নিয়ে যায়, তাহলে তা স্বয়ংক্রিয়ভাবে অনুবাদ করুন"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "অন্য ভাষা চয়ন করুন"
   },
-  "msgHasBeenUpdated": {
-    "message": "$EXTENSION_NAME$ এক্সটেনশনটি সংস্করণ $EXTENSION_VERSION$এ আপডেট করা হয়েছে।",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "আপনার অনুদান $EXTENSION_NAME$ এক্সটেনশনের বিকাশকারীর কাছে যায়।",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "আমি তিন বছরেরও বেশি সময় ধরে এই এক্সটেনশনটি বিকাশ, আপডেট এবং সমর্থন করছি। এটা দেখতে আশ্চর্যজনক যে আমাদের 600,000 এরও বেশি দৈনিক ব্যবহারকারী রয়েছে, এবং এই সমস্ত লোক স্থায়ীভাবে Firefox-এ স্থানান্তর করতে সক্ষম হয়েছে।\n\nআমি প্রতি মাসে এই এক্সটেনশনের একটি নতুন সংস্করণ প্রকাশ করার লক্ষ্য রাখি এবং এটিকে উন্নত করতে থাকি।\n\nআমি কৃতজ্ঞ হব যদি আপনি আমাকে প্যাট্রিয়ন সদস্য হয়ে আর্থিকভাবে সাহায্য করতে পারেন এবং এই এক্সটেনশনের উন্নতিতে আমাকে সমর্থন করেন।\n\nযারা ইতিমধ্যে এই প্রকল্পে অবদান রেখেছেন তাদের সবাইকে ধন্যবাদ৷"
-  },
   "lblEnableDiskCache": {
     "message": "স্থায়ী অনুবাদ ক্যাশে সক্ষম করুন (অন-ডিস্ক ক্যাশে)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "টেক্সট-টু-স্পিচ পরিষেবা"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

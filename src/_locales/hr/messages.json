@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Otvori u Google prevoditelju"
   },
-  "btnDonate": {
-    "message": "Doniraj"
-  },
   "btnNeverTranslate": {
     "message": "Nikada ne prevodi ovu web stranicu"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Više opcija"
   },
-  "lblPlsDonate": {
-    "message": "Pomogni programeru putem donacije"
-  },
   "msgTranslateFor": {
     "message": "Prevedi na $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Tamni modus"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Prikaži napomene o izdanju prilikom aktualiziranja"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Prikaži gumb za prevođenje označenog teksta"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Prečaci"
   },
-  "lblMakeDonation": {
-    "message": "Doniraj"
-  },
-  "lblReleaseNotes": {
-    "message": "Napomene o izdanju"
-  },
-  "lblReport": {
-    "message": "Prijavi problem"
-  },
   "lblSettings": {
     "message": "Postavke"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Hvala ti što koristiš ovaj dodatak."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Bio bih ti zahvalan ako možeš donirati."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Prikaži prevedeni tekst prilikom prelaženja mišem na ovim web stranicama"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Mijenjaj između jednostavnog i kompleksnog sučelja"
-  },
-  "lblTranslateInterface": {
-    "message": "Prevedi sučelje"
   },
   "lblButtonInTheAddressBar": {
     "message": "Prikaži gumb u adresnoj traci"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Izračunaj"
-  },
-  "donatewithpaypal": {
-    "message": "Doniraj putem PayPala"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Automatski prevedi kada pritisneš poveznicu koja vodi na istu domenu kao trenutačna web stranica"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Odaberi jedan drugi jezik"
   },
-  "msgHasBeenUpdated": {
-    "message": "Dodatak $EXTENSION_NAME$ je aktualiziran na verziju $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Vaša donacija ide programeru dodatka $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Razvijam, aktualiziram i podržavam ovaj dodatak više od tri godine. Nevjerojatno je vidjeti da imamo preko 600.000 dnevnih korisnika i da su svi ti ljudi mogli trajno migrirati na Firefox.\n\nCilj mi je izdati novu verziju ovog dodatka svaki mjesec i nastaviti ga poboljšavati.\n\nZahvaljujem se za svaku financijsku pomoć. Postani član Patreona i podrži me u poboljšanju ovog dodatka.\n\nHvala svima koji su već doprinijeli ovom projektu."
-  },
   "lblEnableDiskCache": {
     "message": "Aktiviraj trajnu predmemoriju prijevoda (predmemorija na disku)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Usluga pretvaranja teksta u govor"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

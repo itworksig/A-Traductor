@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>TWP - Translate Web Pages</title>
+  <title>A-Traductor</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/w3css/4/w3.css" />
@@ -13,7 +13,7 @@
 <body class="w3-content" style="max-width: 1200px">
   <nav class="w3-sidebar w3-bar-block w3-collapse w3-top" style="z-index: 3; width: 300px" id="sideBar">
     <div class="w3-container w3-display-container w3-padding-16">
-      <h3 class="w3-wide"><b>TWP - Translate Web Pages</b></h3>
+      <h3 class="w3-wide brand-title"><img src="/icons/icon-32.png" alt=""> <b>A-Traductor</b></h3>
     </div>
     <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight: bold">
       <a href="#languages" class="w3-bar-item w3-button" data-i18n="msgLanguages">Languages</a>
@@ -26,17 +26,10 @@
       <a href="#others" class="w3-bar-item w3-button" data-i18n="lblOthers">Others</a>
       <a href="#experimental" class="w3-bar-item w3-button" data-i18n="lblExperimental">Experimental</a>
     </div>
-    <b><a href="#donation" class="w3-bar-item w3-button w3-padding"><span data-i18n="lblMakeDonation">Make a
-          donation</span> &#10084;</a></b>
-    <a href="#release_notes" class="w3-bar-item w3-button w3-padding" data-i18n="lblReleaseNotes">Release Notes</a>
-    <a href="https://github.com/FilipePS/Traduzir-paginas-web/issues" target="blank"
-      class="w3-bar-item w3-button w3-padding" data-i18n="lblReport">Report a problem</a>
-    <a href="https://crowdin.com/project/translate-web-pages" target="blank" class="w3-bar-item w3-button w3-padding"
-      data-i18n="lblTranslateInterface">Translate the interface</a>
   </nav>
 
   <header class="w3-bar w3-top w3-black w3-hide-large w3-xlarge" id="header">
-    <div class="w3-bar-item w3-padding-20 w3-wide">TWP</div>
+    <div class="w3-bar-item w3-padding-20 w3-wide">A-Traductor</div>
     <a class="w3-bar-item w3-button w3-padding-24 w3-right" id="btnOpenMenu">
       <div class="menu-container" id="menuContainer">
         <div class="bar1"></div>
@@ -54,10 +47,6 @@
     <header class="w3-container w3-xlarge">
       <p id="itemSelectedName" data-i18n="lblSettings" style="float: left">
         Settings
-      </p>
-      <p style="float: right; display: none" id="btnPatreon">
-        <a href="https://www.patreon.com/filipeps" target="blank" class="patreonButton"><img src="/icons/patreon.png"
-            style="height: 40px" /></a>
       </p>
     </header>
 
@@ -288,6 +277,9 @@
             <option value="google">Google</option>
             <option value="bing">Bing</option>
             <option value="yandex">Yandex</option>
+            <option value="openrouter">OpenRouter AI</option>
+            <option value="aihubmix">AiHubMix AI</option>
+            <option value="customai">Custom AI</option>
           </select>
           <br />
           <p>
@@ -298,7 +290,85 @@
             <option value="bing">Bing</option>
             <option value="yandex">Yandex</option>
             <option value="deepl">DeepL</option>
+            <option value="openrouter">OpenRouter AI</option>
+            <option value="aihubmix">AiHubMix AI</option>
+            <option value="customai">Custom AI</option>
           </select>
+          <br />
+          <section class="settings-panel ai-settings-panel">
+            <div class="settings-panel-header">
+              <div>
+                <h4 data-i18n="lblAiTranslation">AI translation</h4>
+                <p data-i18n="lblAiTranslationDescription">Use OpenAI-compatible providers for page and text translation.</p>
+              </div>
+            </div>
+            <div class="ai-provider-grid">
+              <div class="ai-provider-card">
+                <div class="ai-provider-title">
+                  <label for="btnEnableOpenRouter"><input type="checkbox" id="btnEnableOpenRouter"> OpenRouter</label>
+                </div>
+                <label for="openrouterURL" data-i18n="lblAiServiceUrl">Service URL</label>
+                <input type="text" id="openrouterURL" class="w3-input w3-border w3-round"
+                  placeholder="https://openrouter.ai/api/v1/chat/completions" autocomplete="off" spellcheck="false">
+                <label for="openrouterKEY" data-i18n="lblAiApiKey">API key</label>
+                <input type="password" id="openrouterKEY" class="w3-input w3-border w3-round" autocomplete="off"
+                  spellcheck="false">
+                <label for="openrouterMODEL" data-i18n="lblAiModel">Model</label>
+                <input type="text" id="openrouterMODEL" class="w3-input w3-border w3-round"
+                  placeholder="openai/gpt-4o-mini" autocomplete="off" spellcheck="false">
+                <div class="ai-provider-actions">
+                  <button id="saveOpenRouter" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
+                  <button id="testOpenRouter" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>
+                  <button id="removeOpenRouter" class="w3-button w3-light-grey w3-round"
+                    data-i18n="btnRemoveAiProvider">Remove</button>
+                </div>
+                <p class="ai-provider-status" id="openrouterStatus"></p>
+              </div>
+              <div class="ai-provider-card">
+                <div class="ai-provider-title">
+                  <label for="btnEnableAiHubMix"><input type="checkbox" id="btnEnableAiHubMix"> AiHubMix</label>
+                </div>
+                <label for="aihubmixURL" data-i18n="lblAiServiceUrl">Service URL</label>
+                <input type="text" id="aihubmixURL" class="w3-input w3-border w3-round"
+                  placeholder="https://aihubmix.com/v1/chat/completions" autocomplete="off" spellcheck="false">
+                <label for="aihubmixKEY" data-i18n="lblAiApiKey">API key</label>
+                <input type="password" id="aihubmixKEY" class="w3-input w3-border w3-round" autocomplete="off"
+                  spellcheck="false">
+                <label for="aihubmixMODEL" data-i18n="lblAiModel">Model</label>
+                <input type="text" id="aihubmixMODEL" class="w3-input w3-border w3-round" placeholder="gpt-4o-mini"
+                  autocomplete="off" spellcheck="false">
+                <div class="ai-provider-actions">
+                  <button id="saveAiHubMix" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
+                  <button id="testAiHubMix" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>
+                  <button id="removeAiHubMix" class="w3-button w3-light-grey w3-round"
+                    data-i18n="btnRemoveAiProvider">Remove</button>
+                </div>
+                <p class="ai-provider-status" id="aihubmixStatus"></p>
+              </div>
+              <div class="ai-provider-card">
+                <div class="ai-provider-title">
+                  <label for="btnEnableCustomAi"><input type="checkbox" id="btnEnableCustomAi"> Custom AI</label>
+                </div>
+                <label for="customaiURL" data-i18n="lblAiServiceUrl">Service URL</label>
+                <input type="text" id="customaiURL" class="w3-input w3-border w3-round"
+                  placeholder="https://example.com/v1/chat/completions" autocomplete="off" spellcheck="false">
+                <label for="customaiKEY" data-i18n="lblAiApiKey">API key</label>
+                <input type="password" id="customaiKEY" class="w3-input w3-border w3-round" autocomplete="off"
+                  spellcheck="false">
+                <label for="customaiMODEL" data-i18n="lblAiModel">Model</label>
+                <input type="text" id="customaiMODEL" class="w3-input w3-border w3-round" placeholder="gpt-4o-mini"
+                  autocomplete="off" spellcheck="false">
+                <div class="ai-provider-actions">
+                  <button id="saveCustomAi" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
+                  <button id="testCustomAi" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>
+                  <button id="removeCustomAi" class="w3-button w3-light-grey w3-round"
+                    data-i18n="btnRemoveAiProvider">Remove</button>
+                </div>
+                <p class="ai-provider-status" id="customaiStatus"></p>
+              </div>
+            </div>
+            <p class="ai-privacy-note" data-i18n="lblAiPrivacyNote">AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser.</p>
+          </section>
           <br />
           <p>
             <b data-i18n="lblTextToSpeechService">Text-to-speech service</b>
@@ -386,16 +456,6 @@
       </div>
 
       <div id="style" class="w3-container">
-        <div class="desktopOnly">
-          <p>
-            <b data-i18n="lblSelectPopupInterfaceStyle">Select popup interface style</b>
-          </p>
-          <select id="useOldPopup" class="w3-select w3-margin">
-            <option value="yes" data-i18n="msgInterfaceSimple">Simple</option>
-            <option value="no" data-i18n="msgInterfaceComplex">Complex</option>
-          </select>
-        </div>
-
         <p><b data-i18n="lblDarkMode">Dark mode</b></p>
         <select id="darkMode" class="w3-select w3-margin">
           <option value="auto" data-i18n="msgAutomatic">Automatic</option>
@@ -457,6 +517,18 @@
             <label for="btnEnableDeepL" style="user-select: none;"><input type="checkbox" id="btnEnableDeepL" checked>
               DeepL</label>
             <br>
+            <label for="btnEnableOpenRouterPrivacy" style="user-select: none;"><input type="checkbox"
+                id="btnEnableOpenRouterPrivacy">
+              OpenRouter AI</label>
+            <br>
+            <label for="btnEnableAiHubMixPrivacy" style="user-select: none;"><input type="checkbox"
+                id="btnEnableAiHubMixPrivacy">
+              AiHubMix AI</label>
+            <br>
+            <label for="btnEnableCustomAiPrivacy" style="user-select: none;"><input type="checkbox"
+                id="btnEnableCustomAiPrivacy">
+              Custom AI</label>
+            <br>
           </div>
         </div>
         <p>
@@ -501,16 +573,6 @@
       </div>
 
       <div id="others" class="w3-container">
-        <div class="desktopOnly">
-          <p>
-            <b data-i18n="lblShowReleaseNotes">Show release notes when updating</b>
-          </p>
-          <select id="showReleaseNotes" class="w3-select w3-margin">
-            <option value="yes" data-i18n="msgYes">Yes</option>
-            <option value="no" data-i18n="msgNo">No</option>
-          </select>
-        </div>
-        <br />
         <p><b data-i18n="optionPopupConfig">Show the mobile popup</b></p>
         <select id="showPopupMobile" class="w3-select w3-margin">
           <option value="yes" data-i18n="msgYes">Yes</option>
@@ -587,99 +649,6 @@
         </div>
     </div>
 
-    <div>
-      <div id="donation" class="w3-container">
-        <section style="background-color: #87CEEB; padding: 20px; border-radius: 20px; box-shadow: 0 0 10px 3px black;">
-          <div style="font-size: 1.2em;">
-            <p style="white-space: pre-line;" data-i18n="donationText">I have been developing, updating, and supporting this
-              extension for over three years. It's amazing to see that we have over 600,000 daily users, and all of
-              these
-              people have been able to migrate to Firefox permanently.
-
-              I aim to release a new version of this extension every month and keep improving it.
-
-              I would be grateful if you could help me financially by becoming a Patreon member and supporting me in
-              bringing improvements to this extension.
-
-              Thank you to everyone who has already contributed to this project.</p>
-
-            <div style="display: flex; justify-content: space-between;">
-              <div>
-                <a href="https://www.patreon.com/filipeps" target="blank" class="patreonButton"><img
-                    src="/icons/patreon.png" alt="Become a patreon" width="260" /></a>
-              </div>
-
-              <div style="font-size: 0.9em;">
-                <b>
-                  <div style="display: inline-block" data-i18n="donatewithpaypal">
-                    Donate With PayPal
-                  </div>
-                </b>
-                <select id="currency" style="margin-left: 8px">
-                  <option value="USD">USD</option>
-                  <option value="BRL">BRL</option>
-                </select>
-                <div id="donateInUSD">
-                  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                    <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="3FH2APUZGCY3A" />
-                    <table>
-                      <tr>
-                        <td>
-                          <input type="hidden" name="on0" value="Donate With Paypal" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <select name="os0">
-                            <option value="Maximum">20,00 USD</option>
-                            <option value="Pizza">10,00 USD</option>
-                            <option value="Lunch" selected>5,00 USD</option>
-                            <option value="Coffe">3,00 USD</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </table>
-                    <input type="hidden" name="currency_code" value="USD" />
-                    <input type="image" src="/icons/btn_donate_LG.webp" border="0" name="submit" alt="PayPal" />
-                    <img alt="" border="0" src="/icons/pixel.gif" width="1" height="1" />
-                  </form>
-                </div>
-
-                <div id="donateInBRL">
-                  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                    <input type="hidden" name="cmd" value="_s-xclick" />
-                    <input type="hidden" name="hosted_button_id" value="UKVQDPTUB5HTG" />
-                    <table>
-                      <tr>
-                        <td>
-                          <input type="hidden" name="on0" value="Doar com o Paypal" />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <select name="os0">
-                            <option value="Maximum">50,00 BRL</option>
-                            <option value="Pizza">30,00 BRL</option>
-                            <option value="Lunch" selected>15,00 BRL</option>
-                            <option value="Coffe">5,00 BRL</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </table>
-                    <input type="hidden" name="currency_code" value="BRL" />
-                    <input type="image" src="/icons/btn_donate_LG.webp" border="0" name="submit" alt="PayPal" />
-                    <img alt="" border="0" src="/icons/pixel.gif" width="1" height="1" />
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div id="release_notes" class="w3-container"></div>
-    </div>
   </div>
 
   <script src="/lib/polyfill.js"></script>

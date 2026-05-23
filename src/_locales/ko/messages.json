@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Google 번역에서 열기"
   },
-  "btnDonate": {
-    "message": "기부"
-  },
   "btnNeverTranslate": {
     "message": "이 사이트 번역 안 함"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "추가 옵션"
   },
-  "lblPlsDonate": {
-    "message": "기부하여 개발자 돕기"
-  },
   "msgTranslateFor": {
     "message": "$LANGUAGE_NAME$ 언어로 번역",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "야간 모드"
-  },
-  "lblShowReleaseNotes": {
-    "message": "부가 기능 업데이트 시 릴리스 정보 표시"
   },
   "lblShowTranslateSelectedButton": {
     "message": "선택한 텍스트에 번역 버튼 표시"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "단축키"
   },
-  "lblMakeDonation": {
-    "message": "기부하기"
-  },
-  "lblReleaseNotes": {
-    "message": "릴리스 정보"
-  },
-  "lblReport": {
-    "message": "문제 보고하기"
-  },
   "lblSettings": {
     "message": "설정"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "이 확장 기능을 사용해주셔서 감사합니다."
-  },
-  "msgIWillBeGrateful": {
-    "message": "기부해 주시면 감사하겠습니다."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "마우스를 가져다 대면 번역된 텍스트를 표시할 사이트 목록"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "간단한 인터페이스와 복잡한 인터페이스 간 전환"
-  },
-  "lblTranslateInterface": {
-    "message": "인터페이스 번역"
   },
   "lblButtonInTheAddressBar": {
     "message": "주소 표시줄에 버튼 표시"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "계산"
-  },
-  "donatewithpaypal": {
-    "message": "PayPal로 기부"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "현재 사이트와 동일한 도메인으로 연결되는 링크를 클릭하면 자동으로 번역"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "다른 언어 선택"
   },
-  "msgHasBeenUpdated": {
-    "message": "$EXTENSION_NAME$ 확장 프로그램이 $EXTENSION_VERSION$ 버전으로 업데이트되었습니다.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "귀하의 기부금은 $EXTENSION_NAME$ 확장 프로그램 개발자에게 전달됩니다.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "저는 3년 넘게 이 확장 프로그램을 개발, 업데이트하고 지원해 왔습니다. 60만 명 이상 사용자가 매일 확장 프로그램을 이용하고 있고, 이 모든 사람들이 Firefox로 영구적으로 이주할 수 있었다는 사실이 놀랍습니다.\n\n매월 이 확장 프로그램의 새 버전을 출시하고 계속 개선하는 것이 제 목표입니다.\n\nPatreon 회원이 되어 제게 재정적으로 도움을 주시거나 이 확장 프로그램을 개선할 수 있도록 저를 지원해 주신다면 정말 감사드리겠습니다.\n\n이미 이 프로젝트에 기여해 주신 모든 분들께 감사드립니다."
-  },
   "lblEnableDiskCache": {
     "message": "영구 번역 캐시 사용 (디스크 캐시)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "문자 음성 변환 서비스"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "在 Google 翻译中打开"
   },
-  "btnDonate": {
-    "message": "捐助支持"
-  },
   "btnNeverTranslate": {
     "message": "永不翻译此网站"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "更多选项"
   },
-  "lblPlsDonate": {
-    "message": "通过捐款帮助开发者"
-  },
   "msgTranslateFor": {
     "message": "翻译为 $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "深色模式"
-  },
-  "lblShowReleaseNotes": {
-    "message": "更新后显示发行说明"
   },
   "lblShowTranslateSelectedButton": {
     "message": "显示翻译选中文本的按钮"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "热键"
   },
-  "lblMakeDonation": {
-    "message": "捐助支持"
-  },
-  "lblReleaseNotes": {
-    "message": "发行说明"
-  },
-  "lblReport": {
-    "message": "反馈问题"
-  },
   "lblSettings": {
     "message": "设置"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "感谢您使用此扩展。"
-  },
-  "msgIWillBeGrateful": {
-    "message": "若您能够提供捐助，我将不胜感激。"
   },
   "lblShowTranslatedHoveringSites": {
     "message": "在这些网站悬停显示译文"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "切换简单和复杂接口"
-  },
-  "lblTranslateInterface": {
-    "message": "贡献翻译"
   },
   "lblButtonInTheAddressBar": {
     "message": "在地址栏中显示按钮"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "计算"
-  },
-  "donatewithpaypal": {
-    "message": "PayPal 捐款"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "若点击链接所访问的网站与当前域名相同，则自动翻译"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "选择另一种语言"
   },
-  "msgHasBeenUpdated": {
-    "message": "$EXTENSION_NAME$ 扩展已更新为版本 $EXTENSION_VERSION$。",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "您的捐款将捐献给 $EXTENSION_NAME$ 扩展的开发者。",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "三年多来，我一直在开发、更新和支持这个扩展。看到我们每天有超过 600,000 名用户，并且所有这些人都能够永久迁移到 Firefox，真是太棒了。\n\n我的目标是每月发布此扩展的新版本并不断改进它。\n\n如果您能在经济上帮助我成为 Patreon 成员并支持我改进此扩展，我将不胜感激。\n\n感谢所有已经为这个项目做出贡献的人。"
-  },
   "lblEnableDiskCache": {
     "message": "启用持久翻译缓存（磁盘缓存）"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "文本转语音服务"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

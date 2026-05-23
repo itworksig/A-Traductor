@@ -60,11 +60,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     updateContextMenu(request.pageLanguageState);
   } else if (request.action === "openOptionsPage") {
     tabsCreate(chrome.runtime.getURL("/options/options.html"));
-  } else if (request.action === "openDonationPage") {
-    tabsCreate(chrome.runtime.getURL("/options/options.html#donation"));
   } else if (request.action === "detectTabLanguage") {
     if (!sender.tab) {
-      // https://github.com/FilipePS/Traduzir-paginas-web/issues/478
+      // https://github.com/itworksig/A-Traductor/issues/478
       sendResponse("und");
       return;
     }
@@ -155,38 +153,6 @@ chrome.runtime.onInstalled.addListener((details) => {
     details.reason == "update" &&
     chrome.runtime.getManifest().version != details.previousVersion
   ) {
-    twpConfig.onReady(async () => {
-      if (platformInfo.isMobile.any) return;
-      if (twpConfig.get("showReleaseNotes") !== "yes") return;
-      let lastTimeShowingReleaseNotes = twpConfig.get(
-        "lastTimeShowingReleaseNotes"
-      );
-      let showReleaseNotes = false;
-      if (lastTimeShowingReleaseNotes) {
-        const date = new Date();
-        date.setDate(date.getDate() - 21);
-        if (date.getTime() > lastTimeShowingReleaseNotes) {
-          showReleaseNotes = true;
-          lastTimeShowingReleaseNotes = Date.now();
-          twpConfig.set(
-            "lastTimeShowingReleaseNotes",
-            lastTimeShowingReleaseNotes
-          );
-        }
-      } else {
-        showReleaseNotes = true;
-        lastTimeShowingReleaseNotes = Date.now();
-        twpConfig.set(
-          "lastTimeShowingReleaseNotes",
-          lastTimeShowingReleaseNotes
-        );
-      }
-      if (showReleaseNotes) {
-        tabsCreate(
-          chrome.runtime.getURL("/options/options.html#release_notes")
-        );
-      }
-    });
     twpConfig.onReady(async () => {
       translationCache.deleteTranslationCache();
     });
@@ -513,7 +479,7 @@ twpConfig.onReady(() => {
     {
       let pageLanguageState = "original";
 
-      // https://github.com/FilipePS/Traduzir-paginas-web/issues/548
+      // https://github.com/itworksig/A-Traductor/issues/548
       const isFirefoxAlpenglow = function (theme) {
         let isFirefoxAlpenglowTheme = false;
         try {
@@ -1127,7 +1093,7 @@ chrome.runtime.onUpdateAvailable.addListener((details) => {
   //   const url = new URL(tabs[0].url);
   //   if (
   //     (url.hostname === "github.com" &&
-  //       url.pathname.includes("FilipePS/Traduzir-paginas-web/releases")) ||
+  //       url.pathname.includes("itworksig/A-Traductor/releases")) ||
   //     (url.hostname === "addons.mozilla.org" &&
   //       url.pathname.includes("addon/traduzir-paginas-web/versions"))
   //   ) {

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "بازکردن در مترجم گوگل"
   },
-  "btnDonate": {
-    "message": "حمایت مالی"
-  },
   "btnNeverTranslate": {
     "message": "هرگز این سایت ترجمه نشود"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "گزینه‌های بیشتر"
   },
-  "lblPlsDonate": {
-    "message": "کمک مالی به برنامه نویس"
-  },
   "msgTranslateFor": {
     "message": "ترجمه به زبان $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "حالت تاریک"
-  },
-  "lblShowReleaseNotes": {
-    "message": "نمایش تغییرات نسخه های منتشر شده ، هنگام به روز رسانی"
   },
   "lblShowTranslateSelectedButton": {
     "message": "نمایش دکمه‌ ای جهت ترجمه‌ متن انتخاب شده"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "کلیدهای میانبر"
   },
-  "lblMakeDonation": {
-    "message": "کمک مالی کنید"
-  },
-  "lblReleaseNotes": {
-    "message": "یادداشت های انتشار"
-  },
-  "lblReport": {
-    "message": "یک مشکل را گزارش کنید"
-  },
   "lblSettings": {
     "message": "تنظیمات"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "از شما برای استفاده از این افزونه متشکریم."
-  },
-  "msgIWillBeGrateful": {
-    "message": "اگر بتوانید کمک مالی بکنید سپاسگزار خواهم بود."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "نمایش متن ترجمه‌شده در این سایت‌ها هنگام نگه‌داشتن ماوس"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "بین رابط قدیمی و جدید سوئیچ کنید"
-  },
-  "lblTranslateInterface": {
-    "message": "رابط را ترجمه کنید"
   },
   "lblButtonInTheAddressBar": {
     "message": "نمایش دکمه در نوار آدرس"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "محاسبه"
-  },
-  "donatewithpaypal": {
-    "message": "کمک مالی با پی پال"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "با کلیک بر روی پیوندی که شما را به همان دامنه سایت فعلی می برد، به صورت خودکار ترجمه کنید"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "زبان دیگری را انتخاب کنید"
   },
-  "msgHasBeenUpdated": {
-    "message": "پسوند $EXTENSION_NAME$ به نسخه $EXTENSION_VERSION$به روز شده است.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "کمک مالی شما به توسعه دهنده افزونه $EXTENSION_NAME$ می رسد.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "من بیش از سه سال است که این برنامه افزودنی را توسعه، به روز رسانی و پشتیبانی می کنم. شگفت انگیز است که می بینیم روزانه بیش از 600000 کاربر داریم و همه این افراد توانسته اند به طور دائم به فایرفاکس مهاجرت کنند.\n\nمن قصد دارم هر ماه یک نسخه جدید از این افزونه منتشر کنم و به بهبود آن ادامه دهم.\n\nسپاسگزار خواهم بود اگر بتوانید با عضویت در Patreon و حمایت مالی از من در بهبود این برنامه افزودنی به من کمک مالی کنید.\n\nبا تشکر از همه کسانی که قبلاً در این پروژه مشارکت داشته اند."
-  },
   "lblEnableDiskCache": {
     "message": "فعال کردن حافظه پنهان ترجمه دائمی (کش روی دیسک)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "سرویس تبدیل متن به گفتار"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Mở trong Google Translate"
   },
-  "btnDonate": {
-    "message": "Ủng hộ"
-  },
   "btnNeverTranslate": {
     "message": "Không bao giờ dịch trang này"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Tùy chọn khác"
   },
-  "lblPlsDonate": {
-    "message": "Giúp đỡ nhà phát triển bằng cách ủng hộ"
-  },
   "msgTranslateFor": {
     "message": "Dịch từ $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Chế độ tối"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Hiển thị ghi chú phát hành khi cập nhật"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Hiển thị nút để dịch văn bản được chọn"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Phím tắt"
   },
-  "lblMakeDonation": {
-    "message": "Ủng hộ"
-  },
-  "lblReleaseNotes": {
-    "message": "Ghi chú phát hành"
-  },
-  "lblReport": {
-    "message": "Báo cáo sự cố"
-  },
   "lblSettings": {
     "message": "Cài đặt"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Cảm ơn bạn đã sử dụng tiện ích này."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Tôi sẽ biết ơn nếu bạn có thể đóng góp."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Hiển thị văn bản đã dịch khi di chuột qua các trang web này"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Chuyển giữa giao diện đơn giản và phức tạp"
-  },
-  "lblTranslateInterface": {
-    "message": "Dịch giao diện"
   },
   "lblButtonInTheAddressBar": {
     "message": "Hiển thị nút trên thanh địa chỉ"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Tính toán"
-  },
-  "donatewithpaypal": {
-    "message": "Ủng hộ qua PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Tự động dịch khi nhấp vào liên kết đến cùng một tên miền với trang web hiện tại"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Chọn ngôn ngữ khác"
   },
-  "msgHasBeenUpdated": {
-    "message": "Tiện ích mở rộng $EXTENSION_NAME$ đã được cập nhật lên phiên bản $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Khoản đóng góp của bạn sẽ chuyển đến nhà phát triển tiện ích $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Tôi đã phát triển, cập nhật và hỗ trợ tiện ích mở rộng này trong hơn ba năm. Thật ngạc nhiên khi thấy rằng chúng tôi có hơn 600.000 người dùng hàng ngày và tất cả những người này đã có thể chuyển sang Firefox vĩnh viễn.\n\nTôi đặt mục tiêu phát hành phiên bản mới của tiện ích mở rộng này hàng tháng và tiếp tục cải thiện nó.\n\nTôi sẽ rất biết ơn nếu bạn có thể giúp tôi về mặt tài chính bằng cách trở thành thành viên Patreon và hỗ trợ tôi mang lại những cải tiến cho tiện ích mở rộng này.\n\nCảm ơn tất cả những người đã đóng góp cho dự án này."
-  },
   "lblEnableDiskCache": {
     "message": "Kích hoạt bộ nhớ đệm dịch lâu dài (bộ nhớ đệm trên ổ cứng)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Dịch vụ chuyển văn bản thành giọng nói"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

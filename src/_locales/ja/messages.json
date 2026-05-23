@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Google翻訳で開く"
   },
-  "btnDonate": {
-    "message": "寄付する"
-  },
   "btnNeverTranslate": {
     "message": "このサイトを翻訳しない"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "拡張機能の設定"
   },
-  "lblPlsDonate": {
-    "message": "寄付をして開発者を支援する"
-  },
   "msgTranslateFor": {
     "message": "$LANGUAGE_NAME$に翻訳",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "ダークモード"
-  },
-  "lblShowReleaseNotes": {
-    "message": "拡張機能が更新されたときにリリースノートを表示"
   },
   "lblShowTranslateSelectedButton": {
     "message": "選択したテキストを翻訳するボタンを表示"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "ショートカット"
   },
-  "lblMakeDonation": {
-    "message": "寄付する"
-  },
-  "lblReleaseNotes": {
-    "message": "リリースノート"
-  },
-  "lblReport": {
-    "message": "問題の報告"
-  },
   "lblSettings": {
     "message": "設定"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "この拡張機能をご利用いただきありがとうございます。"
-  },
-  "msgIWillBeGrateful": {
-    "message": "もしご寄付いただければ、本当に感謝いたします。"
   },
   "lblShowTranslatedHoveringSites": {
     "message": "マウスオーバーしたテキストを翻訳するサイト"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "シンプルなポップアップ画面と高機能なポップアップ画面を切り替える"
-  },
-  "lblTranslateInterface": {
-    "message": "インターフェースを翻訳"
   },
   "lblButtonInTheAddressBar": {
     "message": "アドレスバーにボタンを表示"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "計算"
-  },
-  "donatewithpaypal": {
-    "message": "PayPalで寄付"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "同じドメイン内でページを移動したとき、移動先のページも自動的に翻訳"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "別の言語を選択"
   },
-  "msgHasBeenUpdated": {
-    "message": "拡張機能 $EXTENSION_NAME$ がバージョン $EXTENSION_VERSION$に更新されました。",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "あなたの寄付は$EXTENSION_NAME$の開発者に送られます。",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "私はこの拡張機能の開発、更新、およびサポートを 3 年以上行ってきました。毎日 600,000 人以上のユーザーがいて、その全員が Firefox に完全に移行できたことは驚くべきことです。\n\nこの拡張機能の新しいバージョンを毎月リリースし、改善し続けることを目指しています。\n\nPatreon のメンバーになって、この拡張機能を改善するために私をサポートすることで、私を経済的に支援していただければ幸いです。\n\nすでにこのプロジェクトに貢献してくれたすべての人に感謝します。"
-  },
   "lblEnableDiskCache": {
     "message": "永続的な翻訳キャッシュを使用（ディスク上にキャッシュを保存）"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "テキスト読み上げサービス"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "เปิดใน Google นักแปล"
   },
-  "btnDonate": {
-    "message": "บริจาค"
-  },
   "btnNeverTranslate": {
     "message": "ไม่เคยแปลไซต์นี้"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "ตัวเลือกเพิ่มเติม"
   },
-  "lblPlsDonate": {
-    "message": "ช่วยนักพัฒนาด้วยการบริจาค"
-  },
   "msgTranslateFor": {
     "message": "แปลเป็น $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "โหมดมืด"
-  },
-  "lblShowReleaseNotes": {
-    "message": "แสดงบันทึกประจำรุ่นเมื่ออัปเดต"
   },
   "lblShowTranslateSelectedButton": {
     "message": "แสดงปุ่มเพื่อแปลข้อความที่เลือก"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "ปุ่มลัด"
   },
-  "lblMakeDonation": {
-    "message": "บริจาค"
-  },
-  "lblReleaseNotes": {
-    "message": "บันทึกประจำรุ่น"
-  },
-  "lblReport": {
-    "message": "รายงานปัญหา"
-  },
   "lblSettings": {
     "message": "การตั้งค่า"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "ขอขอบคุณที่ใช้ส่วนขยายนี้"
-  },
-  "msgIWillBeGrateful": {
-    "message": "ฉันจะขอบคุณถ้าคุณสามารถบริจาคได้"
   },
   "lblShowTranslatedHoveringSites": {
     "message": "แสดงข้อความที่แปลแล้วเมื่อวางเมาส์เหนือไซต์เหล่านี้"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "สลับไปมาระหว่างอินเทอร์เฟซที่เรียบง่ายและซับซ้อน"
-  },
-  "lblTranslateInterface": {
-    "message": "แปลอินเทอร์เฟซ"
   },
   "lblButtonInTheAddressBar": {
     "message": "แสดงปุ่มในแถบที่อยู่"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "คำนวณ"
-  },
-  "donatewithpaypal": {
-    "message": "บริจาคด้วย PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "แปลโดยอัตโนมัติเมื่อคลิกลิงก์ที่นำคุณไปยังโดเมนเดียวกันกับไซต์ปัจจุบัน"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "เลือกภาษาอื่น"
   },
-  "msgHasBeenUpdated": {
-    "message": "ส่วนขยาย $EXTENSION_NAME$ ได้รับการอัปเดตเป็นเวอร์ชัน $EXTENSION_VERSION$",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "การบริจาคของคุณมอบให้กับผู้พัฒนาส่วนขยาย $EXTENSION_NAME$",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "ฉันพัฒนา อัปเดต และสนับสนุนส่วนขยายนี้มากว่าสามปีแล้ว เป็นเรื่องน่าทึ่งที่เห็นว่าเรามีผู้ใช้มากกว่า 600,000 รายต่อวัน และผู้ใช้เหล่านี้ทั้งหมดสามารถย้ายไปยัง Firefox อย่างถาวรได้\n\nฉันตั้งเป้าที่จะออกเวอร์ชันใหม่ของส่วนขยายนี้ทุกเดือนและปรับปรุงต่อไป\n\nฉันจะขอบคุณมากหากคุณสามารถช่วยฉันทางการเงินด้วยการเป็นสมาชิก Patreon และสนับสนุนฉันในการปรับปรุงส่วนขยายนี้\n\nขอขอบคุณทุกคนที่มีส่วนสนับสนุนโครงการนี้แล้ว"
-  },
   "lblEnableDiskCache": {
     "message": "เปิดใช้งานแคชการแปลถาวร (แคชบนดิสก์)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "บริการแปลงข้อความเป็นคำพูด"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

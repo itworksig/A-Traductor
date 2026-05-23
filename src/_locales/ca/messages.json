@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Obre al traductor de Google"
   },
-  "btnDonate": {
-    "message": "Feu un donatiu"
-  },
   "btnNeverTranslate": {
     "message": "No tradueixis mai aquest lloc"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Més opcions"
   },
-  "lblPlsDonate": {
-    "message": "Ajudeu al desenvolupador amb un donatiu"
-  },
   "msgTranslateFor": {
     "message": "Tradueix en $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Mode fosc"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Mostra les notes de la versió en actualitzar"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Mostra el botó per traduir el text seleccionat"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Dreceres del teclat"
   },
-  "lblMakeDonation": {
-    "message": "Fes una donació"
-  },
-  "lblReleaseNotes": {
-    "message": "Notes de la versió"
-  },
-  "lblReport": {
-    "message": "Informa d'un problema"
-  },
   "lblSettings": {
     "message": "Paràmetres"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Gràcies per utilitzar aquesta extensió."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Us agrairé si podeu fer un donatiu."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Mostra el text traduït en passar el cursor per aquests llocs"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Canvia entre una interfície senzilla i una complexa"
-  },
-  "lblTranslateInterface": {
-    "message": "Tradueix la interfície"
   },
   "lblButtonInTheAddressBar": {
     "message": "Mostra el botó a la barra d'adreces"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Calcula"
-  },
-  "donatewithpaypal": {
-    "message": "Fes un donatiu amb PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Tradueix automàticament en fer clic a un enllaç que porta al mateix domini del lloc actual"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Trieu un altre idioma"
   },
-  "msgHasBeenUpdated": {
-    "message": "L'extensió $EXTENSION_NAME$ s'ha actualitzat a la versió $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "La teva donació va al desenvolupador de l'extensió $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "He estat desenvolupant, actualitzant i donant suport a aquesta extensió durant més de tres anys. És increïble veure que tenim més de 600.000 usuaris diaris i totes aquestes persones han pogut migrar a Firefox de manera permanent.\n\nEl meu objectiu és llançar una nova versió d'aquesta extensió cada mes i seguir millorant-la.\n\nAgrairia que em pogués ajudar econòmicament fent-me membre de Patreon i donant-me suport per millorar aquesta extensió.\n\nGràcies a tots els que ja heu col·laborat en aquest projecte."
-  },
   "lblEnableDiskCache": {
     "message": "Activa la memòria cau de traducció persistent (caché al disc)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Servei de text a veu"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

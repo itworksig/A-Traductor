@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Opna í Google Þýðingum"
   },
-  "btnDonate": {
-    "message": "Styrkja"
-  },
   "btnNeverTranslate": {
     "message": "Aldrei þýða þessa síðu"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Fleiri valkostir"
   },
-  "lblPlsDonate": {
-    "message": "Hjálpa hönnuðinum með því að styrkja"
-  },
   "msgTranslateFor": {
     "message": "Þýða yfir á $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Dökkur hamur"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Sýna útgáfuupplýsingar við uppfærslu"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Sýna hnappinn til að þýða valda textann"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Flýtilyklar"
   },
-  "lblMakeDonation": {
-    "message": "Styrkja verkefnið"
-  },
-  "lblReleaseNotes": {
-    "message": "Útgáfuupplýsingar"
-  },
-  "lblReport": {
-    "message": "Tilkynna vandamál"
-  },
   "lblSettings": {
     "message": "Stillingar"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Þakka þér fyrir að nota þessa viðbót."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Ég mun vera þakklátur ef þú getur styrkt mig."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Sýna þýddan texta þegar sveimað er yfir á þessum síðum"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Skipta á milli einfalds og flókins viðmóts"
-  },
-  "lblTranslateInterface": {
-    "message": "Þýða viðmótið"
   },
   "lblButtonInTheAddressBar": {
     "message": "Sýna hnappinn á veffangastikunni"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Reikna"
-  },
-  "donatewithpaypal": {
-    "message": "Styrkja með PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Þýða sjálfkrafa þegar smellt er á tengil sem færir þig á sama lén og núverandi síða"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Velja annað tungumál"
   },
-  "msgHasBeenUpdated": {
-    "message": "Viðbótin $EXTENSION_NAME$ hefur verið uppfærð í útgáfu $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Framlag þitt rennur til þróunaraðila $EXTENSION_NAME$ viðbótarinnar.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Ég hef verið að þróa, uppfæra og styðja þessa viðbót í meira en þrjú ár. Það er ótrúlegt að sjá að við erum með yfir 600.000 notendur daglega og að allt þetta fólk hefur getað skipt yfir í Firefox endanlega.\n\nÉg stefni á að gefa út nýja útgáfu af þessari viðbót í hverjum mánuði og halda áfram að bæta hana.\n\nÉg væri þakklátur ef þú gætir hjálpað mér fjárhagslega með því að gerast meðlimur á Patreon og styðja mig við að bæta úr þessari viðbót.\n\nÉg þakka öllum sem hafa nú þegar lagt þessu verkefni lið."
-  },
   "lblEnableDiskCache": {
     "message": "Virkja varanlegt þýðingarskyndiminni (skyndiminni á diski)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Texta-í-tal þjónusta"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

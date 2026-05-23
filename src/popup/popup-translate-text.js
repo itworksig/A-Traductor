@@ -152,6 +152,9 @@ twpConfig
     const sBing = document.getElementById("sBing");
     const sDeepL = document.getElementById("sDeepL");
     const sLibre = document.getElementById("sLibre");
+    const sOpenRouter = document.getElementById("sOpenRouter");
+    const sAiHubMix = document.getElementById("sAiHubMix");
+    const sCustomAi = document.getElementById("sCustomAi");
     const eCopy = document.getElementById("copy");
     const eListenOriginal = document.getElementById("listenOriginal");
     const eListenTranslated = document.getElementById("listenTranslated");
@@ -184,70 +187,48 @@ twpConfig
       translateNewInputTimerHandler = setTimeout(translateText, 600);
     };
 
-    sGoogle.onclick = () => {
-      currentTextTranslatorService = "google";
-      twpConfig.set("textTranslatorService", "google");
-      translateText();
-
+    function clearSelectedServices() {
       sGoogle.classList.remove("selected");
       sYandex.classList.remove("selected");
       sBing.classList.remove("selected");
       sDeepL.classList.remove("selected");
       sLibre.classList.remove("selected");
+      sOpenRouter.classList.remove("selected");
+      sAiHubMix.classList.remove("selected");
+      sCustomAi.classList.remove("selected");
+    }
 
-      sGoogle.classList.add("selected");
+    function selectTextService(serviceName, element) {
+      currentTextTranslatorService = serviceName;
+      twpConfig.set("textTranslatorService", serviceName);
+      translateText();
+      clearSelectedServices();
+      element.classList.add("selected");
+    }
+
+    sGoogle.onclick = () => {
+      selectTextService("google", sGoogle);
     };
     sYandex.onclick = () => {
-      currentTextTranslatorService = "yandex";
-      twpConfig.set("textTranslatorService", "yandex");
-      translateText();
-
-      sGoogle.classList.remove("selected");
-      sYandex.classList.remove("selected");
-      sBing.classList.remove("selected");
-      sDeepL.classList.remove("selected");
-      sLibre.classList.remove("selected");
-
-      sYandex.classList.add("selected");
+      selectTextService("yandex", sYandex);
     };
     sBing.onclick = () => {
-      currentTextTranslatorService = "bing";
-      twpConfig.set("textTranslatorService", "bing");
-      translateText();
-
-      sGoogle.classList.remove("selected");
-      sYandex.classList.remove("selected");
-      sBing.classList.remove("selected");
-      sDeepL.classList.remove("selected");
-      sLibre.classList.remove("selected");
-
-      sBing.classList.add("selected");
+      selectTextService("bing", sBing);
     };
     sDeepL.onclick = () => {
-      currentTextTranslatorService = "deepl";
-      twpConfig.set("textTranslatorService", "deepl");
-      translateText();
-
-      sGoogle.classList.remove("selected");
-      sYandex.classList.remove("selected");
-      sBing.classList.remove("selected");
-      sDeepL.classList.remove("selected");
-      sLibre.classList.remove("selected");
-
-      sDeepL.classList.add("selected");
+      selectTextService("deepl", sDeepL);
     };
     sLibre.onclick = () => {
-      currentTextTranslatorService = "libre";
-      twpConfig.set("textTranslatorService", "libre");
-      translateText();
-
-      sGoogle.classList.remove("selected");
-      sYandex.classList.remove("selected");
-      sBing.classList.remove("selected");
-      sDeepL.classList.remove("selected");
-      sLibre.classList.remove("selected");
-
-      sLibre.classList.add("selected");
+      selectTextService("libre", sLibre);
+    };
+    sOpenRouter.onclick = () => {
+      selectTextService("openrouter", sOpenRouter);
+    };
+    sAiHubMix.onclick = () => {
+      selectTextService("aihubmix", sAiHubMix);
+    };
+    sCustomAi.onclick = () => {
+      selectTextService("customai", sCustomAi);
     };
 
     const setTargetLanguage = document.getElementById("setTargetLanguage");
@@ -350,6 +331,16 @@ twpConfig
         break;
       case "libre":
         sLibre.classList.add("selected");
+        break;
+      case "openrouter":
+        sOpenRouter.classList.add("selected");
+        break;
+      case "aihubmix":
+        sAiHubMix.classList.add("selected");
+        break;
+      case "customai":
+        sCustomAi.classList.add("selected");
+        break;
       default:
         sGoogle.classList.add("selected");
         break;
@@ -381,6 +372,21 @@ twpConfig
     } else {
       sLibre.setAttribute("hidden", "");
     }
+    if (enabledServices.includes("openrouter")) {
+      sOpenRouter.removeAttribute("hidden");
+    } else {
+      sOpenRouter.setAttribute("hidden", "");
+    }
+    if (enabledServices.includes("aihubmix")) {
+      sAiHubMix.removeAttribute("hidden");
+    } else {
+      sAiHubMix.setAttribute("hidden", "");
+    }
+    if (enabledServices.includes("customai")) {
+      sCustomAi.removeAttribute("hidden");
+    } else {
+      sCustomAi.setAttribute("hidden", "");
+    }
 
     twpConfig.onChanged((name, newvalue) => {
       switch (name) {
@@ -405,6 +411,21 @@ twpConfig
             sDeepL.removeAttribute("hidden");
           } else {
             sDeepL.setAttribute("hidden", "");
+          }
+          if (enabledServices.includes("openrouter")) {
+            sOpenRouter.removeAttribute("hidden");
+          } else {
+            sOpenRouter.setAttribute("hidden", "");
+          }
+          if (enabledServices.includes("aihubmix")) {
+            sAiHubMix.removeAttribute("hidden");
+          } else {
+            sAiHubMix.setAttribute("hidden", "");
+          }
+          if (enabledServices.includes("customai")) {
+            sCustomAi.removeAttribute("hidden");
+          } else {
+            sCustomAi.setAttribute("hidden", "");
           }
           break;
         }

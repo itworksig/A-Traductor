@@ -1,11 +1,11 @@
 {
   "manifest_version": 2,
   "default_locale": "en",
-  "name": "TWP - Translate Web Pages",
+  "name": "A-Traductor",
   "description": "__MSG_extensionDescription__",
   "version": "9.9.0.2",
-  "homepage_url": "https://github.com/FilipePS/Traduzir-paginas-web",
-  "update_url": "https://raw.githubusercontent.com/FilipePS/Traduzir-paginas-web/master/dist/chromium/updates.xml",
+  "homepage_url": "https://github.com/itworksig/A-Traductor",
+  "update_url": "https://raw.githubusercontent.com/itworksig/A-Traductor/master/dist/chromium/updates.xml",
   "minimum_chrome_version": "70.0",
   "commands": {
     "hotkey-toggle-translation": {

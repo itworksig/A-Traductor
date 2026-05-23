@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Atvērt Google tulkotājā"
   },
-  "btnDonate": {
-    "message": "Ziedot"
-  },
   "btnNeverTranslate": {
     "message": "Nekad netulkot šo vietni"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Vairāk iespēju"
   },
-  "lblPlsDonate": {
-    "message": "Atbalstīt izstrādātāju ar ziedojumu"
-  },
   "msgTranslateFor": {
     "message": "Tulkot uz $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Tumšais režīms"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Parādīt izmaiņu žurnālu, kad atjaunina"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Rādīt pogu, lai tulkotu atlasīto tekstu"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Īsinājumtaustiņi"
   },
-  "lblMakeDonation": {
-    "message": "Ziedot"
-  },
-  "lblReleaseNotes": {
-    "message": "Izmaiņu žurnāls"
-  },
-  "lblReport": {
-    "message": "Ziņot par problēmu"
-  },
   "lblSettings": {
     "message": "Iestatījumi"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Paldies, ka izmantojāt šo paplašinājumu."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Būšu pateicīgs, ja ziedosiet."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Rādīt tulkoto tekstu, virzot peles kursoru šādām vietnēm"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Pārslēdzieties starp vienkāršu un sarežģītu saskarni"
-  },
-  "lblTranslateInterface": {
-    "message": "Palīdziet šī paplašinājuma tulkošanā"
   },
   "lblButtonInTheAddressBar": {
     "message": "Rādīt ikonu adreses joslā"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Aprēķināt"
-  },
-  "donatewithpaypal": {
-    "message": "Ziedot izmantojot PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Automātiski tulkot, noklikšķinot uz saiti, kas novirza uz to pašu domēnu, kurā atrodas pašreizējā vietne"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Izvēlieties citu valodu"
   },
-  "msgHasBeenUpdated": {
-    "message": "$EXTENSION_NAME$ paplašinājums ir atjaunināts uz $EXTENSION_VERSION$versiju.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Jūsu ziedojums tiek saņemts paplašinājuma $EXTENSION_NAME$ izstrādātājam.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Esmu izstrādājis, atjauninājis un atbalstījis šo paplašinājumu vairāk nekā trīs gadus. Ir pārsteidzoši redzēt, ka mums ikdienā ir vairāk nekā 600 000 lietotāju, un visi šie cilvēki ir spējuši pastāvīgi migrēt uz Firefox.\n\nEs cenšos katru mēnesi izlaist jaunu šī paplašinājuma versiju un turpināt to uzlabot.\n\nBūšu pateicīgs, ja jūs varētu man palīdzēt finansiāli, kļūstot par Patreon biedru un atbalstot mani šī paplašinājuma uzlabošanā.\n\nPaldies visiem, kas jau ir devuši ieguldījumu šajā projektā."
-  },
   "lblEnableDiskCache": {
     "message": "Iespējot pastāvīgo tulkošanas kešatmiņu (diska kešatmiņu)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Teksta pārvēršanas runā pakalpojums"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

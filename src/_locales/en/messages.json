@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Open in google translator"
   },
-  "btnDonate": {
-    "message": "Donate"
-  },
   "btnNeverTranslate": {
     "message": "Never translate this site"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "More options"
   },
-  "lblPlsDonate": {
-    "message": "Help the developer with a donation"
-  },
   "msgTranslateFor": {
     "message": "Translate to $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Dark Mode"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Show release notes when updating"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Show the button to translate the selected text"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Hotkeys"
   },
-  "lblMakeDonation": {
-    "message": "Make a donation"
-  },
-  "lblReleaseNotes": {
-    "message": "Release Notes"
-  },
-  "lblReport": {
-    "message": "Report a problem"
-  },
   "lblSettings": {
     "message": "Settings"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Thank you for using this extension."
-  },
-  "msgIWillBeGrateful": {
-    "message": "I will be grateful if you can make a donation."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Show translated text when hovering on these sites"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Switch between simple and complex interface"
-  },
-  "lblTranslateInterface": {
-    "message": "Translate the interface"
   },
   "lblButtonInTheAddressBar": {
     "message": "Show button in the address bar"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Calculate"
-  },
-  "donatewithpaypal": {
-    "message": "Donate With PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Automatically translate when clicking on a link that takes you to the same domain as the current site"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Choose another language"
   },
-  "msgHasBeenUpdated": {
-    "message": "The $EXTENSION_NAME$ extension has been updated to version $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Your donation goes to the developer of the $EXTENSION_NAME$ extension.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "I have been developing, updating, and supporting this extension for over three years. It's amazing to see that we have over 600,000 daily users, and all of these people have been able to migrate to Firefox permanently.\n\nI aim to release a new version of this extension every month and keep improving it.\n\nI would be grateful if you could help me financially by becoming a Patreon member and supporting me in bringing improvements to this extension.\n\nThank you to everyone who has already contributed to this project."
-  },
   "lblEnableDiskCache": {
     "message": "Enable persistent translation cache (on-disk cache)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Text-to-speech service"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Megnyitás a Google Fordítóban"
   },
-  "btnDonate": {
-    "message": "Adományozás"
-  },
   "btnNeverTranslate": {
     "message": "Soha ne fordítsa le ezt az oldalt"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "További beállítások"
   },
-  "lblPlsDonate": {
-    "message": "Segítse a fejlesztőt egy adománnyal"
-  },
   "msgTranslateFor": {
     "message": "Fordítás $LANGUAGE_NAME$ nyelvre",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Sötét mód"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Kibocsátási megjegyzés megjelenítése frissítéskor"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Gomb megjelenítése kijelölt szöveg fordításához"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Gyorsbillentyűk"
   },
-  "lblMakeDonation": {
-    "message": "Adományozás"
-  },
-  "lblReleaseNotes": {
-    "message": "Kibocsátási megjegyzések"
-  },
-  "lblReport": {
-    "message": "Probléma bejelentése"
-  },
   "lblSettings": {
     "message": "Beállítások"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Köszönjük, hogy ezt a bővítményt használja."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Örök hálám az adományokért."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Fordított szöveg mutatása ezeknél az oldalaknál, ha fölötte áll a kurzorral"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Váltás az egyszerű és az összetett felület között"
-  },
-  "lblTranslateInterface": {
-    "message": "A felület fordítása"
   },
   "lblButtonInTheAddressBar": {
     "message": "Gomb megjelenítése az eszköztáron"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Kalkulálás"
-  },
-  "donatewithpaypal": {
-    "message": "Adományozás PayPal-lal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Ha domainen belülre visz a megnyitott link, akkor ugyanúgy fordítsa az oldalt"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Válasszon másik nyelvet"
   },
-  "msgHasBeenUpdated": {
-    "message": "A $EXTENSION_NAME$ kiterjesztés $EXTENSION_VERSION$ verzióra frissült.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Az adományt a $EXTENSION_NAME$ bővítmény fejlesztője kapja.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Több mint három éve fejlesztem, frissítem és támogatom ezt a bővítményt. Lenyűgöző látni, hogy több mint 600 000 napi felhasználónk van, és ezek az emberek véglegesen áttértek a Firefoxra.\n\nCélom, hogy minden hónapban kiadjam ennek a bővítménynek az új verzióját, és folyamatosan fejlesszem.\n\nHálás lennék, ha anyagilag segítene nekem azzal, hogy Patreon taggá válna és támogatna a bővítmény fejlesztésében.\n\nKöszönöm mindenkinek, aki már hozzájárult ehhez a projekthez."
-  },
   "lblEnableDiskCache": {
     "message": "Állandó fordítási gyorsítótár engedélyezése (lemezen lévő gyorsítótár)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Szövegfelolvasó (TTS) szolgáltatás"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

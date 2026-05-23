@@ -463,7 +463,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       e.stopPropagation();
 
       if (twpConfig.get("translateSelectedWhenPressTwice") !== "yes") return;
-      // https://github.com/FilipePS/Traduzir-paginas-web/issues/577
+      // https://github.com/itworksig/A-Traductor/issues/577
       if (isSelectingText()) {
         return onKeyUp(e);
       } else {

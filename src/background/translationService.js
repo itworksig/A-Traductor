@@ -643,7 +643,7 @@ const translationService = (function () {
     }
 
     /**
-     * https://github.com/FilipePS/Traduzir-paginas-web/issues/484
+     * https://github.com/itworksig/A-Traductor/issues/484
      * @param {string} str
      * @returns {string} fixedStr
      */
@@ -732,7 +732,7 @@ const translationService = (function () {
           // maybe the same index appears several times
           // maybe some text will be outside of <a i={number}> (Usually text before the first <a> tag, and some whitespace between the <a> tags),
           // in this case, The outside text will be placed inside the <a i={number}> closer
-          // https://github.com/FilipePS/Traduzir-paginas-web/issues/449
+          // https://github.com/itworksig/A-Traductor/issues/449
           // TODO lidar com tags dentro de tags e tags vazias
           // https://de.wikipedia.org/wiki/Wikipedia:Hauptseite
           // "{\"originalText\":\"<pre><a i=0>\\nFür den </a><a i=1>37. Schreib­wettbewerb</a><a i=2> und den </a><a i=3>18. Miniaturwettbewerb</a><a i=4> können ab sofort Artikel nominiert werden.</a></pre>\",\"translatedText\":\"<pre><a i=0>\\n</a>Artigos já podem ser indicados <a i=0>para o</a> <a i=1>37º Concurso de Redação <a i=2>e</a></a> <a i=3><a i=4>18º</a> Concurso de Miniaturas</a> .</pre>\",\"detectedLanguage\":\"de\",\"status\":\"complete\",\"waitTranlate\":{}}"
@@ -796,7 +796,7 @@ const translationService = (function () {
           if (dontSortResults) {
             // Should not sort the <a i={number}> of Google Translate result
             // Instead of it, join the texts without sorting
-            // https://github.com/FilipePS/Traduzir-paginas-web/issues/163
+            // https://github.com/itworksig/A-Traductor/issues/163
 
             // /** @type {string[]} */
             // const finalResulArray = [];
@@ -1342,6 +1342,131 @@ const translationService = (function () {
     })();
   };
 
+  /**
+   * Creates an OpenAI-compatible AI translation service.
+   * @param {{name:string, url:string, apiKey:string, model:string}} config
+   * @returns {Service} aiService
+   */
+  const createAiTranslationService = (config) => {
+    const serviceName = config.name;
+    const url = config.url;
+    const apiKey = config.apiKey;
+    const model = config.model;
+
+    function normalizeAiJson(content) {
+      if (!content) return null;
+      content = String(content).trim();
+      if (content.startsWith("```")) {
+        content = content
+          .replace(/^```(?:json)?\s*/i, "")
+          .replace(/\s*```$/i, "")
+          .trim();
+      }
+      const firstArray = content.indexOf("[");
+      const lastArray = content.lastIndexOf("]");
+      if (firstArray !== -1 && lastArray !== -1 && lastArray > firstArray) {
+        content = content.slice(firstArray, lastArray + 1);
+      }
+      return JSON.parse(content);
+    }
+
+    return new (class extends Service {
+      constructor() {
+        super(
+          serviceName,
+          url,
+          "POST",
+          function cbTransformRequest(sourceArray) {
+            return JSON.stringify(sourceArray);
+          },
+          function cbParseResponse(response) {
+            const content =
+              response &&
+              response.choices &&
+              response.choices[0] &&
+              response.choices[0].message &&
+              response.choices[0].message.content;
+            const translatedGroups = normalizeAiJson(content);
+            if (!Array.isArray(translatedGroups)) {
+              throw new Error("AI translation response is not a JSON array.");
+            }
+            return translatedGroups.map((group) => ({
+              text: JSON.stringify(Array.isArray(group) ? group : [String(group)]),
+              detectedLanguage: null,
+            }));
+          },
+          function cbTransformResponse(result) {
+            const parsed = JSON.parse(result);
+            return Array.isArray(parsed) ? parsed.map((item) => String(item)) : [String(parsed)];
+          },
+          null,
+          function cbGetRequestBody(sourceLanguage, targetLanguage, requests) {
+            const languageList = twpLang.getLanguageList();
+            const sourceName =
+              sourceLanguage && sourceLanguage !== "auto"
+                ? languageList[sourceLanguage] || sourceLanguage
+                : "the detected source language";
+            const targetName = languageList[targetLanguage] || targetLanguage;
+            const textGroups = requests.map((request) =>
+              JSON.parse(request.originalText)
+            );
+
+            return JSON.stringify({
+              model,
+              temperature: 0,
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "You are a translation engine. Return only valid JSON. Preserve HTML tags, placeholders, whitespace intent, punctuation, and the input array shape. Do not add explanations.",
+                },
+                {
+                  role: "user",
+                  content:
+                    `Translate every string from ${sourceName} to ${targetName}. ` +
+                    "Return a JSON array of arrays with exactly the same dimensions as the input.\n\n" +
+                    JSON.stringify(textGroups),
+                },
+              ],
+            });
+          },
+          function cbGetExtraHeaders() {
+            return [
+              {
+                name: "Content-Type",
+                value: "application/json",
+              },
+              {
+                name: "Authorization",
+                value: "Bearer " + apiKey,
+              },
+              {
+                name: "X-Title",
+                value: "A-Traductor",
+              },
+            ];
+          }
+        );
+      }
+    })();
+  };
+
+  const testAiTranslationService = async (config) => {
+    if (!config || !config.url || !config.apiKey || !config.model) {
+      throw new Error("Missing AI URL, API key, or model.");
+    }
+    const service = createAiTranslationService(config);
+    const result = await service.translateSingleText
+      ? await service.translateSingleText("en", "es", "Hello", true)
+      : (
+          await service.translate("en", "es", [["Hello"]], true)
+        )[0][0];
+    if (!result || typeof result !== "string") {
+      throw new Error("AI service returned an empty response.");
+    }
+    return result;
+  };
+
   /** @type {Map<string, Service>} */
   const serviceList = new Map();
 
@@ -1384,6 +1509,9 @@ const translationService = (function () {
       true
     );
     const service = getSafeServiceByName(serviceName);
+    if (!service) {
+      throw new Error(`Translation service "${serviceName}" is not configured.`);
+    }
     return await service.translate(
       sourceLanguage,
       targetLanguage,
@@ -1406,6 +1534,9 @@ const translationService = (function () {
       false
     );
     const service = getSafeServiceByName(serviceName);
+    if (!service) {
+      throw new Error(`Translation service "${serviceName}" is not configured.`);
+    }
     return (
       await service.translate(
         sourceLanguage,
@@ -1429,6 +1560,9 @@ const translationService = (function () {
       false
     );
     const service = getSafeServiceByName(serviceName);
+    if (!service) {
+      throw new Error(`Translation service "${serviceName}" is not configured.`);
+    }
     return (
       await service.translate(
         sourceLanguage,
@@ -1520,6 +1654,25 @@ const translationService = (function () {
         "deepl",
         /** @type {Service} */ /** @type {?} */ (deeplService)
       );
+    } else if (request.action === "createAiTranslationService") {
+      serviceList.set(
+        request.aiService.name,
+        createAiTranslationService(request.aiService)
+      );
+    } else if (request.action === "removeAiTranslationService") {
+      serviceList.delete(request.serviceName);
+    } else if (request.action === "testAiTranslationService") {
+      testAiTranslationService(request.aiService)
+        .then((result) => sendResponse({ ok: true, result }))
+        .catch((error) => {
+          sendResponse({
+            ok: false,
+            error:
+              (error && error.message) ||
+              "Could not connect to the AI translation service.",
+          });
+        });
+      return true;
     }
   });
 
@@ -1539,6 +1692,15 @@ const translationService = (function () {
         .find((cs) => cs.name === "deepl_freeapi");
       serviceList.set("deepl", createDeeplFreeApiService(deepl_freeapi.apiKey));
     }
+
+    ["openrouter", "aihubmix", "customai"].forEach((serviceName) => {
+      const aiService = twpConfig
+        .get("customServices")
+        .find((cs) => cs.name === serviceName);
+      if (aiService) {
+        serviceList.set(serviceName, createAiTranslationService(aiService));
+      }
+    });
   });
 
   return translationService;

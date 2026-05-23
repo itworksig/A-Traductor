@@ -1,85 +1,116 @@
+# <img src="src/icons/icon-128.png" height="44" alt="A-Traductor icon"> A-Traductor
 
-# <img src="https://github.com/FilipePS/Traduzir-paginas-web/blob/master/src/icons/icon-128.png" height="50"> Translate Web Pages
+A-Traductor is a browser extension for translating web pages and selected text directly in the browser.
 
-Translate your page in real time using Google or Yandex.
+It supports classic translation providers such as Google, Bing, Yandex, and DeepL, plus OpenAI-compatible AI translation through OpenRouter, AiHubMix, or a custom endpoint.
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/FilipePS/Traduzir-paginas-web?label=latest%20version&sort=semver)](https://github.com/FilipePS/Traduzir-paginas-web/releases)
-[![GitHub release date](https://img.shields.io/github/release-date/FilipePS/Traduzir-paginas-web?labely)](https://github.com/FilipePS/Traduzir-paginas-web/latest)
-[![GitHub issues](https://img.shields.io/github/issues/FilipePS/Traduzir-paginas-web?color=red)](https://github.com/FilipePS/Traduzir-paginas-web/issues)
-[![GitHub license](https://img.shields.io/github/license/FilipePS/Traduzir-paginas-web?color=lightgrey)](https://github.com/FilipePS/Traduzir-paginas-web/blob/master/LICENSE)
+## Features
+
+- Translate full web pages without opening a new tab.
+- Translate selected text from the popup.
+- Choose page translation and text translation providers independently.
+- Use OpenRouter, AiHubMix, or a custom OpenAI-compatible service.
+- Configure the AI service URL, API key, and model in Settings.
+- Test AI provider connectivity before using it.
+- Display the active translation provider in the popup.
+- Automatically translate selected languages or websites.
+- Modern Chrome-like popup interface.
+- Firefox and Chromium builds.
+
+## AI Translation
+
+AI translation providers are configured from the extension settings page:
+
+1. Open the extension options.
+2. Go to the translation service settings.
+3. Enable OpenRouter AI, AiHubMix AI, or Custom AI.
+4. Enter the service URL, API key, and model.
+5. Click **Test** to verify the connection.
+6. Select the provider for page translation or text translation.
+
+Default compatible endpoints:
+
+- OpenRouter: `https://openrouter.ai/api/v1/chat/completions`
+- AiHubMix: `https://aihubmix.com/v1/chat/completions`
+- Custom AI: any OpenAI-compatible `/chat/completions` endpoint
+
+## Privacy
+
+A-Traductor does not collect analytics or send usage data to this repository.
+
+Translation requires sending page text or selected text to the translation provider you choose. If you configure an AI provider, translated content is sent to that provider using your configured API endpoint and API key.
+
+API keys saved in the extension settings are stored in the browser extension's local storage through `chrome.storage.local`. They are not written to the source code, build files, or git history by the extension.
+
+Do not commit exported extension settings if they contain API keys.
+
+See [PRIVACY](PRIVACY) for more details.
 
 ## Install
 
 ### Firefox
-- Desktop users, download from [Mozilla Addons](https://addons.mozilla.org/firefox/addon/traduzir-paginas-web/).
-- Mobile users
-  - You can install **TWP** using this alternative browser to Firefox Mobile [Iceraven](https://github.com/fork-maintainers/iceraven-browser/releases).
-  - Or follow [this tutorial](https://www.ghacks.net/2020/10/01/you-can-now-install-any-add-on-in-firefox-nightly-for-android-but-it-is-complicated/) and install **TWP** on **Firefox Nightly**.
 
-### Vivaldi, Opera, Maxthon, Chromium and Yandex
-1. Download this CRX file [TWP_Chromium.crx](https://github.com/FilipePS/Traduzir-paginas-web/releases/download/v9.8.1.0/TWP_9.8.1.0_Chromium.crx)
-2. Open your browser's extension manager, you can find it at this link: `chrome://extensions`
-3. Activate developer mode
-4. Reload the extension manager page to avoid errors
-5. Drag and drop the **TWP_Chromium.crx** file into the extension manager
-6. Note 1: In Opera, Maxthon and Yandex you don't need to enable developer mode
-7. Note 2: In Yandex you need to reactivate the extension every time you open the browser
+For local testing:
 
-### Chrome, Edge and Brave (With folder without auto update)
-1. Download and extract this ZIP file [TWP_Chromium.zip](https://github.com/FilipePS/Traduzir-paginas-web/releases/download/v9.8.1.0/TWP_9.8.1.0_Chromium.zip)
-2. Open your browser's extension manager, you can find it at this link: `chrome://extensions`
-3. Activate developer mode
-4. Reload the extension manager page to avoid errors
-5. Drag and drop the **TWP_Chromium** folder into the extension manager
+1. Run `npm run build`.
+2. Open `about:debugging#/runtime/this-firefox`.
+3. Click **Load Temporary Add-on**.
+4. Select `build/A-Traductor_9.9.0.2_Firefox/manifest.json`.
 
-### Chrome, Edge and Brave (With CRX and auto update)
-- By default, these browsers block the installation of extensions outside the official extension store, however, changing a windows registry it is possible to reverse this, allowing the installation of certain extensions. If you want to do this, follow the tutorial below:
+For release builds, use the generated Firefox package:
 
-1. Download this and run this file [twp-registry-install.reg](https://raw.githubusercontent.com/FilipePS/Traduzir-paginas-web/master/dist/chromium/twp-registry-install.reg). It edit the necessary windows registries
-2. Close your browser and reopen it
-3. Download this CRX file [TWP_Chromium.crx](https://github.com/FilipePS/Traduzir-paginas-web/releases/download/v9.8.1.0/TWP_9.8.1.0_Chromium.crx)
-4. Open your browser's extension manager, you can find it at this link: `chrome://extensions`
-5. Activate developer mode
-6. Reload the extension manager page to avoid errors
-7. Drag and drop the **TWP_Chromium.crx** file into the extension manager
-8. Note: If you want to undo registry changes, download and run this [twp-registry-uninstall-self.reg](https://raw.githubusercontent.com/FilipePS/Traduzir-paginas-web/master/dist/chromium/twp-registry-uninstall-self.reg). If you want a deeper removal download and run this other file [twp-registry-uninstall-all.reg](https://raw.githubusercontent.com/FilipePS/Traduzir-paginas-web/master/dist/chromium/twp-registry-uninstall-all.reg)
+```sh
+npm run build
+```
 
-## Screenshots
-| Menu 1 | Menu 2 | Translated |
-| :--: | :--: | :--: |
-| <img src="https://addons.mozilla.org/user-media/previews/full/258/258434.png" height="200"> | <img src="https://addons.mozilla.org/user-media/previews/full/258/258435.png" height="200"> | <img src="https://addons.mozilla.org/user-media/previews/full/258/258436.png" height="200"> |
+The package is created at:
 
-## Contribute
+```text
+build/A-Traductor_9.9.0.2_Firefox.zip
+```
 
-- To collaborate with the translation of the extension interface use [Crowdin](https://crowdin.com/project/translate-web-pages).
+### Chromium, Chrome, Edge, Brave, Opera
 
-## Donations
+For local testing:
 
-To make a donation use [Patreon](https://www.patreon.com/filipeps).
+1. Run `npm run build`.
+2. Open `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked**.
+5. Select `build/A-Traductor_9.9.0.2_Chromium`.
 
-[<img src="https://github.com/FilipePS/Traduzir-paginas-web/blob/master/src/icons/patreon.png" alt="Patreon" height="50">](https://www.patreon.com/filipeps)
+The Chromium package is created at:
 
-## FAQ
+```text
+build/A-Traductor_9.9.0.2_Chromium.zip
+```
 
-**What can this extension do?**
+## Development
 
-Your current page is translated without having to open new tabs.
-It is possible to change the translation language.
-You can select to automatically translate.
-To change the translation engine just touch the Google Translate icon. 
+Install dependencies:
 
-**Why do you need to access your data on all the websites you visit?**
+```sh
+npm install
+```
 
-To translate any website it is necessary to access and modify the text of the web pages. And the extension can only do that, with that permission.
+Run checks:
 
-**How are the pages translated?**
+```sh
+npm test
+```
 
-The pages are translated using the Google or Yandex translation engine (you choose).
+Build Firefox and Chromium packages:
 
-**And how's my privacy?**
+```sh
+npm run build
+```
 
-[Privacy policy](https://addons.mozilla.org/addon/traduzir-paginas-web/privacy/): We do not collect any information. However, to translate, the contents of the web pages will be sent to Google or Yandex servers.
+## Repository
 
-**Limitations**
+Maintained at [itworksig/A-Traductor](https://github.com/itworksig/A-Traductor).
 
-Some pages like [support.mozilla.org](https://support.mozilla.org/) and [addons.mozilla.org](http://addons.mozilla.org/) will not be translated. For security reasons, the browser blocks extensions from accessing these sites.
+## Notes
+
+- Firefox currently uses the Manifest V2 build.
+- Chromium uses the Chromium package generated from the Firefox build.
+- See [docs/MV3_MIGRATION.md](docs/MV3_MIGRATION.md) for the Manifest V3 migration plan.

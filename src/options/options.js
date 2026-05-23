@@ -1,58 +1,5 @@
 "use strict";
 
-setTimeout(() => {
-  fetch("./release-notes/en.html")
-    .then((response) => response.text())
-    .then((responseText) => {
-      window.scrollTo(0, 0);
-      document.getElementById("release_notes").innerHTML = responseText;
-      document.getElementById("_msgHasBeenUpdated").textContent =
-        twpI18n.getMessage("msgHasBeenUpdated");
-      document.getElementById("_msgHasBeenUpdated").innerHTML = document
-        .getElementById("_msgHasBeenUpdated")
-        .textContent.replace(
-          "#EXTENSION_NAME#",
-          "<b>" + chrome.runtime.getManifest().name + "</b>"
-        )
-        .replace(
-          "#EXTENSION_VERSION#",
-          "<b>" + chrome.runtime.getManifest().version + "</b>"
-        );
-      document.getElementById("_donationText").textContent =
-        twpI18n.getMessage("donationText");
-      document.getElementById("_donatewithpaypal").textContent =
-        twpI18n.getMessage("donatewithpaypal");
-
-      document.getElementById("_donationRecipient").textContent =
-        twpI18n.getMessage("msgDonationRecipient");
-      document.getElementById("_donationRecipient").innerHTML = document
-        .getElementById("_donationRecipient")
-        .textContent.replace(
-          "#EXTENSION_NAME#",
-          "<b>" + chrome.runtime.getManifest().name + "</b>"
-        );
-
-      // donation options
-      if (navigator.language === "pt-BR") {
-        $("#_currency").value = "BRL";
-        $("#_donateInUSD").style.display = "none";
-      } else {
-        $("#_currency").value = "USD";
-        $("#_donateInBRL").style.display = "none";
-      }
-
-      $("#_currency").onchange = (e) => {
-        if (e.target.value === "BRL") {
-          $("#_donateInUSD").style.display = "none";
-          $("#_donateInBRL").style.display = "block";
-        } else {
-          $("#_donateInUSD").style.display = "block";
-          $("#_donateInBRL").style.display = "none";
-        }
-      };
-    });
-}, 800);
-
 var $ = document.querySelector.bind(document);
 
 twpConfig
@@ -94,7 +41,11 @@ twpConfig
     };
 
     function hashchange() {
-      const hash = location.hash || "#languages";
+      let hash = location.hash || "#languages";
+      if (!$(hash)) {
+        hash = "#languages";
+        history.replaceState(null, "", hash);
+      }
       const divs = [
         $("#languages"),
         $("#sites"),
@@ -105,8 +56,6 @@ twpConfig
         $("#storage"),
         $("#others"),
         $("#experimental"),
-        $("#donation"),
-        $("#release_notes"),
       ];
       divs.forEach((element) => {
         element.style.display = "none";
@@ -120,25 +69,13 @@ twpConfig
       $('a[href="' + hash + '"]').classList.add("w3-light-grey");
 
       let text;
-      if (hash === "#donation") {
-        text = twpI18n.getMessage("lblMakeDonation");
-      } else if (hash === "#release_notes") {
-        text = twpI18n.getMessage("lblReleaseNotes");
-      } else {
-        text = twpI18n.getMessage("lblSettings");
-      }
+      text = twpI18n.getMessage("lblSettings");
       $("#itemSelectedName").textContent = text;
 
       if (sideBarIsVisible) {
         $("#menuContainer").classList.toggle("change");
         $("#sideBar").style.display = "none";
         sideBarIsVisible = false;
-      }
-
-      if (hash === "#release_notes") {
-        $("#btnPatreon").style.display = "none";
-      } else {
-        $("#btnPatreon").style.display = "block";
       }
 
       if (hash === "#translations") {
@@ -746,11 +683,7 @@ twpConfig
       twpConfig.get("dontShowIfSelectedTextIsUnknown") === "yes" ? true : false;
 
     // style options
-    $("#useOldPopup").onchange = (e) => {
-      twpConfig.set("useOldPopup", e.target.value);
-      updateDarkMode();
-    };
-    $("#useOldPopup").value = twpConfig.get("useOldPopup");
+    twpConfig.set("useOldPopup", "no");
 
     $("#darkMode").onchange = (e) => {
       twpConfig.set("darkMode", e.target.value);
@@ -1021,77 +954,327 @@ twpConfig
       };
 
       const servicesInfo = [
-        { selector: "#btnEnableGoogle", svName: "google" },
-        { selector: "#btnEnableBing", svName: "bing" },
-        { selector: "#btnEnableYandex", svName: "yandex" },
-        { selector: "#btnEnableDeepL", svName: "deepl" },
+        { selectors: ["#btnEnableGoogle"], svName: "google" },
+        { selectors: ["#btnEnableBing"], svName: "bing" },
+        { selectors: ["#btnEnableYandex"], svName: "yandex" },
+        { selectors: ["#btnEnableDeepL"], svName: "deepl" },
+        {
+          selectors: ["#btnEnableOpenRouter", "#btnEnableOpenRouterPrivacy"],
+          svName: "openrouter",
+          needsCustomService: true,
+        },
+        {
+          selectors: ["#btnEnableAiHubMix", "#btnEnableAiHubMixPrivacy"],
+          svName: "aihubmix",
+          needsCustomService: true,
+        },
+        {
+          selectors: ["#btnEnableCustomAi", "#btnEnableCustomAiPrivacy"],
+          svName: "customai",
+          needsCustomService: true,
+        },
       ];
 
+      const aiProviderInfo = [
+        {
+          serviceName: "openrouter",
+          defaultUrl: "https://openrouter.ai/api/v1/chat/completions",
+          defaultModel: "openai/gpt-4o-mini",
+          urlSelector: "#openrouterURL",
+          apiKeySelector: "#openrouterKEY",
+          modelSelector: "#openrouterMODEL",
+          saveSelector: "#saveOpenRouter",
+          testSelector: "#testOpenRouter",
+          removeSelector: "#removeOpenRouter",
+          statusSelector: "#openrouterStatus",
+        },
+        {
+          serviceName: "aihubmix",
+          defaultUrl: "https://aihubmix.com/v1/chat/completions",
+          defaultModel: "gpt-4o-mini",
+          urlSelector: "#aihubmixURL",
+          apiKeySelector: "#aihubmixKEY",
+          modelSelector: "#aihubmixMODEL",
+          saveSelector: "#saveAiHubMix",
+          testSelector: "#testAiHubMix",
+          removeSelector: "#removeAiHubMix",
+          statusSelector: "#aihubmixStatus",
+        },
+        {
+          serviceName: "customai",
+          defaultUrl: "",
+          defaultModel: "gpt-4o-mini",
+          urlSelector: "#customaiURL",
+          apiKeySelector: "#customaiKEY",
+          modelSelector: "#customaiMODEL",
+          saveSelector: "#saveCustomAi",
+          testSelector: "#testCustomAi",
+          removeSelector: "#removeCustomAi",
+          statusSelector: "#customaiStatus",
+        },
+      ];
+
+      function getServiceCheckboxes(svInfo) {
+        return svInfo.selectors.map((selector) => $(selector)).filter(Boolean);
+      }
+
+      function serviceIsChecked(svInfo) {
+        return getServiceCheckboxes(svInfo).some((checkbox) => checkbox.checked);
+      }
+
+      function setServiceChecked(svInfo, checked) {
+        getServiceCheckboxes(svInfo).forEach((checkbox) => {
+          checkbox.checked = checked;
+        });
+      }
+
+      function hasCustomService(serviceName) {
+        return twpConfig
+          .get("customServices")
+          .some((service) => service.name === serviceName);
+      }
+
+      function getCustomService(serviceName) {
+        return twpConfig
+          .get("customServices")
+          .find((service) => service.name === serviceName);
+      }
+
+      function getServiceInfo(serviceName) {
+        return servicesInfo.find((info) => info.svName === serviceName);
+      }
+
+      function updateEnabledServices(changedInfo = null, changedElement = null) {
+        if (
+          changedInfo &&
+          changedInfo.needsCustomService &&
+          changedElement &&
+          changedElement.checked &&
+          !hasCustomService(changedInfo.svName)
+        ) {
+          changedElement.checked = false;
+          setServiceChecked(changedInfo, false);
+          alert("Save the AI provider settings before enabling this service.");
+        }
+
+        const enabledServices = [];
+        let enabledCount = 0;
+        servicesInfo.forEach((svInfo) => {
+          if (serviceIsChecked(svInfo)) {
+            enabledCount++;
+          }
+        });
+        if (
+          enabledCount === 0 ||
+          (enabledCount === 1 && serviceIsChecked(getServiceInfo("deepl")))
+        ) {
+          setServiceChecked(getServiceInfo("google"), true);
+        }
+        servicesInfo.forEach((svInfo) => {
+          if (serviceIsChecked(svInfo)) {
+            enabledServices.push(svInfo.svName);
+            setServiceChecked(svInfo, true);
+          } else {
+            setServiceChecked(svInfo, false);
+          }
+        });
+
+        if (!enabledServices.includes(twpConfig.get("textTranslatorService"))) {
+          twpConfig.set("textTranslatorService", enabledServices[0]);
+        }
+        if (!enabledServices.includes(twpConfig.get("pageTranslatorService"))) {
+          twpConfig.set("pageTranslatorService", enabledServices[0]);
+        }
+
+        const pageTranslationServices = [
+          "google",
+          "bing",
+          "yandex",
+          "openrouter",
+          "aihubmix",
+          "customai",
+        ];
+        chrome.runtime.sendMessage(
+          {
+            action: "restorePagesWithServiceNames",
+            serviceNames: pageTranslationServices.filter(
+              (svName) => !enabledServices.includes(svName)
+            ),
+            newServiceName: twpConfig.get("pageTranslatorService"),
+          },
+          checkedLastError
+        );
+
+        twpConfig.set("enabledServices", enabledServices);
+
+        $("#pageTranslatorService").value = twpConfig.get(
+          "pageTranslatorService"
+        );
+        $("#textTranslatorService").value = twpConfig.get(
+          "textTranslatorService"
+        );
+        updateServiceSelector(enabledServices);
+      }
+
       servicesInfo.forEach((svInfo) => {
-        $(svInfo.selector).oninput = (e) => {
-          const enabledServices = [];
-          let enabledCount = 0;
-          servicesInfo.forEach((_svInfo) => {
-            if ($(_svInfo.selector).checked) {
-              enabledCount++;
-            }
-          });
-          if (
-            enabledCount === 0 ||
-            (enabledCount === 1 && $("#btnEnableDeepL").checked)
-          ) {
-            if (e.target === $("#btnEnableGoogle")) {
-              $("#btnEnableBing").checked = true;
-            } else {
-              $("#btnEnableGoogle").checked = true;
-            }
-          }
-          servicesInfo.forEach((_svInfo) => {
-            if ($(_svInfo.selector).checked) {
-              enabledServices.push(_svInfo.svName);
-            }
-          });
-
-          if (
-            !enabledServices.includes(twpConfig.get("textTranslatorService"))
-          ) {
-            twpConfig.set("textTranslatorService", enabledServices[0]);
-          }
-          if (
-            !enabledServices.includes(twpConfig.get("pageTranslatorService"))
-          ) {
-            twpConfig.set("pageTranslatorService", enabledServices[0]);
-          }
-
-          const pageTranslationServices = ["google", "bing", "yandex"];
-          chrome.runtime.sendMessage(
-            {
-              action: "restorePagesWithServiceNames",
-              serviceNames: pageTranslationServices.filter(
-                (svName) => !enabledServices.includes(svName)
-              ),
-              newServiceName: twpConfig.get("pageTranslatorService"),
-            },
-            checkedLastError
-          );
-
-          twpConfig.set("enabledServices", enabledServices);
-
-          $("#pageTranslatorService").value = twpConfig.get(
-            "pageTranslatorService"
-          );
-          $("#textTranslatorService").value = twpConfig.get(
-            "textTranslatorService"
-          );
-          updateServiceSelector(enabledServices);
-        };
-        $(svInfo.selector).checked =
-          twpConfig.get("enabledServices").indexOf(svInfo.svName) === -1
-            ? false
-            : true;
+        getServiceCheckboxes(svInfo).forEach((checkbox) => {
+          checkbox.oninput = (e) => {
+            setServiceChecked(svInfo, e.target.checked);
+            updateEnabledServices(svInfo, e.target);
+          };
+        });
+        setServiceChecked(
+          svInfo,
+          twpConfig.get("enabledServices").indexOf(svInfo.svName) !== -1
+        );
 
         updateServiceSelector(twpConfig.get("enabledServices"));
       });
+
+      function fillAiProviderForm(providerInfo) {
+        const service = getCustomService(providerInfo.serviceName);
+        $(providerInfo.urlSelector).value = service
+          ? service.url
+          : providerInfo.defaultUrl;
+        $(providerInfo.apiKeySelector).value = service ? service.apiKey : "";
+        $(providerInfo.modelSelector).value = service
+          ? service.model
+          : providerInfo.defaultModel;
+        if ($(providerInfo.statusSelector)) {
+          $(providerInfo.statusSelector).textContent = "";
+          $(providerInfo.statusSelector).className = "ai-provider-status";
+        }
+      }
+
+      function getAiProviderFormValue(providerInfo) {
+        const url =
+          $(providerInfo.urlSelector).value.trim() || providerInfo.defaultUrl;
+        const apiKey = $(providerInfo.apiKeySelector).value.trim();
+        const model =
+          $(providerInfo.modelSelector).value.trim() ||
+          providerInfo.defaultModel;
+
+        try {
+          new URL(url);
+        } catch (error) {
+          alert("Enter a valid AI service URL.");
+          return null;
+        }
+
+        if (!apiKey || !model) {
+          alert("Enter both the AI API key and model.");
+          return null;
+        }
+
+        return {
+          name: providerInfo.serviceName,
+          url,
+          apiKey,
+          model,
+        };
+      }
+
+      function saveAiProvider(providerInfo) {
+        const aiService = getAiProviderFormValue(providerInfo);
+        if (!aiService) return;
+
+        const customServices = twpConfig
+          .get("customServices")
+          .filter((service) => service.name !== providerInfo.serviceName);
+        customServices.push(aiService);
+        twpConfig.set("customServices", customServices);
+
+        chrome.runtime.sendMessage(
+          {
+            action: "createAiTranslationService",
+            aiService,
+          },
+          checkedLastError
+        );
+
+        setServiceChecked(getServiceInfo(providerInfo.serviceName), true);
+        twpConfig.set("enableDiskCache", "yes");
+        $("#enableDiskCache").value = "yes";
+        updateEnabledServices();
+      }
+
+      function setAiProviderStatus(providerInfo, type, message) {
+        const status = $(providerInfo.statusSelector);
+        if (!status) return;
+        status.className = `ai-provider-status ${type}`;
+        status.textContent = message;
+      }
+
+      function testAiProvider(providerInfo) {
+        const aiService = getAiProviderFormValue(providerInfo);
+        if (!aiService) return;
+
+        setAiProviderStatus(providerInfo, "pending", "Testing connection...");
+        chrome.runtime.sendMessage(
+          {
+            action: "testAiTranslationService",
+            aiService,
+          },
+          (response) => {
+            checkedLastError();
+            if (response && response.ok) {
+              setAiProviderStatus(
+                providerInfo,
+                "success",
+                "Connection test passed."
+              );
+            } else {
+              setAiProviderStatus(
+                providerInfo,
+                "error",
+                (response && response.error) || "Connection test failed."
+              );
+            }
+          }
+        );
+      }
+
+      function removeAiProvider(providerInfo) {
+        const serviceName = providerInfo.serviceName;
+        const customServices = twpConfig
+          .get("customServices")
+          .filter((service) => service.name !== serviceName);
+        twpConfig.set("customServices", customServices);
+
+        chrome.runtime.sendMessage(
+          {
+            action: "removeAiTranslationService",
+            serviceName,
+          },
+          checkedLastError
+        );
+
+        if (twpConfig.get("textTranslatorService") === serviceName) {
+          twpConfig.set("textTranslatorService", "google");
+        }
+        if (twpConfig.get("pageTranslatorService") === serviceName) {
+          twpConfig.set("pageTranslatorService", "google");
+        }
+
+        setServiceChecked(getServiceInfo(serviceName), false);
+        fillAiProviderForm(providerInfo);
+        updateEnabledServices();
+      }
+
+      aiProviderInfo.forEach((providerInfo) => {
+        fillAiProviderForm(providerInfo);
+        $(providerInfo.saveSelector).onclick = () => {
+          saveAiProvider(providerInfo);
+        };
+        $(providerInfo.testSelector).onclick = () => {
+          testAiProvider(providerInfo);
+        };
+        $(providerInfo.removeSelector).onclick = () => {
+          removeAiProvider(providerInfo);
+        };
+      });
+
+      window.updateEnabledTranslationServices = updateEnabledServices;
     }
 
     // storage options
@@ -1175,11 +1358,6 @@ twpConfig
     };
 
     // others options
-    $("#showReleaseNotes").onchange = (e) => {
-      twpConfig.set("showReleaseNotes", e.target.value);
-    };
-    $("#showReleaseNotes").value = twpConfig.get("showReleaseNotes");
-
     $("#showPopupMobile").onchange = (e) => {
       twpConfig.set("showPopupMobile", e.target.value);
     };
@@ -1361,24 +1539,6 @@ twpConfig
       });
     }
 
-    // donation options
-    if (navigator.language === "pt-BR") {
-      $("#currency").value = "BRL";
-      $("#donateInUSD").style.display = "none";
-    } else {
-      $("#currency").value = "USD";
-      $("#donateInBRL").style.display = "none";
-    }
-
-    $("#currency").onchange = (e) => {
-      if (e.target.value === "BRL") {
-        $("#donateInUSD").style.display = "none";
-        $("#donateInBRL").style.display = "block";
-      } else {
-        $("#donateInUSD").style.display = "block";
-        $("#donateInBRL").style.display = "none";
-      }
-    };
   });
 
 window.scrollTo({

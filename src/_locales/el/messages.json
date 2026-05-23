@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Άνοιγμα μεταφραστή Google"
   },
-  "btnDonate": {
-    "message": "Δωρεά"
-  },
   "btnNeverTranslate": {
     "message": "Ποτέ μετάφραση αυτή την ιστοσελίδα"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Περισσότερες επιλογές"
   },
-  "lblPlsDonate": {
-    "message": "Βοηθήστε τον προγραμματιστή με μια δωρεά"
-  },
   "msgTranslateFor": {
     "message": "Μετάφραση σε $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Σκοτεινή Λειτουργία"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Εμφάνιση σημειώσεων έκδοσης όταν ενημερώνεται"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Εμφάνιση κουμπιού μετάφρασης επιλεγμένου κειμένου"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Πλήκτρα συντόμευσης"
   },
-  "lblMakeDonation": {
-    "message": "Κάντε μια δωρεά"
-  },
-  "lblReleaseNotes": {
-    "message": "Σημειώσεις έκδοσης"
-  },
-  "lblReport": {
-    "message": "Αναφορά προβλήματος"
-  },
   "lblSettings": {
     "message": "Ρυθμίσεις"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Σας ευχαριστούμε για τη χρήση αυτής της επέκτασης."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Θα είμαι ευγνώμων αν μπορείτε να κάνετε μια δωρεά."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Εμφάνιση μεταφρασμένου κειμένου όταν αιωρείται σε αυτούς τους ιστότοπους"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Εναλλαγή μεταξύ απλού και σύνθετου περιβάλλοντος"
-  },
-  "lblTranslateInterface": {
-    "message": "Μετάφραση περιβάλλοντος"
   },
   "lblButtonInTheAddressBar": {
     "message": "Εμφάνιση κουμπιού στη γραμμή διευθύνσεων"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Υπολογισμός"
-  },
-  "donatewithpaypal": {
-    "message": "Δωρεά μέσω PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Αυτόματη μετάφραση όταν κάνετε κλικ σε έναν σύνδεσμο που σας μεταφέρει στον ίδιο τομέα με τον τρέχοντα ιστότοπο"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Επιλέξτε άλλη γλώσσα"
   },
-  "msgHasBeenUpdated": {
-    "message": "Η επέκταση $EXTENSION_NAME$ έχει ενημερωθεί στην έκδοση $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Η δωρεά σας πάει στον προγραμματιστή της επέκτασης $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Αναπτύσσω, ενημερώνω και υποστηρίζω αυτήν την επέκταση για περισσότερα από τρία χρόνια. Είναι εκπληκτικό να βλέπουμε ότι έχουμε πάνω από 600.000 καθημερινούς χρήστες και όλοι αυτοί οι άνθρωποι μπόρεσαν να μετεγκατασταθούν μόνιμα στον Firefox.\n\nΣτόχος μου είναι να κυκλοφορώ μια νέα έκδοση αυτής της επέκτασης κάθε μήνα και να συνεχίσω να τη βελτιώνω.\n\nΘα σας ήμουν ευγνώμων εάν μπορούσατε να με βοηθήσετε οικονομικά, γίνοντας μέλος του Patreon και υποστηρίζοντάς με να βελτιώσω αυτήν την επέκταση.\n\nΕυχαριστούμε όλους όσους έχουν ήδη συνεισφέρει σε αυτό το έργο."
-  },
   "lblEnableDiskCache": {
     "message": "Ενεργοποίηση μόνιμης προσωρινής μνήμης μετάφρασης (κρυφή μνήμη στο δίσκο)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Υπηρεσία μετατροπής κειμένου σε ομιλία"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

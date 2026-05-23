@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "Maak oop in Google Translator"
   },
-  "btnDonate": {
-    "message": "skenk"
-  },
   "btnNeverTranslate": {
     "message": "Moet nooit hierdie webwerf vertaal nie"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "Meer opsies"
   },
-  "lblPlsDonate": {
-    "message": "Help die ontwikkelaar met 'n skenking"
-  },
   "msgTranslateFor": {
     "message": "Vertaal na $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "Donker modus"
-  },
-  "lblShowReleaseNotes": {
-    "message": "Wys vrystellingnotas wanneer jy opdateer"
   },
   "lblShowTranslateSelectedButton": {
     "message": "Wys die knoppie om die geselekteerde teks te vertaal"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "Sneltoetse"
   },
-  "lblMakeDonation": {
-    "message": "Maak 'n skenking"
-  },
-  "lblReleaseNotes": {
-    "message": "Vrystellings notas"
-  },
-  "lblReport": {
-    "message": "Rapporteer 'n probleem"
-  },
   "lblSettings": {
     "message": "Instellings"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "Dankie dat jy hierdie uitbreiding gebruik."
-  },
-  "msgIWillBeGrateful": {
-    "message": "Ek sal dankbaar wees as jy 'n skenking kan maak."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "Wys vertaalde teks wanneer jy op hierdie werwe beweeg"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "Skakel tussen eenvoudige en komplekse koppelvlak"
-  },
-  "lblTranslateInterface": {
-    "message": "Vertaal die koppelvlak"
   },
   "lblButtonInTheAddressBar": {
     "message": "Wys knoppie in die adresbalk"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "Bereken"
-  },
-  "donatewithpaypal": {
-    "message": "Skenk met PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "Vertaal outomaties wanneer u op 'n skakel klik wat u na dieselfde domein as die huidige webwerf neem"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "Kies 'n ander taal"
   },
-  "msgHasBeenUpdated": {
-    "message": "Die $EXTENSION_NAME$ -uitbreiding is opgedateer na weergawe $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "Jou skenking gaan na die ontwikkelaar van die $EXTENSION_NAME$ -uitbreiding.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "Ek het hierdie uitbreiding al meer as drie jaar ontwikkel, bygewerk en ondersteun. Dit is ongelooflik om te sien dat ons meer as 600 000 daaglikse gebruikers het, en al hierdie mense kon permanent na Firefox toe migreer.\n\nEk beoog om elke maand 'n nuwe weergawe van hierdie uitbreiding vry te stel en aan te hou om dit te verbeter.\n\nEk sal dankbaar wees as jy my finansieel kan help deur 'n Patreon-lid te word en my te ondersteun om verbeterings aan hierdie uitbreiding aan te bring.\n\nDankie aan almal wat reeds bygedra het tot hierdie projek."
-  },
   "lblEnableDiskCache": {
     "message": "Aktiveer aanhoudende vertaalkas (op-skyfkas)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "Teks-na-spraak diens"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

@@ -14,14 +14,14 @@ const version = JSON.parse(
   fs.readFileSync("src/manifest.json", "utf8")
 ).version;
 
-const chromium_folder_name = `TWP_${version}_Chromium`;
-const firefox_folder_name = `TWP_${version}_Firefox`;
+const chromium_folder_name = `A-Traductor_${version}_Chromium`;
+const firefox_folder_name = `A-Traductor_${version}_Firefox`;
 
 const mappath = `../maps/${version}`;
 const mapconfig = remoteSourceMaps
   ? {
       sourceMappingURLPrefix:
-        "https://raw.githubusercontent.com/FilipePS/TWP---Source-Maps/main",
+        "https://raw.githubusercontent.com/itworksig/A-Traductor-Source-Maps/main",
     }
   : null;
 
@@ -52,7 +52,7 @@ gulp.task("clean", (cb) => {
 
 gulp.task("firefox-copy", () => {
   return gulp
-    .src(["src/**/**"])
+    .src(["src/**/**"], { encoding: false })
     .pipe(gulp.dest(`build/${firefox_folder_name}`));
 });
 
@@ -132,7 +132,7 @@ gulp.task("firefox-move-sourcemap", (cb) => {
 gulp.task("firefox-self-hosted", (cb) => {
   return new Promise((resolve, reject) => {
     gulp
-      .src([`build/${firefox_folder_name}/**/**`])
+      .src([`build/${firefox_folder_name}/**/**`], { encoding: false })
       .pipe(gulp.dest(`build/${firefox_folder_name}_selfhosted`))
       .on("error", reject)
       .on("end", resolve);
@@ -144,7 +144,7 @@ gulp.task("firefox-self-hosted", (cb) => {
       )
     );
     manifest.browser_specific_settings.gecko.update_url =
-      "https://raw.githubusercontent.com/FilipePS/Traduzir-paginas-web/master/dist/firefox/updates.json";
+      "https://raw.githubusercontent.com/itworksig/A-Traductor/master/dist/firefox/updates.json";
     fs.writeFileSync(
       `build/${firefox_folder_name}_selfhosted/manifest.json`,
       JSON.stringify(manifest, null, 4),
@@ -155,14 +155,14 @@ gulp.task("firefox-self-hosted", (cb) => {
 
 gulp.task("firefox-zip", () => {
   return gulp
-    .src([`build/${firefox_folder_name}/**/*`])
-    .pipe(zip(`TWP_${version}_Firefox.zip`))
+    .src([`build/${firefox_folder_name}/**/*`], { encoding: false })
+    .pipe(zip(`A-Traductor_${version}_Firefox.zip`))
     .pipe(gulp.dest("build"));
 });
 
 gulp.task("chrome-copy-from-firefox", () => {
   return gulp
-    .src([`build/${firefox_folder_name}/**/**`])
+    .src([`build/${firefox_folder_name}/**/**`], { encoding: false })
     .pipe(gulp.dest(`build/${chromium_folder_name}`));
 });
 
@@ -180,7 +180,7 @@ gulp.task("chrome-rename", (cb) => {
 
 gulp.task("chrome-zip", () => {
   return gulp
-    .src([`build/${chromium_folder_name}/**/**`])
+    .src([`build/${chromium_folder_name}/**/**`], { encoding: false })
     .pipe(zip(`${chromium_folder_name}.zip`))
     .pipe(gulp.dest("build"));
 });

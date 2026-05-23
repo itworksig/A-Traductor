@@ -50,9 +50,6 @@
   "btnOpenOnGoogleTranslate": {
     "message": "פתח בגוגל תרגום"
   },
-  "btnDonate": {
-    "message": "תרומה"
-  },
   "btnNeverTranslate": {
     "message": "לעולם אל תתרגם דף זה"
   },
@@ -83,9 +80,6 @@
   "btnMoreOptions": {
     "message": "אפשרויות נוספות"
   },
-  "lblPlsDonate": {
-    "message": "תרמו ועזרו למפתח"
-  },
   "msgTranslateFor": {
     "message": "תרגם ל: $LANGUAGE_NAME$",
     "placeholders": {
@@ -112,9 +106,6 @@
   },
   "lblDarkMode": {
     "message": "מצב כהה"
-  },
-  "lblShowReleaseNotes": {
-    "message": "הראה הערות שחרור בעת העדכון"
   },
   "lblShowTranslateSelectedButton": {
     "message": "הראה את הלחצן לתרגום הטקסט שנבחר"
@@ -152,15 +143,6 @@
   "msgHotkeys": {
     "message": "מקשי קיצור"
   },
-  "lblMakeDonation": {
-    "message": "תרומה"
-  },
-  "lblReleaseNotes": {
-    "message": "מכתבי שחרור"
-  },
-  "lblReport": {
-    "message": "לדווח על בעיה"
-  },
   "lblSettings": {
     "message": "הגדרות"
   },
@@ -175,9 +157,6 @@
   },
   "msgThanksForUseExtension": {
     "message": "תודה על השימוש בתוסף זה."
-  },
-  "msgIWillBeGrateful": {
-    "message": "אני אהיה אסיר תודה אם תוכל להתרום."
   },
   "lblShowTranslatedHoveringSites": {
     "message": "הראה טקסט מתורגם בעת ריחוף באתרים אלה"
@@ -235,9 +214,6 @@
   },
   "swapPopup": {
     "message": "מעבר בין ממשק פשוט למורכב"
-  },
-  "lblTranslateInterface": {
-    "message": "תרגם את הממשק"
   },
   "lblButtonInTheAddressBar": {
     "message": "הצג כפתור בשורת הכתובת"
@@ -324,9 +300,6 @@
   },
   "calculatestorage": {
     "message": "חשב"
-  },
-  "donatewithpaypal": {
-    "message": "תרומה דרך PayPal"
   },
   "lblAutoTranslateWhenClickingALink": {
     "message": "תרגם באופן אוטומטי ברגע שאתה לוחץ על קישור ונפתח לך דף זהה"
@@ -467,31 +440,6 @@
   "msgChooseAnotherLanguage": {
     "message": "בחר שפה אחרת"
   },
-  "msgHasBeenUpdated": {
-    "message": "תוסף $EXTENSION_NAME$ עודכן לגרסה $EXTENSION_VERSION$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      },
-      "EXTENSION_VERSION": {
-        "content": "#EXTENSION_VERSION#",
-        "example": "9.7"
-      }
-    }
-  },
-  "msgDonationRecipient": {
-    "message": "התרומה שלך עוברת למפתח של תוסף $EXTENSION_NAME$.",
-    "placeholders": {
-      "EXTENSION_NAME": {
-        "content": "#EXTENSION_NAME#",
-        "example": "TWP - Translate Web Pages"
-      }
-    }
-  },
-  "donationText": {
-    "message": "אני מפתח, מעדכן ותומך בהרחבה זו במשך יותר משלוש שנים. מדהים לראות שיש לנו יותר מ-600,000 משתמשים יומיים, וכל האנשים האלה הצליחו לעבור ל-Firefox לצמיתות.\n\nאני שואף לשחרר גרסה חדשה של הרחבה זו מדי חודש ולהמשיך לשפר אותה.\n\nאודה לך אם תוכל לעזור לי כלכלית על ידי הפיכתך לחבר בפטראון ותתמוך בי בהבאת שיפורים להרחבה זו.\n\nתודה לכל מי שכבר תרם לפרויקט זה."
-  },
   "lblEnableDiskCache": {
     "message": "אפשר מטמון תרגום מתמיד (מטמון בדיסק)"
   },
@@ -527,5 +475,32 @@
   },
   "lblTextToSpeechService": {
     "message": "שירות טקסט לדיבור"
+  },
+  "lblAiTranslation": {
+    "message": "AI translation"
+  },
+  "lblAiTranslationDescription": {
+    "message": "Use OpenAI-compatible providers for page and text translation."
+  },
+  "lblAiServiceUrl": {
+    "message": "Service URL"
+  },
+  "lblAiApiKey": {
+    "message": "API key"
+  },
+  "lblAiModel": {
+    "message": "Model"
+  },
+  "btnSaveAiProvider": {
+    "message": "Save"
+  },
+  "btnRemoveAiProvider": {
+    "message": "Remove"
+  },
+  "btnTestAiProvider": {
+    "message": "Test"
+  },
+  "lblAiPrivacyNote": {
+    "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
   }
 }

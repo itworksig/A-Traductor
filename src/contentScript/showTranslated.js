@@ -99,7 +99,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     "textarea",
     "svg",
     "template",
-    "math", "mjx-container", "tex-math" // https://github.com/FilipePS/Traduzir-paginas-web/issues/704
+    "math", "mjx-container", "tex-math" // https://github.com/itworksig/A-Traductor/issues/704
   ];
 
   if (twpConfig.get("translateTag_pre") !== "yes") {
@@ -209,7 +209,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     if (index === -1) {
       return false;
     } else {
-      // https://github.com/FilipePS/Traduzir-paginas-web/issues/654
+      // https://github.com/itworksig/A-Traductor/issues/654
       if (
         nodeName === "script" &&
         node.getAttribute("data-spotim-module") === "spotim-launcher" &&

@@ -1,6 +1,251 @@
+:root {
+  --accent: #1a73e8;
+  --accent-strong: #1558c0;
+  --canvas: #f5f7fb;
+  --ink: #172033;
+  --muted: #64748b;
+  --panel: #ffffff;
+  --panel-soft: #f8fafc;
+  --sidebar: #111827;
+  --stroke: #dfe5ee;
+}
+
 body {
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
     Helvetica, Arial, "Lucida Grande", sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+#sideBar {
+  background: var(--sidebar);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.22);
+  padding-top: 8px;
+}
+
+#sideBar h3 {
+  color: #f8fafc;
+  font-size: 22px;
+  letter-spacing: 0;
+  margin-top: 12px;
+}
+
+.brand-title {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.brand-title img {
+  border-radius: 8px;
+  height: 32px;
+  width: 32px;
+}
+
+#sideBar .w3-text-grey {
+  color: #cbd5e1 !important;
+}
+
+#sideBar .w3-button {
+  border-radius: 8px;
+  color: #dbeafe !important;
+  margin: 3px 12px;
+  padding: 11px 16px !important;
+  transition: background-color 140ms ease, color 140ms ease;
+  width: calc(100% - 24px);
+}
+
+#sideBar .w3-button:hover,
+#sideBar .w3-light-grey {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+}
+
+#header {
+  background: var(--sidebar) !important;
+}
+
+.w3-main {
+  background: var(--panel);
+  min-height: 100vh;
+}
+
+.w3-main > header {
+  border-bottom: 1px solid var(--stroke);
+  margin-bottom: 16px;
+}
+
+.w3-main > div > .w3-container {
+  max-width: 880px;
+  padding-bottom: 44px;
+}
+
+#itemSelectedName {
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 22px 0;
+}
+
+.w3-container p {
+  color: var(--ink);
+}
+
+.w3-select,
+.w3-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  min-height: 40px;
+}
+
+.w3-select:focus,
+.w3-input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.16);
+  outline: none;
+}
+
+.w3-button {
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+
+.w3-blue {
+  background: var(--accent) !important;
+}
+
+.w3-blue:hover {
+  background: var(--accent-strong) !important;
+}
+
+.settings-panel {
+  background: var(--panel-soft);
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  margin: 20px 16px 10px;
+  padding: 20px;
+}
+
+.settings-panel-header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.settings-panel-header h4 {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.settings-panel-header p {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+
+.ai-provider-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ai-provider-card {
+  background: #ffffff;
+  border: 1px solid var(--stroke);
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  padding: 18px;
+}
+
+.ai-provider-card label {
+  color: #334155;
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+.ai-provider-card input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.ai-provider-title label {
+  color: var(--ink);
+  font-size: 16px;
+  margin-top: 0;
+}
+
+.ai-provider-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.ai-provider-actions .w3-button {
+  min-width: 86px;
+}
+
+.ai-provider-status {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 10px 0 0;
+  min-height: 20px;
+}
+
+.ai-provider-status.success {
+  color: #0f7b4f;
+}
+
+.ai-provider-status.error {
+  color: #b42318;
+}
+
+.ai-provider-status.pending {
+  color: var(--accent);
+}
+
+.ai-privacy-note {
+  background: #eef6ff;
+  border: 1px solid #cfe0ff;
+  border-radius: 8px;
+  color: #334155;
+  font-size: 13px;
+  margin: 16px 0 0;
+  padding: 10px 12px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  .w3-main > div > .w3-container {
+    max-width: 100%;
+  }
+
+  .settings-panel {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 14px;
+  }
+
+  .ai-provider-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-provider-actions {
+    justify-content: stretch;
+  }
+
+  .ai-provider-actions .w3-button {
+    flex: 1;
+  }
 }
 
 .list {
@@ -228,16 +473,7 @@ select {
   padding-left: 10px !important;
 }
 
-/* fix https://github.com/FilipePS/Traduzir-paginas-web/issues/324 */
+/* fix https://github.com/itworksig/A-Traductor/issues/324 */
 #menuContainer {
   background-color: unset !important;
-}
-
-.patreonButton img {
-  box-shadow: 0 0 4px 0px black;
-  border-radius: 5px;
-}
-
-.patreonButton img:hover {
-  scale: 1.02;
 }
