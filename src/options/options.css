@@ -151,8 +151,8 @@ body {
 
 .ai-provider-grid {
   display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
 }
 
 .ai-provider-card {
@@ -160,7 +160,18 @@ body {
   border: 1px solid var(--stroke);
   border-radius: 8px;
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   padding: 18px;
+}
+
+.ai-provider-card input:not([type="checkbox"]),
+.ai-provider-card select,
+.ai-provider-card textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
 }
 
 .ai-provider-card label {
@@ -182,8 +193,9 @@ body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 12px;
   line-height: 1.5;
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
+  white-space: pre-wrap;
 }
 
 .ai-provider-title label {
@@ -194,13 +206,19 @@ body {
 
 .ai-provider-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
   margin-top: 16px;
 }
 
 .ai-provider-actions .w3-button {
-  min-width: 86px;
+  flex: 1 1 92px;
+  min-width: 0;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ai-provider-status {
@@ -257,6 +275,12 @@ input[type="checkbox"] {
 
   .ai-provider-actions .w3-button {
     flex: 1;
+  }
+}
+
+@media (min-width: 1280px) {
+  .ai-provider-grid {
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
   }
 }
 
