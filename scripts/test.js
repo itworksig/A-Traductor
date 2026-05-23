@@ -92,7 +92,6 @@ function testManifestV3() {
     assert(manifest.manifest_version === 3, `${manifest.name} must use Manifest V3`);
     assert(manifest.action, `${manifest.name} must use the MV3 action key`);
     assert(!manifest.browser_action, `${manifest.name} must not use browser_action`);
-    assert(!manifest.page_action, `${manifest.name} must not use page_action`);
     assert(Array.isArray(manifest.host_permissions), `${manifest.name} must use host_permissions`);
     assert(!manifest.permissions.includes("<all_urls>"), `${manifest.name} must not put host access in permissions`);
     assert(
@@ -107,8 +106,16 @@ function testManifestV3() {
     "Chromium MV3 build must use a background service worker"
   );
   assert(
+    !chromiumManifest.page_action,
+    "Chromium MV3 build must not use page_action"
+  );
+  assert(
     Array.isArray(firefoxManifest.background?.scripts),
     "Firefox MV3 build must keep explicit background scripts"
+  );
+  assert(
+    firefoxManifest.page_action?.default_popup === "/popup/popup.html",
+    "Firefox MV3 build must keep the address-bar page action"
   );
 }
 
