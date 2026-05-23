@@ -316,6 +316,16 @@
                 <label for="openrouterMODEL" data-i18n="lblAiModel">Model</label>
                 <input type="text" id="openrouterMODEL" class="w3-input w3-border w3-round"
                   placeholder="openai/gpt-4o-mini" autocomplete="off" spellcheck="false">
+                <label for="openrouterPromptTemplate" data-i18n="lblAiPromptTemplate">Prompt template</label>
+                <select id="openrouterPromptTemplate" class="w3-select w3-border w3-round ai-prompt-template">
+                  <option value="balanced" data-i18n="msgAiPromptBalanced">Accurate translation</option>
+                  <option value="natural" data-i18n="msgAiPromptNatural">Natural and fluent</option>
+                  <option value="literal" data-i18n="msgAiPromptLiteral">Literal and consistent</option>
+                  <option value="technical" data-i18n="msgAiPromptTechnical">Technical document</option>
+                </select>
+                <label for="openrouterPROMPT" data-i18n="lblAiPrompt">Prompt</label>
+                <textarea id="openrouterPROMPT" class="w3-input w3-border w3-round ai-prompt-textarea"
+                  spellcheck="false"></textarea>
                 <div class="ai-provider-actions">
                   <button id="saveOpenRouter" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
                   <button id="testOpenRouter" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>
@@ -337,6 +347,16 @@
                 <label for="aihubmixMODEL" data-i18n="lblAiModel">Model</label>
                 <input type="text" id="aihubmixMODEL" class="w3-input w3-border w3-round" placeholder="gpt-4o-mini"
                   autocomplete="off" spellcheck="false">
+                <label for="aihubmixPromptTemplate" data-i18n="lblAiPromptTemplate">Prompt template</label>
+                <select id="aihubmixPromptTemplate" class="w3-select w3-border w3-round ai-prompt-template">
+                  <option value="balanced" data-i18n="msgAiPromptBalanced">Accurate translation</option>
+                  <option value="natural" data-i18n="msgAiPromptNatural">Natural and fluent</option>
+                  <option value="literal" data-i18n="msgAiPromptLiteral">Literal and consistent</option>
+                  <option value="technical" data-i18n="msgAiPromptTechnical">Technical document</option>
+                </select>
+                <label for="aihubmixPROMPT" data-i18n="lblAiPrompt">Prompt</label>
+                <textarea id="aihubmixPROMPT" class="w3-input w3-border w3-round ai-prompt-textarea"
+                  spellcheck="false"></textarea>
                 <div class="ai-provider-actions">
                   <button id="saveAiHubMix" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
                   <button id="testAiHubMix" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>
@@ -358,6 +378,16 @@
                 <label for="customaiMODEL" data-i18n="lblAiModel">Model</label>
                 <input type="text" id="customaiMODEL" class="w3-input w3-border w3-round" placeholder="gpt-4o-mini"
                   autocomplete="off" spellcheck="false">
+                <label for="customaiPromptTemplate" data-i18n="lblAiPromptTemplate">Prompt template</label>
+                <select id="customaiPromptTemplate" class="w3-select w3-border w3-round ai-prompt-template">
+                  <option value="balanced" data-i18n="msgAiPromptBalanced">Accurate translation</option>
+                  <option value="natural" data-i18n="msgAiPromptNatural">Natural and fluent</option>
+                  <option value="literal" data-i18n="msgAiPromptLiteral">Literal and consistent</option>
+                  <option value="technical" data-i18n="msgAiPromptTechnical">Technical document</option>
+                </select>
+                <label for="customaiPROMPT" data-i18n="lblAiPrompt">Prompt</label>
+                <textarea id="customaiPROMPT" class="w3-input w3-border w3-round ai-prompt-textarea"
+                  spellcheck="false"></textarea>
                 <div class="ai-provider-actions">
                   <button id="saveCustomAi" class="w3-button w3-blue w3-round" data-i18n="btnSaveAiProvider">Save</button>
                   <button id="testCustomAi" class="w3-button w3-light-grey w3-round" data-i18n="btnTestAiProvider">Test</button>

@@ -502,5 +502,23 @@
   },
   "lblAiPrivacyNote": {
     "message": "AI translation sends page or selected text to the provider you enable. API keys are stored locally in this browser."
+  },
+  "lblAiPromptTemplate": {
+    "message": "Prompt template"
+  },
+  "lblAiPrompt": {
+    "message": "Prompt"
+  },
+  "msgAiPromptBalanced": {
+    "message": "Accurate translation"
+  },
+  "msgAiPromptNatural": {
+    "message": "Natural and fluent"
+  },
+  "msgAiPromptLiteral": {
+    "message": "Literal and consistent"
+  },
+  "msgAiPromptTechnical": {
+    "message": "Technical document"
   }
 }

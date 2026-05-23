@@ -1343,7 +1343,7 @@ const translationService = (function () {
 
   /**
    * Creates an OpenAI-compatible AI translation service.
-   * @param {{name:string, url:string, apiKey:string, model:string}} config
+   * @param {{name:string, url:string, apiKey:string, model:string, prompt?:string}} config
    * @returns {Service} aiService
    */
   const createAiTranslationService = (config) => {
@@ -1351,6 +1351,9 @@ const translationService = (function () {
     const url = config.url;
     const apiKey = config.apiKey;
     const model = config.model;
+    const prompt =
+      config.prompt ||
+      "Translate from {sourceLanguage} to {targetLanguage}. Keep the meaning accurate and preserve the original tone. Preserve HTML tags, placeholders, numbers, punctuation, names, whitespace intent, and line breaks.";
 
     function normalizeAiJson(content) {
       if (!content) return null;
@@ -1406,6 +1409,9 @@ const translationService = (function () {
                 ? languageList[sourceLanguage] || sourceLanguage
                 : "the detected source language";
             const targetName = languageList[targetLanguage] || targetLanguage;
+            const translationPrompt = prompt
+              .replaceAll("{sourceLanguage}", sourceName)
+              .replaceAll("{targetLanguage}", targetName);
             const textGroups = requests.map((request) =>
               JSON.parse(request.originalText)
             );
@@ -1417,12 +1423,12 @@ const translationService = (function () {
                 {
                   role: "system",
                   content:
-                    "You are a translation engine. Return only valid JSON. Preserve HTML tags, placeholders, whitespace intent, punctuation, and the input array shape. Do not add explanations.",
+                    "You are a translation engine. Return only valid JSON. Keep exactly the same JSON array dimensions as the input. Do not add explanations, markdown fences, comments, or extra fields.",
                 },
                 {
                   role: "user",
                   content:
-                    `Translate every string from ${sourceName} to ${targetName}. ` +
+                    `${translationPrompt}\n\n` +
                     "Return a JSON array of arrays with exactly the same dimensions as the input.\n\n" +
                     JSON.stringify(textGroups),
                 },

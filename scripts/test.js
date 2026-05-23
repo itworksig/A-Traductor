@@ -82,6 +82,16 @@ function testAiProviders() {
     optionsHtml.includes("btnTestAiProvider"),
     "AI provider test button missing"
   );
+  assert(
+    optionsHtml.includes("lblAiPromptTemplate") &&
+      optionsHtml.includes("lblAiPrompt") &&
+      optionsJs.includes("aiPromptTemplates"),
+    "AI prompt configuration missing from options"
+  );
+  assert(
+    read("src/background/translationService.js").includes("config.prompt"),
+    "AI translation service does not use configured prompts"
+  );
 }
 
 function testManifestV3() {

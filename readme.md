@@ -25,14 +25,22 @@ AI translation providers are configured from the extension settings page:
 2. Go to the translation service settings.
 3. Enable OpenRouter AI, AiHubMix AI, or Custom AI.
 4. Enter the service URL, API key, and model.
-5. Click **Test** to verify the connection.
-6. Select the provider for page translation or text translation.
+5. Choose a prompt template or write a custom translation prompt.
+6. Click **Test** to verify the connection.
+7. Select the provider for page translation or text translation.
 
 Default compatible endpoints:
 
 - OpenRouter: `https://openrouter.ai/api/v1/chat/completions`
 - AiHubMix: `https://aihubmix.com/v1/chat/completions`
 - Custom AI: any OpenAI-compatible `/chat/completions` endpoint
+
+Prompt templates included by default:
+
+- Accurate translation
+- Natural and fluent
+- Literal and consistent
+- Technical document
 
 ## Privacy
 

@@ -987,6 +987,8 @@ twpConfig
           urlSelector: "#openrouterURL",
           apiKeySelector: "#openrouterKEY",
           modelSelector: "#openrouterMODEL",
+          promptTemplateSelector: "#openrouterPromptTemplate",
+          promptSelector: "#openrouterPROMPT",
           saveSelector: "#saveOpenRouter",
           testSelector: "#testOpenRouter",
           removeSelector: "#removeOpenRouter",
@@ -999,6 +1001,8 @@ twpConfig
           urlSelector: "#aihubmixURL",
           apiKeySelector: "#aihubmixKEY",
           modelSelector: "#aihubmixMODEL",
+          promptTemplateSelector: "#aihubmixPromptTemplate",
+          promptSelector: "#aihubmixPROMPT",
           saveSelector: "#saveAiHubMix",
           testSelector: "#testAiHubMix",
           removeSelector: "#removeAiHubMix",
@@ -1011,12 +1015,27 @@ twpConfig
           urlSelector: "#customaiURL",
           apiKeySelector: "#customaiKEY",
           modelSelector: "#customaiMODEL",
+          promptTemplateSelector: "#customaiPromptTemplate",
+          promptSelector: "#customaiPROMPT",
           saveSelector: "#saveCustomAi",
           testSelector: "#testCustomAi",
           removeSelector: "#removeCustomAi",
           statusSelector: "#customaiStatus",
         },
       ];
+
+      const aiPromptTemplates = {
+        balanced:
+          "Translate from {sourceLanguage} to {targetLanguage}. Keep the meaning accurate and preserve the original tone. Preserve HTML tags, placeholders, numbers, punctuation, names, whitespace intent, and line breaks.",
+        natural:
+          "Translate from {sourceLanguage} to {targetLanguage} in natural, fluent language. Prefer idiomatic wording when it improves readability, while preserving facts, names, HTML tags, placeholders, numbers, and formatting.",
+        literal:
+          "Translate from {sourceLanguage} to {targetLanguage} as faithfully and consistently as possible. Keep terminology stable across repeated phrases. Preserve HTML tags, placeholders, numbers, punctuation, and formatting.",
+        technical:
+          "Translate from {sourceLanguage} to {targetLanguage} for technical documentation. Preserve product names, code, commands, API names, file paths, units, placeholders, HTML tags, and Markdown-like syntax. Use concise and professional terminology.",
+      };
+
+      const defaultAiPrompt = aiPromptTemplates.balanced;
 
       function getServiceCheckboxes(svInfo) {
         return svInfo.selectors.map((selector) => $(selector)).filter(Boolean);
@@ -1144,6 +1163,8 @@ twpConfig
         $(providerInfo.modelSelector).value = service
           ? service.model
           : providerInfo.defaultModel;
+        $(providerInfo.promptSelector).value =
+          service && service.prompt ? service.prompt : defaultAiPrompt;
         if ($(providerInfo.statusSelector)) {
           $(providerInfo.statusSelector).textContent = "";
           $(providerInfo.statusSelector).className = "ai-provider-status";
@@ -1157,6 +1178,8 @@ twpConfig
         const model =
           $(providerInfo.modelSelector).value.trim() ||
           providerInfo.defaultModel;
+        const prompt =
+          $(providerInfo.promptSelector).value.trim() || defaultAiPrompt;
 
         try {
           new URL(url);
@@ -1175,6 +1198,7 @@ twpConfig
           url,
           apiKey,
           model,
+          prompt,
         };
       }
 
@@ -1267,6 +1291,10 @@ twpConfig
 
       aiProviderInfo.forEach((providerInfo) => {
         fillAiProviderForm(providerInfo);
+        $(providerInfo.promptTemplateSelector).onchange = (e) => {
+          $(providerInfo.promptSelector).value =
+            aiPromptTemplates[e.target.value] || defaultAiPrompt;
+        };
         $(providerInfo.saveSelector).onclick = () => {
           saveAiProvider(providerInfo);
         };
