@@ -15,6 +15,11 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   const tabHostName = _[1];
   if (!platformInfo.isMobile.any) return;
 
+  function appendHtml(parent, html) {
+    const parsed = new DOMParser().parseFromString(html, "text/html");
+    parent.append(...document.importNode(parsed.body, true).childNodes);
+  }
+
   const htmlMobile = `
     <link rel="stylesheet" href="${chrome.runtime.getURL(
       "/contentScript/css/popupMobile.css"
@@ -120,7 +125,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     const shadowRoot = divElement.attachShadow({
       mode: "closed",
     });
-    shadowRoot.innerHTML = htmlMobile;
+    appendHtml(shadowRoot, htmlMobile);
 
     document.body.appendChild(divElement);
 
@@ -229,7 +234,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
         menuSelectLanguage.querySelector('[name="targets"]');
 
       const buildRecentsLanguages = () => {
-        eRecentsLangs.innerHTML = "";
+        eRecentsLangs.replaceChildren();
         for (const value of twpConfig.get("targetLanguages")) {
           const option = document.createElement("option");
           option.value = value;

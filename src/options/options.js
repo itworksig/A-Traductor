@@ -250,7 +250,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -291,7 +291,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -332,7 +332,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -381,7 +381,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -422,7 +422,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -464,7 +464,7 @@ twpConfig
       }
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -511,7 +511,7 @@ twpConfig
 
       const close = document.createElement("span");
       close.setAttribute("class", "w3-button w3-transparent w3-display-right");
-      close.innerHTML = "&times;";
+      close.textContent = "\u00d7";
 
       close.onclick = (e) => {
         e.preventDefault();
@@ -699,20 +699,24 @@ twpConfig
     );
 
     // hotkeys options
-    function escapeHtml(unsafe) {
-      return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    function replaceCtrlPlaceholderWithKbd(element) {
+      const parts = element.textContent.split("[Ctrl]");
+      element.replaceChildren();
+      parts.forEach((part, index) => {
+        if (index > 0) {
+          const kbd = document.createElement("kbd");
+          kbd.textContent = "Ctrl";
+          element.appendChild(kbd);
+        }
+        element.append(part);
+      });
     }
-    $('[data-i18n="lblTranslateSelectedWhenPressTwice"]').innerHTML = $(
-      '[data-i18n="lblTranslateSelectedWhenPressTwice"]'
-    ).innerHTML.replace("[Ctrl]", "<kbd>Ctrl</kbd>");
-    $('[data-i18n="lblTranslateTextOverMouseWhenPressTwice"]').innerHTML = $(
-      '[data-i18n="lblTranslateTextOverMouseWhenPressTwice"]'
-    ).innerHTML.replace("[Ctrl]", "<kbd>Ctrl</kbd>");
+    replaceCtrlPlaceholderWithKbd(
+      $('[data-i18n="lblTranslateSelectedWhenPressTwice"]')
+    );
+    replaceCtrlPlaceholderWithKbd(
+      $('[data-i18n="lblTranslateTextOverMouseWhenPressTwice"]')
+    );
 
     $("#openNativeShortcutManager").onclick = (e) => {
       tabsCreate("chrome://extensions/shortcuts");
@@ -757,30 +761,50 @@ twpConfig
         description = "Enable the extension";
       }
 
-      function escapeHtml(unsafe) {
-        return unsafe
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-      description = escapeHtml(description);
-
       const li = document.createElement("li");
       li.classList.add("shortcut-row");
       li.setAttribute("id", hotkeyname);
-      li.innerHTML = `
-        <div>${description}</div>
-        <div class="shortcut-input-options">
-            <div style="position: relative;">
-                <input name="input" class="w3-input w3-border shortcut-input" type="text" readonly placeholder="Enter a shortcut" data-i18n-placeholder="enterShortcut">
-                <p name="error" class="shortcut-error" style="position: absolute;"></p>
-            </div>
-            <div class="w3-hover-light-grey shortcut-button" name="removeKey"><i class="gg-trash"></i></div>
-            <div class="w3-hover-light-grey shortcut-button" name="resetKey"><i class="gg-sync"></i></div>
-        </div>  
-        `;
+
+      const descriptionElement = document.createElement("div");
+      descriptionElement.textContent = description;
+
+      const shortcutOptions = document.createElement("div");
+      shortcutOptions.className = "shortcut-input-options";
+
+      const inputWrapper = document.createElement("div");
+      inputWrapper.style.position = "relative";
+
+      const shortcutInput = document.createElement("input");
+      shortcutInput.name = "input";
+      shortcutInput.className = "w3-input w3-border shortcut-input";
+      shortcutInput.type = "text";
+      shortcutInput.readOnly = true;
+      shortcutInput.placeholder = "Enter a shortcut";
+      shortcutInput.dataset.i18nPlaceholder = "enterShortcut";
+
+      const shortcutError = document.createElement("p");
+      shortcutError.setAttribute("name", "error");
+      shortcutError.className = "shortcut-error";
+      shortcutError.style.position = "absolute";
+
+      inputWrapper.append(shortcutInput, shortcutError);
+
+      const removeButton = document.createElement("div");
+      removeButton.className = "w3-hover-light-grey shortcut-button";
+      removeButton.setAttribute("name", "removeKey");
+      const removeIcon = document.createElement("i");
+      removeIcon.className = "gg-trash";
+      removeButton.appendChild(removeIcon);
+
+      const resetButton = document.createElement("div");
+      resetButton.className = "w3-hover-light-grey shortcut-button";
+      resetButton.setAttribute("name", "resetKey");
+      const resetIcon = document.createElement("i");
+      resetIcon.className = "gg-sync";
+      resetButton.appendChild(resetIcon);
+
+      shortcutOptions.append(inputWrapper, removeButton, resetButton);
+      li.append(descriptionElement, shortcutOptions);
       $("#KeyboardShortcuts").appendChild(li);
 
       const input = li.querySelector(`[name="input"]`);

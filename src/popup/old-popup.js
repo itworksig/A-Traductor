@@ -69,7 +69,10 @@ twpConfig
     cbShowTranslateSelectedButton.checked =
       twpConfig.get("showTranslateSelectedButton") == "yes" ? true : false;
 
-    $("#btnOptionB").innerHTML += ' <i class="arrow down"></i>';
+    $("#btnOptionB").append(" ");
+    const arrow = document.createElement("i");
+    arrow.className = "arrow down";
+    $("#btnOptionB").appendChild(arrow);
 
     var cStyle = getComputedStyle(document.querySelector("#btnOptionB"));
     btnOptions.style.width = parseInt(cStyle.width) + 0 + "px";

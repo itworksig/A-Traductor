@@ -15,6 +15,11 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   const tabHostName = _[1];
   if (platformInfo.isMobile.any) return;
 
+  function appendHtml(parent, html) {
+    const parsed = new DOMParser().parseFromString(html, "text/html");
+    parent.append(...document.importNode(parsed.body, true).childNodes);
+  }
+
   let styleTextContent = "";
   fetch(chrome.runtime.getURL("/contentScript/css/showTranslated.css"))
     .then((response) => response.text())
@@ -401,7 +406,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     shadowRoot = divElement.attachShadow({
       mode: "closed",
     });
-    shadowRoot.innerHTML = `
+    appendHtml(
+      shadowRoot,
+      `
         <link rel="stylesheet" href="${chrome.runtime.getURL(
           "/contentScript/css/showTranslated.css"
         )}">
@@ -471,7 +478,8 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
                     </ul>
                 </div>
             </div>
-        `;
+        `
+    );
 
     {
       const style = document.createElement("style");

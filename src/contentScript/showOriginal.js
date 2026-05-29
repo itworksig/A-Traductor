@@ -11,6 +11,11 @@ twpConfig.onReady(function () {
     return;
   }
 
+  function appendHtml(parent, html) {
+    const parsed = new DOMParser().parseFromString(html, "text/html");
+    parent.append(...document.importNode(parsed.body, true).childNodes);
+  }
+
   const enabledObservers = [];
   showOriginal.enabledObserverSubscribe = function (callback) {
     enabledObservers.push(callback);
@@ -157,12 +162,15 @@ twpConfig.onReady(function () {
     shadowRoot = divElement.attachShadow({
       mode: "closed",
     });
-    shadowRoot.innerHTML = `
+    appendHtml(
+      shadowRoot,
+      `
             <link rel="stylesheet" href="${chrome.runtime.getURL(
               "/contentScript/css/showOriginal.css"
             )}">
             <div id="originalText" dir="auto"></div>
-        `;
+        `
+    );
 
     {
       const style = document.createElement("style");

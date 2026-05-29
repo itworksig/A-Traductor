@@ -18,6 +18,11 @@ function getTabHostName() {
 Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   const tabHostName = _[1];
 
+  function appendHtml(parent, html) {
+    const parsed = new DOMParser().parseFromString(html, "text/html");
+    parent.append(...document.importNode(parsed.body, true).childNodes);
+  }
+
   let gSelectionInfo;
   let prevSelectionInfo;
 
@@ -184,7 +189,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       mode: "closed",
     });
 
-    shadowRoot.innerHTML = `
+    appendHtml(
+      shadowRoot,
+      `
         <div id="eButtonTransSelText" style="display: none"></div>
 		<div id="eDivResult" style="display: none">
 			<div id="origTextContainer">
@@ -267,7 +274,8 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 				</ul>
 			</div>
 		</div>
-        `;
+        `
+    );
 
     const link = document.createElement("link");
     link.setAttribute("rel", "stylesheet");

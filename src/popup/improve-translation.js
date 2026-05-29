@@ -106,38 +106,12 @@ twpConfig
     }
     selectTargetLanguage.value = twpConfig.get("targetLanguages")[0];
 
-    function disableDarkMode() {
-      if (!$("#lightModeElement")) {
-        const el = document.createElement("style");
-        el.setAttribute("id", "lightModeElement");
-        el.setAttribute("rel", "stylesheet");
-        el.textContent = `
-            body {
-                color: rgb(0, 0, 0);
-                background-color: rgb(224, 224, 224);
-            }
-  
-            .select, #btnApply {
-                color: black;
-                background-color: rgba(0, 0, 0, 0.2);
-            }
-            
-            .select:hover, .select:focus, #btnApply:hover {
-                background-color: rgba(0, 0, 0, 0.4);
-            }
-  
-            .mdiv, .md {
-                background-color: rgb(0, 0, 0);
-            }
-            `;
-        document.head.appendChild(el);
-      }
+    function enableDarkMode() {
+      document.body.classList.add("dark");
     }
 
-    function enableDarkMode() {
-      if ($("#lightModeElement")) {
-        $("#lightModeElement").remove();
-      }
+    function disableDarkMode() {
+      document.body.classList.remove("dark");
     }
 
     switch (twpConfig.get("darkMode")) {

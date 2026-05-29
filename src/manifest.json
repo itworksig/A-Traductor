@@ -7,7 +7,10 @@
   "homepage_url": "https://github.com/itworksig/A-Traductor",
   "browser_specific_settings": {
     "gecko": {
-      "id": "{036a55b4-5e72-4d05-a06c-cba2dfcc134a}",
+      "id": "{42667e6f-5bf8-4fdc-8816-f5cc757e7f54}",
+      "data_collection_permissions": {
+        "required": ["websiteContent"]
+      },
       "strict_min_version": "64.0"
     }
   },
