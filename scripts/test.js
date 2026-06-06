@@ -51,6 +51,7 @@ function testLocales() {
 function testPopupMenu() {
   const html = read("src/popup/popup.html");
   const popupJs = read("src/popup/popup.js");
+  const popupCss = read("src/popup/popup.css");
   const optionsHtml = read("src/options/options.html");
   const configJs = read("src/lib/config.js");
   const forbiddenValues = [
@@ -67,6 +68,14 @@ function testPopupMenu() {
   assert(!popupJs.includes('twpConfig.set("useOldPopup", "yes")'), "Popup logic can still switch to the old interface");
   assert(!optionsHtml.includes('id="useOldPopup"'), "Options can still switch popup interface styles");
   assert(configJs.includes('useOldPopup: "no"'), "New popup must be the default interface");
+  assert(
+    html.includes('id="btnRetranslatePage"') &&
+      html.includes("gg-refresh") &&
+      popupJs.includes("btnRetranslatePage") &&
+      popupJs.includes('action: "translatePage"') &&
+      popupCss.includes(".gg-refresh"),
+    "Popup must include a retranslate refresh button"
+  );
 }
 
 function testAiProviders() {
@@ -125,6 +134,20 @@ function testPersistentSiteTranslation() {
   );
 }
 
+function testOrderedPageTranslation() {
+  const pageTranslatorJs = read("src/contentScript/pageTranslator.js");
+
+  assert(
+    pageTranslatorJs.includes("translationRoutine.isTranslating") &&
+      pageTranslatorJs.includes("intersectsScreen") &&
+      pageTranslatorJs.includes("sortByDocumentPosition") &&
+      pageTranslatorJs.includes(".sort(sortByDocumentPosition)") &&
+      pageTranslatorJs.includes(".slice(0, 3)") &&
+      pageTranslatorJs.includes("piecesToTranslateNow.length === 0"),
+    "Page translation must process visible text in document order instead of launching random parallel chunks"
+  );
+}
+
 function testManifestV3() {
   const firefoxManifest = JSON.parse(read("src/manifest.json"));
   const chromiumManifest = JSON.parse(read("src/chrome_manifest.json"));
@@ -178,6 +201,7 @@ testLocales();
 testPopupMenu();
 testAiProviders();
 testPersistentSiteTranslation();
+testOrderedPageTranslation();
 testManifestV3();
 
 console.log("All project checks passed.");

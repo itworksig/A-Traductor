@@ -294,3 +294,30 @@ body {
 .gg-close::after {
   transform: rotate(-45deg);
 }
+
+.gg-refresh {
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-right-color: transparent;
+  box-sizing: border-box;
+  display: block;
+  height: 18px;
+  position: relative;
+  transform: rotate(-35deg);
+  width: 18px;
+}
+
+.gg-refresh::after {
+  border-bottom: 5px solid currentColor;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  height: 0;
+  position: absolute;
+  right: -5px;
+  top: 0;
+  transform: rotate(45deg);
+  width: 0;
+}

@@ -15,7 +15,6 @@ twpConfig
     $("#btnClosePopup").onclick = () => {
       window.close();
     };
-
     function buildCustomOptionsMenu() {
       const menu = $("#customOptionsMenu");
       menu.textContent = "";
@@ -166,6 +165,39 @@ twpConfig
         );
       });
     });
+
+    $("#btnRetranslatePage").onclick = () => {
+      const targetLanguage =
+        currentPageLanguage && currentPageLanguage !== "original"
+          ? currentPageLanguage
+          : twpConfig.get("targetLanguages")[0];
+      currentPageLanguage = targetLanguage;
+      currentPageLanguageState = "translated";
+      twpConfig.setTargetLanguage(targetLanguage);
+      twpButtons.forEach((button) => {
+        button.classList.toggle(
+          "w3-buttonSelected",
+          button.value === targetLanguage
+        );
+      });
+      chrome.tabs.query(
+        {
+          active: true,
+          currentWindow: true,
+        },
+        (tabs) => {
+          chrome.tabs.sendMessage(
+            tabs[0].id,
+            {
+              action: "translatePage",
+              targetLanguage,
+              persistSite: true,
+            },
+            checkedLastError
+          );
+        }
+      );
+    };
 
     let targetLanguages = twpConfig.get("targetLanguages");
     twpButtons[1].value = targetLanguages[0];
