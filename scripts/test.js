@@ -148,6 +148,8 @@ function testOrderedPageTranslation() {
       pageTranslatorJs.includes("sortByDocumentPosition") &&
       pageTranslatorJs.includes(".sort(sortByDocumentPosition)") &&
       pageTranslatorJs.includes("pieceHasCompleteResults") &&
+      pageTranslatorJs.includes("translateWholePieceAsText") &&
+      pageTranslatorJs.includes("backgroundTranslateSingleText") &&
       pageTranslatorJs.includes("isTranslated = false") &&
       pageTranslatorJs.includes("piecesToTranslateNow.length === 0"),
     "Page translation must prioritize visible text and preload upcoming content with bounded parallelism"

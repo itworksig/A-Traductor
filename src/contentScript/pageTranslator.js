@@ -860,7 +860,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     }
   }
 
-  function translateResults(piecesToTranslateNow, results) {
+  function translateResults(piecesToTranslateNow, results, expectedFooCount = fooCount) {
     function hasUsableTranslationResult(result) {
       return (
         typeof result === "string" &&
@@ -879,11 +879,97 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       );
     }
 
+    function rememberTextNodeRestore(node, originalTextNode, translatedText) {
+      const toRestore = {
+        node,
+        original: originalTextNode,
+        originalText: originalTextNode.textContent,
+        translatedText,
+        parentNode: originalTextNode.parentNode,
+      };
+      nodesToRestore.push(toRestore);
+      return toRestore;
+    }
+
+    function translateWholePieceAsText(piece) {
+      const originalNodes = piece.nodes.filter((node) => node.parentNode);
+      const originalText = originalNodes
+        .map((node) => node.textContent)
+        .join("");
+      if (!originalText.trim()) {
+        piece.isTranslated = false;
+        return;
+      }
+
+      backgroundTranslateSingleText(
+        currentPageTranslatorService,
+        currentSourceLanguage,
+        currentTargetLanguage,
+        filterKeywordsInText(
+          originalText,
+          customDictionary,
+          currentPageTranslatorService
+        )
+      ).then((translated) => {
+        if (expectedFooCount !== fooCount || pageLanguageState !== "translated") {
+          return;
+        }
+
+        if (!hasUsableTranslationResult(translated)) {
+          piece.isTranslated = false;
+          return;
+        }
+
+        handleCustomWords(
+          translated,
+          originalText,
+          customDictionary,
+          currentPageTranslatorService,
+          currentSourceLanguage,
+          currentTargetLanguage
+        ).then((handledTranslation) => {
+          if (
+            expectedFooCount !== fooCount ||
+            pageLanguageState !== "translated"
+          ) {
+            return;
+          }
+
+          const targetIndex = Math.max(
+            0,
+            originalNodes.findIndex((node) => node.textContent.trim().length > 1)
+          );
+
+          originalNodes.forEach((originalTextNode, index) => {
+            const parentNode = originalTextNode.parentNode;
+            const nextText = index === targetIndex ? handledTranslation : "";
+            let nodeToTranslate = originalTextNode;
+            if (showOriginal.isEnabled) {
+              nodeToTranslate = encapsulateTextNode(originalTextNode);
+              showOriginal.add(nodeToTranslate);
+            }
+
+            const toRestore = rememberTextNodeRestore(
+              nodeToTranslate,
+              originalTextNode,
+              nextText
+            );
+            translateTextContent(
+              nodeToTranslate,
+              parentNode,
+              nextText,
+              toRestore
+            );
+          });
+        });
+      });
+    }
+
     if (dontSortResults) {
       for (let i = 0; i < piecesToTranslateNow.length; i++) {
         const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
         if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
-          piecesToTranslateNow[i].isTranslated = false;
+          translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
         }
 
@@ -939,7 +1025,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       for (const i in piecesToTranslateNow) {
         const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
         if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
-          piecesToTranslateNow[i].isTranslated = false;
+          translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
         }
 
@@ -1131,10 +1217,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
                 dontSortResults
               ).then((results) => {
                 if (
-                  pageLanguageState === "translated" &&
-                  currentFooCount === fooCount
-                ) {
-                  translateResults(batch, results);
+                pageLanguageState === "translated" &&
+                currentFooCount === fooCount
+              ) {
+                  translateResults(batch, results, currentFooCount);
                 }
               }).finally(() => {
                 if (currentFooCount === fooCount) {
