@@ -544,6 +544,188 @@ twpConfig
       twpConfig.addSiteToTranslateWhenHovering(hostname);
     };
 
+    function normalizeForceTranslateRules(rules) {
+      const normalizedRules = [];
+      (Array.isArray(rules) ? rules : []).forEach((rule) => {
+        if (!rule || typeof rule.hostname !== "string") return;
+        const hostname = rule.hostname.trim();
+        if (!hostname || !Array.isArray(rule.selectors)) return;
+        const selectors = [...new Set(rule.selectors)]
+          .map((selector) => String(selector).trim())
+          .filter(Boolean);
+        if (selectors.length === 0) return;
+        normalizedRules.push({ hostname, selectors });
+      });
+      return normalizedRules;
+    }
+
+    function setForceTranslateRules(rules) {
+      twpConfig.set("forceTranslateRules", normalizeForceTranslateRules(rules));
+      renderForceTranslateRules();
+    }
+
+    function addForceTranslateRule(hostname, selector) {
+      hostname = String(hostname || "").trim();
+      selector = String(selector || "").trim();
+      if (!hostname || !selector) return;
+
+      const rules = normalizeForceTranslateRules(
+        twpConfig.get("forceTranslateRules")
+      );
+      let rule = rules.find((rule) => rule.hostname === hostname);
+      if (!rule) {
+        rule = { hostname, selectors: [] };
+        rules.push(rule);
+      }
+      if (!rule.selectors.includes(selector)) {
+        rule.selectors.push(selector);
+      }
+      setForceTranslateRules(rules);
+    }
+
+    function removeForceTranslateRule(hostname, selector) {
+      const rules = normalizeForceTranslateRules(
+        twpConfig.get("forceTranslateRules")
+      )
+        .map((rule) =>
+          rule.hostname === hostname
+            ? {
+                hostname: rule.hostname,
+                selectors: rule.selectors.filter((item) => item !== selector),
+              }
+            : rule
+        )
+        .filter((rule) => rule.selectors.length > 0);
+      setForceTranslateRules(rules);
+    }
+
+    function createForceTranslateRuleListItem(hostname, selector) {
+      const li = document.createElement("li");
+      li.className = "w3-display-container";
+      li.textContent = hostname;
+
+      const selectorText = document.createElement("span");
+      selectorText.className = "forceTranslateRuleSelector";
+      selectorText.textContent = selector;
+      li.appendChild(selectorText);
+
+      const close = document.createElement("span");
+      close.className = "w3-button w3-transparent w3-display-right";
+      close.textContent = "\u00d7";
+      close.onclick = (event) => {
+        event.preventDefault();
+        removeForceTranslateRule(hostname, selector);
+      };
+      li.appendChild(close);
+      return li;
+    }
+
+    function renderForceTranslateRules() {
+      $("#forceTranslateRules").textContent = "";
+      normalizeForceTranslateRules(twpConfig.get("forceTranslateRules"))
+        .sort((a, b) => a.hostname.localeCompare(b.hostname))
+        .forEach((rule) => {
+          rule.selectors
+            .slice()
+            .sort((a, b) => a.localeCompare(b))
+            .forEach((selector) => {
+              $("#forceTranslateRules").appendChild(
+                createForceTranslateRuleListItem(rule.hostname, selector)
+              );
+            });
+        });
+    }
+
+    $("#addForceTranslateRule").onclick = () => {
+      addForceTranslateRule(
+        $("#forceTranslateHostname").value,
+        $("#forceTranslateSelector").value
+      );
+      $("#forceTranslateSelector").value = "";
+    };
+
+    function isForceTranslatePickableTab(tab) {
+      return tab && tab.id && (!tab.url || /^(https?|file):/.test(tab.url));
+    }
+
+    $("#pickForceTranslateArea").onclick = () => {
+      chrome.tabs.query(
+        {
+          currentWindow: true,
+          url: ["http://*/*", "https://*/*", "file://*/*"],
+        },
+        (tabs) => {
+          tabs = tabs || [];
+          const activeTab = tabs.find((tab) => tab.active);
+          const activeTabIndex = Math.max(0, tabs.indexOf(activeTab));
+          const tab =
+            (isForceTranslatePickableTab(activeTab) && activeTab) ||
+            tabs
+              .slice(0, activeTabIndex)
+              .reverse()
+              .find(isForceTranslatePickableTab) ||
+            tabs.find(isForceTranslatePickableTab);
+          if (!tab || !tab.id) return;
+          chrome.tabs.sendMessage(
+            tab.id,
+            { action: "pickForceTranslateArea" },
+            (response) => {
+              checkedLastError();
+              if (!response || !response.hostname || !response.selector) return;
+              $("#forceTranslateHostname").value = response.hostname;
+              $("#forceTranslateSelector").value = response.selector;
+              addForceTranslateRule(response.hostname, response.selector);
+            }
+          );
+        }
+      );
+    };
+
+    $("#exportForceTranslateRules").onclick = () => {
+      const rulesJSON = JSON.stringify(
+        {
+          version: chrome.runtime.getManifest().version,
+          forceTranslateRules: normalizeForceTranslateRules(
+            twpConfig.get("forceTranslateRules")
+          ),
+        },
+        null,
+        2
+      );
+      const element = document.createElement("a");
+      element.href =
+        "data:application/json;charset=utf-8," + encodeURIComponent(rulesJSON);
+      element.download = "a-traductor-force-translate-rules.json";
+      document.body.appendChild(element);
+      element.click();
+      element.remove();
+    };
+
+    $("#importForceTranslateRules").onclick = () => {
+      const element = document.createElement("input");
+      element.type = "file";
+      element.accept = "application/json,text/plain";
+      element.oninput = (event) => {
+        const input = event.target;
+        if (!input.files || !input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            const importedRules = data.forceTranslateRules || data;
+            setForceTranslateRules(importedRules);
+          } catch (error) {
+            alert(twpI18n.getMessage("fileIsCorrupted"));
+            console.error(error);
+          }
+        };
+        reader.readAsText(input.files[0]);
+      };
+      element.click();
+    };
+
+    renderForceTranslateRules();
+
     // translations options
     $("#pageTranslatorService").onchange = (e) => {
       twpConfig.set("pageTranslatorService", e.target.value);

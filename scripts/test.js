@@ -134,6 +134,26 @@ function testPersistentSiteTranslation() {
   );
 }
 
+function testForceTranslateRules() {
+  const configJs = read("src/lib/config.js");
+  const optionsHtml = read("src/options/options.html");
+  const optionsJs = read("src/options/options.js");
+  const pageTranslatorJs = read("src/contentScript/pageTranslator.js");
+
+  assert(
+    configJs.includes("forceTranslateRules: []") &&
+      optionsHtml.includes("forceTranslateRules") &&
+      optionsHtml.includes("pickForceTranslateArea") &&
+      optionsHtml.includes("exportForceTranslateRules") &&
+      optionsJs.includes("normalizeForceTranslateRules") &&
+      optionsJs.includes("pickForceTranslateArea") &&
+      pageTranslatorJs.includes("mergeForcedTranslatePieces") &&
+      pageTranslatorJs.includes("forceTranslateWholePiece") &&
+      pageTranslatorJs.includes("pickForceTranslateArea"),
+    "Force translate area rules must be configurable, selectable, exportable, and applied in page translation"
+  );
+}
+
 function testOrderedPageTranslation() {
   const pageTranslatorJs = read("src/contentScript/pageTranslator.js");
 
@@ -211,6 +231,7 @@ testLocales();
 testPopupMenu();
 testAiProviders();
 testPersistentSiteTranslation();
+testForceTranslateRules();
 testOrderedPageTranslation();
 testManifestV3();
 

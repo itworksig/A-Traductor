@@ -513,3 +513,27 @@ select {
 #menuContainer {
   background-color: unset !important;
 }
+
+.forceTranslateControls {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.forceTranslateControls > div {
+  padding: 0 !important;
+}
+
+.forceTranslateButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.forceTranslateRuleSelector {
+  color: #536173;
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+  margin-top: 4px;
+}

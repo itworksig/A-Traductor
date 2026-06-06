@@ -250,6 +250,37 @@
         </div>
         <div class="desktopOnly">
           <br />
+          <div class="w3-padding w3-margin-top">
+            <p>
+              <b>Force translate selected page areas</b>
+            </p>
+            <p class="w3-text-grey">
+              Add CSS selectors for areas that must always be translated on a site, even when the normal page parser
+              skips them or the service returns source text.
+            </p>
+            <div class="w3-row-padding forceTranslateControls">
+              <div class="w3-third">
+                <input id="forceTranslateHostname" class="w3-input w3-border w3-round" placeholder="www.site.com">
+              </div>
+              <div class="w3-third">
+                <input id="forceTranslateSelector" class="w3-input w3-border w3-round"
+                  placeholder="article p:first-of-type">
+              </div>
+              <div class="w3-third forceTranslateButtons">
+                <button id="addForceTranslateRule" class="w3-button w3-blue w3-round">Add</button>
+                <button id="pickForceTranslateArea" class="w3-button w3-light-grey w3-round">Select current page
+                  area</button>
+              </div>
+            </div>
+            <div class="w3-margin-top forceTranslateButtons">
+              <button id="exportForceTranslateRules" class="w3-button w3-light-grey w3-round">Export rules</button>
+              <button id="importForceTranslateRules" class="w3-button w3-light-grey w3-round">Import rules</button>
+            </div>
+          </div>
+          <ul id="forceTranslateRules" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
+        </div>
+        <div class="desktopOnly">
+          <br />
           <div class="w3-display-container w3-padding w3-margin-top">
             <div class="w3-display-left">
               <p>

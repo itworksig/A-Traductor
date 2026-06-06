@@ -372,6 +372,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       case "dontSortResults":
         dontSortResults = newvalue == "yes" ? true : false;
         break;
+      case "forceTranslateRules":
+        forceTranslateRules = newvalue || [];
+        break;
     }
   });
 
@@ -392,6 +395,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   let currentTargetLanguage = twpConfig.get("targetLanguage");
   let currentPageTranslatorService = twpConfig.get("pageTranslatorService");
   let customDictionary = sortDictionary(twpConfig.get("customDictionary"));
+  let forceTranslateRules = twpConfig.get("forceTranslateRules");
   let dontSortResults =
     twpConfig.get("dontSortResults") == "yes" ? true : false;
 
@@ -725,6 +729,53 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     return piecesToTranslate;
   }
 
+  function getForceTranslateSelectorsForCurrentHost() {
+    const rules = Array.isArray(forceTranslateRules) ? forceTranslateRules : [];
+    return rules
+      .filter(
+        (rule) =>
+          rule &&
+          rule.hostname === tabHostName &&
+          Array.isArray(rule.selectors)
+      )
+      .flatMap((rule) => rule.selectors)
+      .filter((selector) => typeof selector === "string" && selector.trim());
+  }
+
+  function getForcedTranslatePieces() {
+    const forcedRoots = [];
+    const forcedPieces = [];
+    getForceTranslateSelectorsForCurrentHost().forEach((selector) => {
+      try {
+        document.querySelectorAll(selector).forEach((element) => {
+          if (forcedRoots.includes(element)) return;
+          forcedRoots.push(element);
+          getPiecesToTranslate(element).forEach((piece) => {
+            piece.forceTranslateWholePiece = true;
+            forcedPieces.push(piece);
+          });
+        });
+      } catch (error) {
+        console.warn("Invalid force translate selector", selector, error);
+      }
+    });
+
+    return { forcedRoots, forcedPieces };
+  }
+
+  function mergeForcedTranslatePieces(basePieces) {
+    const { forcedRoots, forcedPieces } = getForcedTranslatePieces();
+    if (forcedPieces.length === 0) return basePieces;
+
+    const filteredPieces = basePieces.filter(
+      (piece) =>
+        !piece.nodes.some((node) =>
+          forcedRoots.some((root) => root.contains(node.parentElement))
+        )
+    );
+    return filteredPieces.concat(forcedPieces);
+  }
+
   function getAttributesToTranslate(root = document.body) {
     const attributesToTranslate = [];
 
@@ -998,6 +1049,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     if (dontSortResults) {
       for (let i = 0; i < piecesToTranslateNow.length; i++) {
         const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
+        if (piecesToTranslateNow[i].forceTranslateWholePiece) {
+          translateWholePieceAsText(piecesToTranslateNow[i]);
+          continue;
+        }
         if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
           translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
@@ -1058,6 +1113,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     } else {
       for (const i in piecesToTranslateNow) {
         const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
+        if (piecesToTranslateNow[i].forceTranslateWholePiece) {
+          translateWholePieceAsText(piecesToTranslateNow[i]);
+          continue;
+        }
         if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
           translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
@@ -1378,7 +1437,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       document.getElementById("scaleSelect").dispatchEvent(new Event("change"));
     }
 
-    piecesToTranslate = getPiecesToTranslate();
+    piecesToTranslate = mergeForcedTranslatePieces(getPiecesToTranslate());
     attributesToTranslate = getAttributesToTranslate();
 
     pageLanguageState = "translated";
@@ -1475,6 +1534,123 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     }
   };
 
+  function buildForceTranslateSelector(element) {
+    if (!element || element.nodeType !== 1) return "";
+    const cssEscape = (value) =>
+      window.CSS && CSS.escape
+        ? CSS.escape(value)
+        : String(value).replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+    if (element.id) {
+      return `#${cssEscape(element.id)}`;
+    }
+
+    const parts = [];
+    let current = element;
+    while (
+      current &&
+      current.nodeType === 1 &&
+      current !== document.body &&
+      parts.length < 5
+    ) {
+      let part = current.nodeName.toLowerCase();
+      const stableClass = Array.from(current.classList || []).find(
+        (className) => /^[a-zA-Z][a-zA-Z0-9_-]{2,}$/.test(className)
+      );
+      if (stableClass) {
+        part += `.${cssEscape(stableClass)}`;
+      } else if (current.parentElement) {
+        const siblings = Array.from(current.parentElement.children).filter(
+          (sibling) => sibling.nodeName === current.nodeName
+        );
+        if (siblings.length > 1) {
+          part += `:nth-of-type(${siblings.indexOf(current) + 1})`;
+        }
+      }
+      parts.unshift(part);
+      current = current.parentElement;
+    }
+
+    return parts.join(" > ");
+  }
+
+  function startForceTranslateAreaPicker(sendResponse) {
+    let selectedElement = null;
+    const overlay = document.createElement("div");
+    overlay.style.cssText = [
+      "position:absolute",
+      "z-index:2147483647",
+      "pointer-events:none",
+      "border:3px solid #1a73e8",
+      "background:rgba(26,115,232,.18)",
+      "box-shadow:0 0 0 99999px rgba(15,23,42,.12)",
+      "border-radius:6px",
+    ].join(";");
+    document.documentElement.appendChild(overlay);
+
+    const tip = document.createElement("div");
+    tip.textContent = "Click to force translate this area. Press Esc to cancel.";
+    tip.style.cssText = [
+      "position:fixed",
+      "left:16px",
+      "bottom:16px",
+      "z-index:2147483647",
+      "padding:10px 14px",
+      "border-radius:10px",
+      "background:#172033",
+      "color:#fff",
+      "font:14px/1.4 Arial,sans-serif",
+      "box-shadow:0 8px 24px rgba(0,0,0,.25)",
+    ].join(";");
+    document.documentElement.appendChild(tip);
+
+    function cleanup() {
+      overlay.remove();
+      tip.remove();
+      document.removeEventListener("mousemove", onMouseMove, true);
+      document.removeEventListener("click", onClick, true);
+      document.removeEventListener("keydown", onKeyDown, true);
+    }
+
+    function onMouseMove(event) {
+      selectedElement = event.target;
+      if (
+        !selectedElement ||
+        selectedElement === overlay ||
+        selectedElement === tip
+      ) {
+        return;
+      }
+      const rect = selectedElement.getBoundingClientRect();
+      overlay.style.left = `${rect.left + window.scrollX}px`;
+      overlay.style.top = `${rect.top + window.scrollY}px`;
+      overlay.style.width = `${rect.width}px`;
+      overlay.style.height = `${rect.height}px`;
+    }
+
+    function onClick(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      const selector = buildForceTranslateSelector(selectedElement);
+      cleanup();
+      sendResponse({
+        hostname: tabHostName,
+        selector,
+      });
+    }
+
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        cleanup();
+        sendResponse(null);
+      }
+    }
+
+    document.addEventListener("mousemove", onMouseMove, true);
+    document.addEventListener("click", onClick, true);
+    document.addEventListener("keydown", onKeyDown, true);
+  }
+
   let alreadyGotTheLanguage = false;
   const observers = [];
 
@@ -1510,6 +1686,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       sendResponse(currentPageTranslatorService);
     } else if (request.action === "swapTranslationService") {
       pageTranslator.swapTranslationService(request.newServiceName);
+    } else if (request.action === "pickForceTranslateArea") {
+      startForceTranslateAreaPicker(sendResponse);
+      return true;
     } else if (request.action === "toggle-translation") {
       if (pageLanguageState === "translated") {
         pageTranslator.restorePage({ persistSite: false });
