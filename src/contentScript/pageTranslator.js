@@ -861,19 +861,43 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   }
 
   function translateResults(piecesToTranslateNow, results) {
+    function hasUsableTranslationResult(result) {
+      return (
+        typeof result === "string" &&
+        result.trim().length > 0 &&
+        result.trim().toLowerCase() !== "null"
+      );
+    }
+
+    function pieceHasCompleteResults(piece, pieceResults) {
+      if (!Array.isArray(pieceResults)) return false;
+      if (dontSortResults) {
+        return pieceResults.some(hasUsableTranslationResult);
+      }
+      return piece.nodes.every((_, index) =>
+        hasUsableTranslationResult(pieceResults[index])
+      );
+    }
+
     if (dontSortResults) {
-      for (let i = 0; i < results.length; i++) {
-        for (let j = 0; j < results[i].length; j++) {
+      for (let i = 0; i < piecesToTranslateNow.length; i++) {
+        const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
+        if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
+          piecesToTranslateNow[i].isTranslated = false;
+          continue;
+        }
+
+        for (let j = 0; j < pieceResults.length; j++) {
           if (piecesToTranslateNow[i].nodes[j]) {
             const nodes = piecesToTranslateNow[i].nodes;
-            let translated = results[i][j] + " ";
+            let translated = pieceResults[j] + " ";
             // In some case, results items count is over original node count
             // Rest results append to last node
             if (
               piecesToTranslateNow[i].nodes.length - 1 === j &&
-              results[i].length > j
+              pieceResults.length > j
             ) {
-              const restResults = results[i].slice(j + 1);
+              const restResults = pieceResults.slice(j + 1);
               translated += restResults.join(" ");
             }
 
@@ -913,10 +937,16 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       }
     } else {
       for (const i in piecesToTranslateNow) {
+        const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
+        if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
+          piecesToTranslateNow[i].isTranslated = false;
+          continue;
+        }
+
         for (const j in piecesToTranslateNow[i].nodes) {
-          if (results[i][j]) {
+          if (pieceResults[j]) {
             const nodes = piecesToTranslateNow[i].nodes;
-            const translated = results[i][j] + " ";
+            const translated = pieceResults[j] + " ";
 
             const originalTextNode = nodes[j];
             const parentNode = nodes[j].parentNode;
@@ -986,6 +1016,14 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
             return rect.bottom > 0 && rect.top < innerHeight;
           }
 
+          function pieceIntersectsScreen(piece) {
+            return (
+              intersectsScreen(piece.topElement) ||
+              intersectsScreen(piece.bottomElement) ||
+              piece.nodes.some((node) => intersectsScreen(node.parentElement))
+            );
+          }
+
           const currentFooCount = fooCount;
           if (translationRoutine.isTranslating) return;
 
@@ -1014,12 +1052,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
           piecesToTranslate
             .filter(
               (ptt) =>
-                !ptt.isTranslated &&
-                (intersectsScreen(ptt.topElement) ||
-                  intersectsScreen(ptt.bottomElement))
+                !ptt.isTranslated && pieceIntersectsScreen(ptt)
             )
             .sort(sortByDocumentPosition)
-            .slice(0, 3)
+            .slice(0, 1)
             .forEach((ptt) => {
               ptt.isTranslated = true;
               piecesToTranslateNow.push(ptt);

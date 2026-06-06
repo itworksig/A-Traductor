@@ -140,9 +140,12 @@ function testOrderedPageTranslation() {
   assert(
     pageTranslatorJs.includes("translationRoutine.isTranslating") &&
       pageTranslatorJs.includes("intersectsScreen") &&
+      pageTranslatorJs.includes("pieceIntersectsScreen") &&
       pageTranslatorJs.includes("sortByDocumentPosition") &&
       pageTranslatorJs.includes(".sort(sortByDocumentPosition)") &&
-      pageTranslatorJs.includes(".slice(0, 3)") &&
+      pageTranslatorJs.includes(".slice(0, 1)") &&
+      pageTranslatorJs.includes("pieceHasCompleteResults") &&
+      pageTranslatorJs.includes("isTranslated = false") &&
       pageTranslatorJs.includes("piecesToTranslateNow.length === 0"),
     "Page translation must process visible text in document order instead of launching random parallel chunks"
   );
