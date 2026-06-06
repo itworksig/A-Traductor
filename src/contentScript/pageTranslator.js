@@ -879,6 +879,36 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       );
     }
 
+    function normalizeTranslationText(text) {
+      return String(text || "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase();
+    }
+
+    function getLatinLetterRatio(text) {
+      const compactText = String(text || "").replace(/\s+/g, "");
+      if (!compactText) return 0;
+      const latinLetters = compactText.match(/[A-Za-z]/g) || [];
+      return latinLetters.length / compactText.length;
+    }
+
+    function pieceLooksUntranslated(piece, pieceResults) {
+      const originalText = normalizeTranslationText(
+        piece.nodes.map((node) => node.textContent).join("")
+      );
+      const translatedTextRaw = pieceResults.join("");
+      const translatedText = normalizeTranslationText(translatedTextRaw);
+      const targetIsChinese = /^zh($|-|_)/i.test(currentTargetLanguage);
+      return (
+        originalText.length > 30 &&
+        (originalText === translatedText ||
+          (targetIsChinese &&
+            getLatinLetterRatio(originalText) > 0.45 &&
+            getLatinLetterRatio(translatedTextRaw) > 0.45))
+      );
+    }
+
     function rememberTextNodeRestore(node, originalTextNode, translatedText) {
       const toRestore = {
         node,
@@ -972,6 +1002,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
           translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
         }
+        if (pieceLooksUntranslated(piecesToTranslateNow[i], pieceResults)) {
+          translateWholePieceAsText(piecesToTranslateNow[i]);
+          continue;
+        }
 
         for (let j = 0; j < pieceResults.length; j++) {
           if (piecesToTranslateNow[i].nodes[j]) {
@@ -1025,6 +1059,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       for (const i in piecesToTranslateNow) {
         const pieceResults = Array.isArray(results?.[i]) ? results[i] : [];
         if (!pieceHasCompleteResults(piecesToTranslateNow[i], pieceResults)) {
+          translateWholePieceAsText(piecesToTranslateNow[i]);
+          continue;
+        }
+        if (pieceLooksUntranslated(piecesToTranslateNow[i], pieceResults)) {
           translateWholePieceAsText(piecesToTranslateNow[i]);
           continue;
         }

@@ -148,6 +148,8 @@ function testOrderedPageTranslation() {
       pageTranslatorJs.includes("sortByDocumentPosition") &&
       pageTranslatorJs.includes(".sort(sortByDocumentPosition)") &&
       pageTranslatorJs.includes("pieceHasCompleteResults") &&
+      pageTranslatorJs.includes("pieceLooksUntranslated") &&
+      pageTranslatorJs.includes("getLatinLetterRatio") &&
       pageTranslatorJs.includes("translateWholePieceAsText") &&
       pageTranslatorJs.includes("backgroundTranslateSingleText") &&
       pageTranslatorJs.includes("isTranslated = false") &&
