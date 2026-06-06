@@ -414,6 +414,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   let removedNodes = [];
 
   let nodesToRestore = [];
+  let forceNoTranslateTextNodes = new WeakSet();
 
   function translateNewNodes() {
     try {
@@ -600,7 +601,6 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
             lastSelectOrDataListElement = node;
 
           if (
-            forceNoTranslateRoots.some((root) => root === node) ||
             htmlTagsInlineIgnore.indexOf(nodeName) !== -1 ||
             isNoTranslateNode(node) ||
             node.classList.contains("notranslate") ||
@@ -675,6 +675,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
         }
       } else if (node.nodeType == 3) {
         if (node.textContent.trim().length > 0) {
+          if (shouldForceNoTranslateTextNode(node, forceNoTranslateRoots)) {
+            forceNoTranslateTextNodes.add(node);
+          }
           if (!piecesToTranslate[index].parentElement) {
             if (
               node &&
@@ -784,6 +787,48 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       }
     });
     return roots;
+  }
+
+  function getClosestElement(node, selector) {
+    let element = node.nodeType === 1 ? node : node.parentElement;
+    while (element && element.nodeType === 1) {
+      if (element.matches && element.matches(selector)) {
+        return element;
+      }
+      element = element.parentElement;
+    }
+    return null;
+  }
+
+  function shouldForceNoTranslateTextNode(node, forceNoTranslateRoots) {
+    const text = node.textContent.trim();
+    if (!text) return false;
+    const matchedRoot = forceNoTranslateRoots.find(
+      (root) => root === node.parentElement || root.contains(node.parentElement)
+    );
+    if (matchedRoot) {
+      if (location.hostname.endsWith("reddit.com")) {
+        const link = getClosestElement(node, "a[href]");
+        const href = link ? link.getAttribute("href") || "" : "";
+        if (/^r\/\S+$/i.test(text)) return true;
+        if (/\/(?:user|u)\//i.test(href) && !/\s/.test(text)) return true;
+        if (/\/r\/[^/]+\/?$/i.test(href) && /^r\//i.test(text)) return true;
+        return false;
+      }
+      return true;
+    }
+
+    if (location.hostname.endsWith("reddit.com")) {
+      const link = getClosestElement(node, "a[href]");
+      const href = link ? link.getAttribute("href") || "" : "";
+      return (
+        /^r\/\S+$/i.test(text) ||
+        (/\/(?:user|u)\//i.test(href) && !/\s/.test(text)) ||
+        (/\/r\/[^/]+\/?$/i.test(href) && /^r\//i.test(text))
+      );
+    }
+
+    return false;
   }
 
   function getForcedTranslatePieces() {
@@ -1020,8 +1065,16 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 
     function translateWholePieceAsText(piece) {
       const originalNodes = piece.nodes.filter((node) => node.parentNode);
+      const protectedTexts = [];
       const originalText = originalNodes
-        .map((node) => node.textContent)
+        .map((node) => {
+          if (forceNoTranslateTextNodes.has(node)) {
+            const marker = ` A_TRADUCTOR_KEEP_${protectedTexts.length}_ `;
+            protectedTexts.push(node.textContent);
+            return marker;
+          }
+          return node.textContent;
+        })
         .join("");
       if (!originalText.trim()) {
         piece.isTranslated = false;
@@ -1055,6 +1108,13 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
           currentSourceLanguage,
           currentTargetLanguage
         ).then((handledTranslation) => {
+          protectedTexts.forEach((text, index) => {
+            handledTranslation = handledTranslation.replaceAll(
+              `A_TRADUCTOR_KEEP_${index}`,
+              text
+            );
+          });
+
           if (
             expectedFooCount !== fooCount ||
             pageLanguageState !== "translated"
@@ -1111,10 +1171,14 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
         for (let j = 0; j < pieceResults.length; j++) {
           if (piecesToTranslateNow[i].nodes[j]) {
             const nodes = piecesToTranslateNow[i].nodes;
-            let translated = pieceResults[j] + " ";
+            const originalTextNode = nodes[j];
+            let translated = forceNoTranslateTextNodes.has(originalTextNode)
+              ? originalTextNode.textContent
+              : pieceResults[j] + " ";
             // In some case, results items count is over original node count
             // Rest results append to last node
             if (
+              !forceNoTranslateTextNodes.has(originalTextNode) &&
               piecesToTranslateNow[i].nodes.length - 1 === j &&
               pieceResults.length > j
             ) {
@@ -1122,7 +1186,6 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
               translated += restResults.join(" ");
             }
 
-            const originalTextNode = nodes[j];
             const parentNode = nodes[j].parentNode;
             if (showOriginal.isEnabled) {
               nodes[j] = encapsulateTextNode(nodes[j]);
@@ -1175,9 +1238,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
         for (const j in piecesToTranslateNow[i].nodes) {
           if (pieceResults[j]) {
             const nodes = piecesToTranslateNow[i].nodes;
-            const translated = pieceResults[j] + " ";
-
             const originalTextNode = nodes[j];
+            const translated = forceNoTranslateTextNodes.has(originalTextNode)
+              ? originalTextNode.textContent
+              : pieceResults[j] + " ";
             const parentNode = nodes[j].parentNode;
             if (showOriginal.isEnabled) {
               nodes[j] = encapsulateTextNode(nodes[j]);
@@ -1483,6 +1547,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       document.getElementById("scaleSelect").dispatchEvent(new Event("change"));
     }
 
+    forceNoTranslateTextNodes = new WeakSet();
     piecesToTranslate = mergeForcedTranslatePieces(getPiecesToTranslate());
     attributesToTranslate = getAttributesToTranslate();
 

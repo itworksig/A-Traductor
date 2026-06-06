@@ -159,6 +159,9 @@ function testForceTranslateRules() {
       optionsHtml.includes("exportForceNoTranslateRules") &&
       optionsJs.includes("forceNoTranslateRules") &&
       pageTranslatorJs.includes("getForceNoTranslateRoots") &&
+      pageTranslatorJs.includes("forceNoTranslateTextNodes") &&
+      pageTranslatorJs.includes("shouldForceNoTranslateTextNode") &&
+      pageTranslatorJs.includes("A_TRADUCTOR_KEEP_") &&
       pageTranslatorJs.includes("forceNoTranslateRules"),
     "Force no-translate area rules must be configurable, selectable, exportable, and skipped during page translation"
   );
