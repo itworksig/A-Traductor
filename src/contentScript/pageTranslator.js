@@ -1132,6 +1132,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       twpConfig.get("alwaysTranslateSites").indexOf(tabHostName) === -1
     ) {
       twpConfig.addSiteToAlwaysTranslate(tabHostName);
+      chrome.runtime.sendMessage(
+        { action: "setSiteTranslationPersistence", persist: true },
+        checkedLastError
+      );
     }
 
     customDictionary = sortDictionary(twpConfig.get("customDictionary"));
@@ -1178,6 +1182,10 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 
     if (options.persistSite === false && tabHostName) {
       twpConfig.removeSiteFromAlwaysTranslate(tabHostName);
+      chrome.runtime.sendMessage(
+        { action: "setSiteTranslationPersistence", persist: false },
+        checkedLastError
+      );
     }
 
     showOriginal.disable();

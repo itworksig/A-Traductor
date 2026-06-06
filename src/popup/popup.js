@@ -133,17 +133,18 @@ twpConfig
 
     twpButtons.forEach((button) => {
       button.addEventListener("click", (event) => {
+        const selectedButton = event.currentTarget;
         twpButtons.forEach((button) => {
           button.classList.remove("w3-buttonSelected");
         });
-        event.target.classList.add("w3-buttonSelected");
+        selectedButton.classList.add("w3-buttonSelected");
 
-        currentPageLanguage = event.target.value;
+        currentPageLanguage = selectedButton.value;
         if (currentPageLanguage === "original") {
           currentPageLanguageState = "original";
         } else {
           currentPageLanguageState = "translated";
-          twpConfig.setTargetLanguage(event.target.value);
+          twpConfig.setTargetLanguage(selectedButton.value);
         }
 
         chrome.tabs.query(
@@ -156,8 +157,8 @@ twpConfig
               tabs[0].id,
               {
                 action: "translatePage",
-                targetLanguage: event.target.value || "original",
-                persistSite: event.target.value !== "original",
+                targetLanguage: selectedButton.value || "original",
+                persistSite: selectedButton.value !== "original",
               },
               checkedLastError
             );

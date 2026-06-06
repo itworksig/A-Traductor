@@ -101,16 +101,20 @@ function testPersistentSiteTranslation() {
 
   assert(
     pageTranslatorJs.includes("addSiteToAlwaysTranslate(tabHostName)") &&
-      pageTranslatorJs.includes("removeSiteFromAlwaysTranslate(tabHostName)"),
+      pageTranslatorJs.includes("removeSiteFromAlwaysTranslate(tabHostName)") &&
+      pageTranslatorJs.includes("setSiteTranslationPersistence"),
     "Manual page translation must persist until manually restored"
   );
   assert(
-    popupJs.includes('persistSite: event.target.value !== "original"'),
+    popupJs.includes("event.currentTarget") &&
+      popupJs.includes('persistSite: selectedButton.value !== "original"'),
     "Popup page translation must opt into persistent site translation"
   );
   assert(
     backgroundJs.includes("persistSite: true") &&
-      backgroundJs.includes("persistSite: false"),
+      backgroundJs.includes("persistSite: false") &&
+      backgroundJs.includes("setSiteTranslationPersistence") &&
+      backgroundJs.includes("addSiteToAlwaysTranslate(hostname)"),
     "Hotkey page translation must opt into persistent site translation"
   );
 }

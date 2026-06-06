@@ -62,6 +62,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   } else if (request.action === "setPageLanguageState") {
     updateContextMenu(request.pageLanguageState);
+  } else if (request.action === "setSiteTranslationPersistence") {
+    if (!sender.tab || !sender.tab.url) return;
+    const hostname = new URL(sender.tab.url).hostname;
+    if (request.persist) {
+      twpConfig.addSiteToAlwaysTranslate(hostname);
+    } else {
+      twpConfig.removeSiteFromAlwaysTranslate(hostname);
+    }
   } else if (request.action === "openOptionsPage") {
     tabsCreate(chrome.runtime.getURL("/options/options.html"));
   } else if (request.action === "detectTabLanguage") {
