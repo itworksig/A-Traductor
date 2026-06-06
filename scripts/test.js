@@ -92,6 +92,12 @@ function testAiProviders() {
     read("src/background/translationService.js").includes("config.prompt"),
     "AI translation service does not use configured prompts"
   );
+  assert(
+    read("src/background/translationService.js").includes("retryAiRequestItems") &&
+      read("src/background/translationService.js").includes("Never return null") &&
+      read("src/background/translationService.js").includes("left source text untranslated"),
+    "AI translation service must reject and retry null or skipped translations"
+  );
 }
 
 function testPersistentSiteTranslation() {

@@ -338,6 +338,7 @@ const translationService = (function () {
    * Returns a string with the body of a request of type **POST**.
    * @callback callback_cbParseResponse
    * @param {Object} response
+   * @param {Array<TranslationInfo>} request
    * @returns {Array<Service_Single_Result_Response>}
    */
 
@@ -569,6 +570,60 @@ const translationService = (function () {
       });
     }
 
+    async retryAiRequestItems(
+      sourceLanguage,
+      targetLanguage,
+      transInfo,
+      dontSaveInPersistentCache,
+      dontSortResults
+    ) {
+      if (!["openrouter", "aihubmix", "customai"].includes(this.serviceName)) {
+        return false;
+      }
+
+      const sourceItems = JSON.parse(transInfo.originalText);
+      if (!Array.isArray(sourceItems) || sourceItems.length === 0) {
+        return false;
+      }
+
+      const repairRequests = sourceItems.map((text) => ({
+        originalText: this.cbTransformRequest([text]),
+      }));
+      const response = await this.makeRequest(
+        sourceLanguage,
+        targetLanguage,
+        repairRequests
+      );
+      const results = this.cbParseResponse(response, repairRequests);
+      const translatedItems = results.map((result) => {
+        if (!result || result.text == null) {
+          throw new Error("AI repair response contains empty result.");
+        }
+        const parsed = this.cbTransformResponse(result.text, dontSortResults);
+        if (!parsed[0]) {
+          throw new Error("AI repair response contains empty text.");
+        }
+        return parsed[0];
+      });
+
+      transInfo.detectedLanguage = "und";
+      transInfo.translatedText = JSON.stringify(translatedItems);
+      transInfo.status = "complete";
+
+      if (dontSaveInPersistentCache === false && transInfo.translatedText) {
+        translationCache.set(
+          this.serviceName,
+          sourceLanguage,
+          targetLanguage,
+          transInfo.originalText,
+          transInfo.translatedText,
+          transInfo.detectedLanguage
+        );
+      }
+
+      return true;
+    }
+
     /**
      * Translates the `sourceArray2d`.
      *
@@ -601,9 +656,12 @@ const translationService = (function () {
         promises.push(
           this.makeRequest(sourceLanguage, targetLanguage, request)
             .then((response) => {
-              const results = this.cbParseResponse(response);
+              const results = this.cbParseResponse(response, request);
               for (const idx in request) {
                 const result = results[idx];
+                if (!result || result.text == null) {
+                  throw new Error("Translation response contains empty result.");
+                }
                 this.cbTransformResponse(result.text, dontSortResults); // apenas para gerar error
                 const transInfo = request[idx];
                 transInfo.detectedLanguage = result.detectedLanguage || "und";
@@ -625,11 +683,24 @@ const translationService = (function () {
                 }
               }
             })
-            .catch((e) => {
+            .catch(async (e) => {
               console.error(e);
               for (const transInfo of request) {
-                transInfo.status = "error";
-                //this.translationsInProgress.delete([sourceLanguage, targetLanguage, transInfo.originalText])
+                try {
+                  const repaired = await this.retryAiRequestItems(
+                    sourceLanguage,
+                    targetLanguage,
+                    transInfo,
+                    dontSaveInPersistentCache,
+                    dontSortResults
+                  );
+                  if (!repaired) {
+                    transInfo.status = "error";
+                  }
+                } catch (repairError) {
+                  console.error(repairError);
+                  transInfo.status = "error";
+                }
               }
             })
         );
@@ -638,7 +709,9 @@ const translationService = (function () {
         currentTranslationsInProgress.map((transInfo) => transInfo.waitTranlate)
       );
       return currentTranslationsInProgress.map((transInfo) =>
-        this.cbTransformResponse(transInfo.translatedText, dontSortResults)
+        transInfo.status === "complete" && transInfo.translatedText != null
+          ? this.cbTransformResponse(transInfo.translatedText, dontSortResults)
+          : this.cbTransformResponse(transInfo.originalText, dontSortResults)
       );
     }
 
@@ -1381,7 +1454,7 @@ const translationService = (function () {
           function cbTransformRequest(sourceArray) {
             return JSON.stringify(sourceArray);
           },
-          function cbParseResponse(response) {
+          function cbParseResponse(response, request) {
             const content =
               response &&
               response.choices &&
@@ -1392,14 +1465,50 @@ const translationService = (function () {
             if (!Array.isArray(translatedGroups)) {
               throw new Error("AI translation response is not a JSON array.");
             }
-            return translatedGroups.map((group) => ({
-              text: JSON.stringify(Array.isArray(group) ? group : [String(group)]),
-              detectedLanguage: null,
-            }));
+            if (translatedGroups.length !== request.length) {
+              throw new Error(
+                "AI translation response group count does not match request count."
+              );
+            }
+            return translatedGroups.map((group, groupIndex) => {
+              const sourceGroup = JSON.parse(request[groupIndex].originalText);
+              if (!Array.isArray(group)) {
+                throw new Error("AI translation response group is not an array.");
+              }
+              if (group.length !== sourceGroup.length) {
+                throw new Error(
+                  "AI translation response item count does not match request item count."
+                );
+              }
+              const sanitizedGroup = group.map((item, itemIndex) => {
+                if (item == null) {
+                  throw new Error("AI translation response contains null.");
+                }
+                const translated = String(item).trim();
+                if (!translated) {
+                  throw new Error("AI translation response contains empty text.");
+                }
+                if (
+                  translated === String(sourceGroup[itemIndex]).trim() &&
+                  /[A-Za-z]{3,}/.test(translated)
+                ) {
+                  throw new Error(
+                    "AI translation response left source text untranslated."
+                  );
+                }
+                return String(item);
+              });
+              return {
+                text: JSON.stringify(sanitizedGroup),
+                detectedLanguage: null,
+              };
+            });
           },
           function cbTransformResponse(result) {
             const parsed = JSON.parse(result);
-            return Array.isArray(parsed) ? parsed.map((item) => String(item)) : [String(parsed)];
+            return Array.isArray(parsed)
+              ? parsed.map((item) => String(item))
+              : [String(parsed)];
           },
           null,
           function cbGetRequestBody(sourceLanguage, targetLanguage, requests) {
@@ -1423,13 +1532,13 @@ const translationService = (function () {
                 {
                   role: "system",
                   content:
-                    "You are a translation engine. Return only valid JSON. Keep exactly the same JSON array dimensions as the input. Do not add explanations, markdown fences, comments, or extra fields.",
+                    "You are a translation engine. Return only valid JSON. Keep exactly the same JSON array dimensions as the input. Translate every string. Never return null, empty strings, original untranslated English sentences, explanations, markdown fences, comments, or extra fields.",
                 },
                 {
                   role: "user",
                   content:
                     `${translationPrompt}\n\n` +
-                    "Return a JSON array of arrays with exactly the same dimensions as the input.\n\n" +
+                    "Translate every item. Do not skip any item. Return a JSON array of arrays with exactly the same dimensions as the input. Every output item must be translated text, never null.\n\n" +
                     JSON.stringify(textGroups),
                 },
               ],
