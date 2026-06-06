@@ -1,6 +1,6 @@
 {
   "name": "a-traductor",
-  "version": "9.9.0.2",
+  "version": "9.9.0.3",
   "browserslist": [
     "firefox 63",
     "chrome 70"

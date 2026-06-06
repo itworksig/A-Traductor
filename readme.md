@@ -63,7 +63,7 @@ For local testing:
 1. Run `npm run build`.
 2. Open `about:debugging#/runtime/this-firefox`.
 3. Click **Load Temporary Add-on**.
-4. Select `build/A-Traductor_9.9.0.2_Firefox/manifest.json`.
+4. Select `build/A-Traductor_9.9.0.3_Firefox/manifest.json`.
 
 For release builds, use the generated Firefox package:
 
@@ -74,7 +74,7 @@ npm run build
 The package is created at:
 
 ```text
-build/A-Traductor_9.9.0.2_Firefox.zip
+build/A-Traductor_9.9.0.3_Firefox.zip
 ```
 
 ### Chromium, Chrome, Edge, Brave, Opera
@@ -85,12 +85,12 @@ For local testing:
 2. Open `chrome://extensions`.
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
-5. Select `build/A-Traductor_9.9.0.2_Chromium`.
+5. Select `build/A-Traductor_9.9.0.3_Chromium`.
 
 The Chromium package is created at:
 
 ```text
-build/A-Traductor_9.9.0.2_Chromium.zip
+build/A-Traductor_9.9.0.3_Chromium.zip
 ```
 
 ## Development
