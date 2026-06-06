@@ -993,22 +993,23 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     }
   }
 
+  function chunkItems(items, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < items.length; i += chunkSize) {
+      chunks.push(items.slice(i, i + chunkSize));
+    }
+    return chunks;
+  }
+
   function translationRoutine() {
     try {
       if (piecesToTranslate && pageIsVisible) {
         (function () {
           const innerHeight = window.innerHeight;
-
-          function isInScreen(element) {
-            const rect = element.getBoundingClientRect();
-            if (
-              (rect.top > 0 && rect.top <= innerHeight) ||
-              (rect.bottom > 0 && rect.bottom <= innerHeight)
-            ) {
-              return true;
-            }
-            return false;
-          }
+          const maxParallelHtmlTranslations = 6;
+          const htmlBatchSize = 4;
+          const preloadViewportCount = 20;
+          const attributeBatchSize = 12;
 
           function intersectsScreen(element) {
             if (!element) return false;
@@ -1024,8 +1025,28 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
             );
           }
 
+          function isInPreloadWindow(element) {
+            if (!element) return false;
+            const rect = element.getBoundingClientRect();
+            return (
+              rect.bottom > -innerHeight &&
+              rect.top < innerHeight * (preloadViewportCount + 1)
+            );
+          }
+
+          function pieceIsInPreloadWindow(piece) {
+            return (
+              isInPreloadWindow(piece.topElement) ||
+              isInPreloadWindow(piece.bottomElement) ||
+              piece.nodes.some((node) => isInPreloadWindow(node.parentElement))
+            );
+          }
+
           const currentFooCount = fooCount;
-          if (translationRoutine.isTranslating) return;
+          translationRoutine.activeHtmlTranslations =
+            translationRoutine.activeHtmlTranslations || 0;
+          translationRoutine.activeAttributeTranslations =
+            translationRoutine.activeAttributeTranslations || 0;
 
           function getDocumentTop(element) {
             if (!element || !element.getBoundingClientRect) {
@@ -1048,25 +1069,43 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
             return 0;
           }
 
+          const availableHtmlSlots =
+            maxParallelHtmlTranslations -
+            translationRoutine.activeHtmlTranslations;
           const piecesToTranslateNow = [];
-          piecesToTranslate
-            .filter(
-              (ptt) =>
-                !ptt.isTranslated && pieceIntersectsScreen(ptt)
-            )
-            .sort(sortByDocumentPosition)
-            .slice(0, 1)
-            .forEach((ptt) => {
-              ptt.isTranslated = true;
-              piecesToTranslateNow.push(ptt);
-            });
+          if (availableHtmlSlots > 0) {
+            const untranslatedVisiblePieces = piecesToTranslate
+              .filter(
+                (ptt) => !ptt.isTranslated && pieceIntersectsScreen(ptt)
+              )
+              .sort(sortByDocumentPosition);
+            const untranslatedPreloadPieces = piecesToTranslate
+              .filter(
+                (ptt) =>
+                  !ptt.isTranslated &&
+                  !pieceIntersectsScreen(ptt) &&
+                  pieceIsInPreloadWindow(ptt)
+              )
+              .sort(sortByDocumentPosition);
+
+            untranslatedVisiblePieces
+              .concat(untranslatedPreloadPieces)
+              .slice(0, availableHtmlSlots * htmlBatchSize)
+              .forEach((ptt) => {
+                ptt.isTranslated = true;
+                piecesToTranslateNow.push(ptt);
+              });
+          }
 
           const attributesToTranslateNow = [];
-          if (piecesToTranslateNow.length === 0) {
+          if (
+            piecesToTranslateNow.length === 0 &&
+            translationRoutine.activeAttributeTranslations === 0
+          ) {
             attributesToTranslate
-              .filter((ati) => !ati.isTranslated && isInScreen(ati.node))
+              .filter((ati) => !ati.isTranslated && isInPreloadWindow(ati.node))
               .sort(sortByDocumentPosition)
-              .slice(0, 8)
+              .slice(0, attributeBatchSize)
               .forEach((ati) => {
                 ati.isTranslated = true;
                 attributesToTranslateNow.push(ati);
@@ -1074,35 +1113,42 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
           }
 
           if (piecesToTranslateNow.length > 0) {
-            translationRoutine.isTranslating = true;
-            backgroundTranslateHTML(
-              currentPageTranslatorService,
-              currentSourceLanguage,
-              currentTargetLanguage,
-              piecesToTranslateNow.map((ptt) =>
-                ptt.nodes.map((node) =>
-                  filterKeywordsInText(
-                    node.textContent,
-                    customDictionary,
-                    currentPageTranslatorService
+            chunkItems(piecesToTranslateNow, htmlBatchSize).forEach((batch) => {
+              translationRoutine.activeHtmlTranslations++;
+              backgroundTranslateHTML(
+                currentPageTranslatorService,
+                currentSourceLanguage,
+                currentTargetLanguage,
+                batch.map((ptt) =>
+                  ptt.nodes.map((node) =>
+                    filterKeywordsInText(
+                      node.textContent,
+                      customDictionary,
+                      currentPageTranslatorService
+                    )
                   )
-                )
-              ),
-              dontSortResults
-            ).then((results) => {
-              if (
-                pageLanguageState === "translated" &&
-                currentFooCount === fooCount
-              ) {
-                translateResults(piecesToTranslateNow, results);
-              }
-            }).finally(() => {
-              translationRoutine.isTranslating = false;
+                ),
+                dontSortResults
+              ).then((results) => {
+                if (
+                  pageLanguageState === "translated" &&
+                  currentFooCount === fooCount
+                ) {
+                  translateResults(batch, results);
+                }
+              }).finally(() => {
+                if (currentFooCount === fooCount) {
+                  translationRoutine.activeHtmlTranslations = Math.max(
+                    0,
+                    translationRoutine.activeHtmlTranslations - 1
+                  );
+                }
+              });
             });
           }
 
           if (attributesToTranslateNow.length > 0) {
-            translationRoutine.isTranslating = true;
+            translationRoutine.activeAttributeTranslations++;
             backgroundTranslateText(
               currentPageTranslatorService,
               currentSourceLanguage,
@@ -1116,7 +1162,12 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
                 translateAttributes(attributesToTranslateNow, results);
               }
             }).finally(() => {
-              translationRoutine.isTranslating = false;
+              if (currentFooCount === fooCount) {
+                translationRoutine.activeAttributeTranslations = Math.max(
+                  0,
+                  translationRoutine.activeAttributeTranslations - 1
+                );
+              }
             });
           }
         })();
@@ -1126,7 +1177,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     }
 
     clearTimeout(translationRoutine_handler);
-    translationRoutine_handler = setTimeout(translationRoutine, 300);
+    translationRoutine_handler = setTimeout(translationRoutine, 120);
   }
 
   translationRoutine();
@@ -1219,7 +1270,8 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     );
     currentPageLanguage = currentTargetLanguage;
 
-    translationRoutine.isTranslating = false;
+    translationRoutine.activeHtmlTranslations = 0;
+    translationRoutine.activeAttributeTranslations = 0;
     translatePageTitle();
 
     enableMutatinObserver();

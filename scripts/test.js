@@ -138,16 +138,19 @@ function testOrderedPageTranslation() {
   const pageTranslatorJs = read("src/contentScript/pageTranslator.js");
 
   assert(
-    pageTranslatorJs.includes("translationRoutine.isTranslating") &&
+    pageTranslatorJs.includes("activeHtmlTranslations") &&
+      pageTranslatorJs.includes("maxParallelHtmlTranslations = 6") &&
+      pageTranslatorJs.includes("htmlBatchSize = 4") &&
+      pageTranslatorJs.includes("preloadViewportCount = 20") &&
       pageTranslatorJs.includes("intersectsScreen") &&
       pageTranslatorJs.includes("pieceIntersectsScreen") &&
+      pageTranslatorJs.includes("pieceIsInPreloadWindow") &&
       pageTranslatorJs.includes("sortByDocumentPosition") &&
       pageTranslatorJs.includes(".sort(sortByDocumentPosition)") &&
-      pageTranslatorJs.includes(".slice(0, 1)") &&
       pageTranslatorJs.includes("pieceHasCompleteResults") &&
       pageTranslatorJs.includes("isTranslated = false") &&
       pageTranslatorJs.includes("piecesToTranslateNow.length === 0"),
-    "Page translation must process visible text in document order instead of launching random parallel chunks"
+    "Page translation must prioritize visible text and preload upcoming content with bounded parallelism"
   );
 }
 
