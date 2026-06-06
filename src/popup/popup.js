@@ -157,6 +157,7 @@ twpConfig
               {
                 action: "translatePage",
                 targetLanguage: event.target.value || "original",
+                persistSite: event.target.value !== "original",
               },
               checkedLastError
             );

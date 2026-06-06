@@ -94,6 +94,27 @@ function testAiProviders() {
   );
 }
 
+function testPersistentSiteTranslation() {
+  const pageTranslatorJs = read("src/contentScript/pageTranslator.js");
+  const popupJs = read("src/popup/popup.js");
+  const backgroundJs = read("src/background/background.js");
+
+  assert(
+    pageTranslatorJs.includes("addSiteToAlwaysTranslate(tabHostName)") &&
+      pageTranslatorJs.includes("removeSiteFromAlwaysTranslate(tabHostName)"),
+    "Manual page translation must persist until manually restored"
+  );
+  assert(
+    popupJs.includes('persistSite: event.target.value !== "original"'),
+    "Popup page translation must opt into persistent site translation"
+  );
+  assert(
+    backgroundJs.includes("persistSite: true") &&
+      backgroundJs.includes("persistSite: false"),
+    "Hotkey page translation must opt into persistent site translation"
+  );
+}
+
 function testManifestV3() {
   const firefoxManifest = JSON.parse(read("src/manifest.json"));
   const chromiumManifest = JSON.parse(read("src/chrome_manifest.json"));
@@ -146,6 +167,7 @@ function testManifestV3() {
 testLocales();
 testPopupMenu();
 testAiProviders();
+testPersistentSiteTranslation();
 testManifestV3();
 
 console.log("All project checks passed.");

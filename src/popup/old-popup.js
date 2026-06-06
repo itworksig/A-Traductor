@@ -469,6 +469,7 @@ twpConfig
             {
               action: "translatePage",
               targetLanguage: selectTargetLanguage.value,
+              persistSite: true,
             },
             checkedLastError
           );

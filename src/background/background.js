@@ -775,6 +775,7 @@ if (typeof chrome.commands !== "undefined") {
             {
               action: "translatePage",
               targetLanguage: "original",
+              persistSite: false,
             },
             checkedLastError
           )
@@ -792,6 +793,7 @@ if (typeof chrome.commands !== "undefined") {
             {
               action: "translatePage",
               targetLanguage: twpConfig.get("targetLanguages")[0],
+              persistSite: true,
             },
             checkedLastError
           );
@@ -810,6 +812,7 @@ if (typeof chrome.commands !== "undefined") {
             {
               action: "translatePage",
               targetLanguage: twpConfig.get("targetLanguages")[1],
+              persistSite: true,
             },
             checkedLastError
           );
@@ -828,6 +831,7 @@ if (typeof chrome.commands !== "undefined") {
             {
               action: "translatePage",
               targetLanguage: twpConfig.get("targetLanguages")[2],
+              persistSite: true,
             },
             checkedLastError
           );

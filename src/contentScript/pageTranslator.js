@@ -1113,7 +1113,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 
   var translationRoutine_handler = null;
 
-  pageTranslator.translatePage = function (targetLanguage) {
+  pageTranslator.translatePage = function (targetLanguage, options = {}) {
     fooCount++;
     pageTranslator.restorePage();
     showOriginal.enable();
@@ -1124,6 +1124,14 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 
     if (targetLanguage) {
       currentTargetLanguage = targetLanguage;
+    }
+
+    if (
+      options.persistSite &&
+      tabHostName &&
+      twpConfig.get("alwaysTranslateSites").indexOf(tabHostName) === -1
+    ) {
+      twpConfig.addSiteToAlwaysTranslate(tabHostName);
     }
 
     customDictionary = sortDictionary(twpConfig.get("customDictionary"));
@@ -1164,9 +1172,13 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     translationRoutine();
   };
 
-  pageTranslator.restorePage = function () {
+  pageTranslator.restorePage = function (options = {}) {
     fooCount++;
     piecesToTranslate = [];
+
+    if (options.persistSite === false && tabHostName) {
+      twpConfig.removeSiteFromAlwaysTranslate(tabHostName);
+    }
 
     showOriginal.disable();
     disableMutatinObserver();
@@ -1242,12 +1254,14 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "translatePage") {
       if (request.targetLanguage === "original") {
-        pageTranslator.restorePage();
+        pageTranslator.restorePage({ persistSite: false });
       } else {
-        pageTranslator.translatePage(request.targetLanguage);
+        pageTranslator.translatePage(request.targetLanguage, {
+          persistSite: request.persistSite === true,
+        });
       }
     } else if (request.action === "restorePage") {
-      pageTranslator.restorePage();
+      pageTranslator.restorePage({ persistSite: false });
     } else if (request.action === "getOriginalTabLanguage") {
       pageTranslator.onGetOriginalTabLanguage(function () {
         sendResponse(originalTabLanguage);
@@ -1263,9 +1277,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       pageTranslator.swapTranslationService(request.newServiceName);
     } else if (request.action === "toggle-translation") {
       if (pageLanguageState === "translated") {
-        pageTranslator.restorePage();
+        pageTranslator.restorePage({ persistSite: false });
       } else {
-        pageTranslator.translatePage();
+        pageTranslator.translatePage(undefined, { persistSite: true });
       }
     } else if (request.action === "autoTranslateBecauseClickedALink") {
       if (twpConfig.get("autoTranslateWhenClickingALink") === "yes") {
