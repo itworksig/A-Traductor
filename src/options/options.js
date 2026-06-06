@@ -403,6 +403,8 @@ twpConfig
     });
 
     $("#addToAlwaysTranslateSites").onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const hostname = prompt("Enter the site hostname", "www.site.com");
       if (!hostname) return;
 
@@ -444,6 +446,8 @@ twpConfig
     });
 
     $("#addToNeverTranslateSites").onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const hostname = prompt("Enter the site hostname", "www.site.com");
       if (!hostname) return;
 
@@ -796,6 +800,14 @@ twpConfig
         "forceNoTranslateRules",
         "forceNoTranslate",
         "forceNoTranslateRules"
+      );
+    };
+
+    $("#restoreBuiltInForceNoTranslateRules").onclick = () => {
+      setAreaRules(
+        "forceNoTranslateRules",
+        "forceNoTranslate",
+        twpConfig.getBuiltInForceNoTranslateRules()
       );
     };
 

@@ -200,37 +200,29 @@
       </div>
 
       <div id="sites" class="w3-container">
-        <div class="desktopOnly">
-          <div class="w3-display-container w3-padding w3-margin-top">
-            <div class="w3-display-left">
-              <p>
-                <b data-i18n="lblAlwaysTranslateSites">Always translate these sites</b>
-              </p>
-            </div>
-            <div class="w3-display-right">
-              <button id="addToAlwaysTranslateSites" class="w3-button w3-blue w3-round w3-margin-right add"
-                data-i18n="lblAdd">
-                Add
-              </button>
-            </div>
-          </div>
-          <ul id="alwaysTranslateSites" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
-        </div>
-        <br />
-        <div class="w3-display-container w3-padding w3-margin-top">
-          <div class="w3-display-left">
-            <p>
-              <b data-i18n="optionsNeverTranslate">Never translate these sites</b>
-            </p>
-          </div>
-          <div class="w3-display-right">
-            <button id="addToNeverTranslateSites" class="w3-button w3-blue w3-round w3-margin-right add"
-              data-i18n="lblAdd">
+        <details class="siteListDisclosure desktopOnly">
+          <summary>
+            <span data-i18n="lblAlwaysTranslateSites">Always translate these sites</span>
+            <button id="addToAlwaysTranslateSites" class="w3-button w3-blue w3-round add" data-i18n="lblAdd">
               Add
             </button>
+          </summary>
+          <div class="siteListBody">
+            <ul id="alwaysTranslateSites" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
           </div>
-        </div>
-        <ul id="neverTranslateSites" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
+        </details>
+        <br />
+        <details class="siteListDisclosure">
+          <summary>
+            <span data-i18n="optionsNeverTranslate">Never translate these sites</span>
+            <button id="addToNeverTranslateSites" class="w3-button w3-blue w3-round add" data-i18n="lblAdd">
+              Add
+            </button>
+          </summary>
+          <div class="siteListBody">
+            <ul id="neverTranslateSites" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
+          </div>
+        </details>
         <div class="desktopOnly">
           <br />
           <div class="w3-display-container w3-padding w3-margin-top">
@@ -303,6 +295,8 @@
               </div>
             </div>
             <div class="w3-margin-top forceTranslateButtons">
+              <button id="restoreBuiltInForceNoTranslateRules" class="w3-button w3-light-grey w3-round">Restore built-in
+                presets</button>
               <button id="exportForceNoTranslateRules" class="w3-button w3-light-grey w3-round">Export rules</button>
               <button id="importForceNoTranslateRules" class="w3-button w3-light-grey w3-round">Import rules</button>
             </div>

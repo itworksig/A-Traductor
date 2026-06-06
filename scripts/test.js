@@ -153,7 +153,7 @@ function testForceTranslateRules() {
     "Force translate area rules must be configurable, selectable, exportable, and applied in page translation"
   );
   assert(
-    configJs.includes("forceNoTranslateRules: []") &&
+    configJs.includes("forceNoTranslateRules: structuredClone") &&
       optionsHtml.includes("forceNoTranslateRules") &&
       optionsHtml.includes("pickForceNoTranslateArea") &&
       optionsHtml.includes("exportForceNoTranslateRules") &&
@@ -164,6 +164,18 @@ function testForceTranslateRules() {
       pageTranslatorJs.includes("A_TRADUCTOR_KEEP_") &&
       pageTranslatorJs.includes("forceNoTranslateRules"),
     "Force no-translate area rules must be configurable, selectable, exportable, and skipped during page translation"
+  );
+  assert(
+    configJs.includes("builtInForceNoTranslateRules") &&
+      configJs.includes("www.reddit.com") &&
+      configJs.includes("x.com") &&
+      configJs.includes("twitter.com") &&
+      configJs.includes("github.com") &&
+      configJs.includes("www.youtube.com") &&
+      configJs.includes("getBuiltInForceNoTranslateRules") &&
+      optionsHtml.includes("restoreBuiltInForceNoTranslateRules") &&
+      optionsHtml.includes("siteListDisclosure"),
+    "Built-in no-translate presets and collapsed site list management must be available"
   );
 }
 

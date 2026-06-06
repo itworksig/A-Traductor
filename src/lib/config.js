@@ -4,9 +4,54 @@ const twpConfig = (function () {
   /** @type {function[]} */
   const observers = [];
   const defaultTargetLanguages = ["en", "es", "de"];
+  const forceNoTranslatePresetVersion = 1;
+  const builtInForceNoTranslateRules = [
+    {
+      hostname: "www.reddit.com",
+      selectors: [
+        'a[href*="/r/"]',
+        'a[href*="/user/"]',
+        'a[href*="/u/"]',
+        '[data-testid="subreddit-name"]',
+        '[data-testid="post_author_link"]',
+        "shreddit-subreddit-header a",
+      ],
+    },
+    {
+      hostname: "old.reddit.com",
+      selectors: [".subreddit", ".author", 'a[href*="/r/"]', 'a[href*="/user/"]'],
+    },
+    {
+      hostname: "x.com",
+      selectors: [
+        'div[data-testid="User-Name"]',
+        'a[href^="/"][href*="/status/"] div[data-testid="User-Name"]',
+      ],
+    },
+    {
+      hostname: "twitter.com",
+      selectors: [
+        'div[data-testid="User-Name"]',
+        'a[href^="/"][href*="/status/"] div[data-testid="User-Name"]',
+      ],
+    },
+    {
+      hostname: "github.com",
+      selectors: [
+        '[data-hovercard-type="user"]',
+        '[data-hovercard-type="repository"]',
+        ".author",
+        ".commit-author",
+      ],
+    },
+    {
+      hostname: "www.youtube.com",
+      selectors: ["ytd-channel-name", 'a[href^="/@"]', "#channel-name"],
+    },
+  ];
   /**
    * all configName available
-   * @typedef {"uiLanguage" | "pageTranslatorService" | "textTranslatorService" | "textToSpeechService" | "enabledServices" | "ttsSpeed" | "targetLanguage" | "targetLanguageTextTranslation" | "targetLanguages" | "alwaysTranslateSites" | "neverTranslateSites" | "sitesToTranslateWhenHovering" | "langsToTranslateWhenHovering" | "alwaysTranslateLangs" | "neverTranslateLangs" | "customDictionary" | "forceTranslateRules" | "forceNoTranslateRules" | "showTranslatePageContextMenu" | "showTranslateSelectedContextMenu" | "showButtonInTheAddressBar" | "showOriginalTextWhenHovering" | "showTranslateSelectedButton" | "showPopupMobile" | "useOldPopup" | "darkMode" | "popupBlueWhenSiteIsTranslated" | "popupPanelSection" | "dontShowIfPageLangIsTargetLang" | "dontShowIfPageLangIsUnknown" | "dontShowIfSelectedTextIsTargetLang" | "dontShowIfSelectedTextIsUnknown" | "hotkeys" | "expandPanelTranslateSelectedText" | "translateTag_pre" | "dontSortResults" | "translateDynamicallyCreatedContent" | "autoTranslateWhenClickingALink" | "translateSelectedWhenPressTwice" | "translateTextOverMouseWhenPressTwice" | "translateClickingOnce" | "enableDiskCache" | "useAlternativeService" | "customServices"} DefaultConfigNames
+   * @typedef {"uiLanguage" | "pageTranslatorService" | "textTranslatorService" | "textToSpeechService" | "enabledServices" | "ttsSpeed" | "targetLanguage" | "targetLanguageTextTranslation" | "targetLanguages" | "alwaysTranslateSites" | "neverTranslateSites" | "sitesToTranslateWhenHovering" | "langsToTranslateWhenHovering" | "alwaysTranslateLangs" | "neverTranslateLangs" | "customDictionary" | "forceTranslateRules" | "forceNoTranslateRules" | "forceNoTranslatePresetVersion" | "showTranslatePageContextMenu" | "showTranslateSelectedContextMenu" | "showButtonInTheAddressBar" | "showOriginalTextWhenHovering" | "showTranslateSelectedButton" | "showPopupMobile" | "useOldPopup" | "darkMode" | "popupBlueWhenSiteIsTranslated" | "popupPanelSection" | "dontShowIfPageLangIsTargetLang" | "dontShowIfPageLangIsUnknown" | "dontShowIfSelectedTextIsTargetLang" | "dontShowIfSelectedTextIsUnknown" | "hotkeys" | "expandPanelTranslateSelectedText" | "translateTag_pre" | "dontSortResults" | "translateDynamicallyCreatedContent" | "autoTranslateWhenClickingALink" | "translateSelectedWhenPressTwice" | "translateTextOverMouseWhenPressTwice" | "translateClickingOnce" | "enableDiskCache" | "useAlternativeService" | "customServices"} DefaultConfigNames
    */
   const defaultConfig = {
     uiLanguage: "default",
@@ -26,7 +71,8 @@ const twpConfig = (function () {
     neverTranslateLangs: [],
     customDictionary: new Map(),
     forceTranslateRules: [],
-    forceNoTranslateRules: [],
+    forceNoTranslateRules: structuredClone(builtInForceNoTranslateRules),
+    forceNoTranslatePresetVersion: 0,
     showTranslatePageContextMenu: "yes",
     showTranslateSelectedContextMenu: "yes",
     showButtonInTheAddressBar: "yes",
@@ -198,6 +244,10 @@ const twpConfig = (function () {
     twpConfig.import(JSON.stringify(defaultConfig));
   };
 
+  twpConfig.getBuiltInForceNoTranslateRules = function () {
+    return structuredClone(builtInForceNoTranslateRules);
+  };
+
   /**
    * create a listener to run when a config changes
    * @param {function} callback
@@ -322,6 +372,18 @@ const twpConfig = (function () {
         config.targetLanguageTextTranslation = config.targetLanguages[0];
       }
 
+      if (config.forceNoTranslatePresetVersion < forceNoTranslatePresetVersion) {
+        config.forceNoTranslateRules = mergeAreaRules(
+          config.forceNoTranslateRules,
+          builtInForceNoTranslateRules
+        );
+        config.forceNoTranslatePresetVersion = forceNoTranslatePresetVersion;
+        chrome.storage.local.set({
+          forceNoTranslateRules: config.forceNoTranslateRules,
+          forceNoTranslatePresetVersion: config.forceNoTranslatePresetVersion,
+        });
+      }
+
       // try to save de keyboard shortcuts in the config
       if (typeof chrome.commands !== "undefined") {
         chrome.commands.getAll((results) => {
@@ -373,6 +435,27 @@ const twpConfig = (function () {
       map.delete(key);
       twpConfig.set(configName, map);
     }
+  }
+
+  function mergeAreaRules(currentRules, rulesToAdd) {
+    const mergedRules = Array.isArray(currentRules)
+      ? structuredClone(currentRules)
+      : [];
+    rulesToAdd.forEach((ruleToAdd) => {
+      let rule = mergedRules.find(
+        (rule) => rule.hostname === ruleToAdd.hostname
+      );
+      if (!rule) {
+        rule = { hostname: ruleToAdd.hostname, selectors: [] };
+        mergedRules.push(rule);
+      }
+      ruleToAdd.selectors.forEach((selector) => {
+        if (!rule.selectors.includes(selector)) {
+          rule.selectors.push(selector);
+        }
+      });
+    });
+    return mergedRules;
   }
 
   twpConfig.addSiteToTranslateWhenHovering = function (hostname) {
