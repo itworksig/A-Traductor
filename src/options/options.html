@@ -281,6 +281,36 @@
         </div>
         <div class="desktopOnly">
           <br />
+          <div class="w3-padding w3-margin-top">
+            <p>
+              <b>Force never translate selected page areas</b>
+            </p>
+            <p class="w3-text-grey">
+              Add CSS selectors for names, community labels, handles, or other page areas that must stay unchanged.
+            </p>
+            <div class="w3-row-padding forceTranslateControls">
+              <div class="w3-third">
+                <input id="forceNoTranslateHostname" class="w3-input w3-border w3-round" placeholder="www.reddit.com">
+              </div>
+              <div class="w3-third">
+                <input id="forceNoTranslateSelector" class="w3-input w3-border w3-round"
+                  placeholder="a[href^='/r/'], a[href^='/user/']">
+              </div>
+              <div class="w3-third forceTranslateButtons">
+                <button id="addForceNoTranslateRule" class="w3-button w3-blue w3-round">Add</button>
+                <button id="pickForceNoTranslateArea" class="w3-button w3-light-grey w3-round">Select current page
+                  area</button>
+              </div>
+            </div>
+            <div class="w3-margin-top forceTranslateButtons">
+              <button id="exportForceNoTranslateRules" class="w3-button w3-light-grey w3-round">Export rules</button>
+              <button id="importForceNoTranslateRules" class="w3-button w3-light-grey w3-round">Import rules</button>
+            </div>
+          </div>
+          <ul id="forceNoTranslateRules" class="w3-ul w3-card-4 w3-margin w3-round list"></ul>
+        </div>
+        <div class="desktopOnly">
+          <br />
           <div class="w3-display-container w3-padding w3-margin-top">
             <div class="w3-display-left">
               <p>

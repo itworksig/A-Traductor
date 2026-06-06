@@ -152,6 +152,16 @@ function testForceTranslateRules() {
       pageTranslatorJs.includes("pickForceTranslateArea"),
     "Force translate area rules must be configurable, selectable, exportable, and applied in page translation"
   );
+  assert(
+    configJs.includes("forceNoTranslateRules: []") &&
+      optionsHtml.includes("forceNoTranslateRules") &&
+      optionsHtml.includes("pickForceNoTranslateArea") &&
+      optionsHtml.includes("exportForceNoTranslateRules") &&
+      optionsJs.includes("forceNoTranslateRules") &&
+      pageTranslatorJs.includes("getForceNoTranslateRoots") &&
+      pageTranslatorJs.includes("forceNoTranslateRules"),
+    "Force no-translate area rules must be configurable, selectable, exportable, and skipped during page translation"
+  );
 }
 
 function testOrderedPageTranslation() {

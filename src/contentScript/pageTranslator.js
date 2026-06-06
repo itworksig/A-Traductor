@@ -375,6 +375,9 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       case "forceTranslateRules":
         forceTranslateRules = newvalue || [];
         break;
+      case "forceNoTranslateRules":
+        forceNoTranslateRules = newvalue || [];
+        break;
     }
   });
 
@@ -396,6 +399,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   let currentPageTranslatorService = twpConfig.get("pageTranslatorService");
   let customDictionary = sortDictionary(twpConfig.get("customDictionary"));
   let forceTranslateRules = twpConfig.get("forceTranslateRules");
+  let forceNoTranslateRules = twpConfig.get("forceNoTranslateRules");
   let dontSortResults =
     twpConfig.get("dontSortResults") == "yes" ? true : false;
 
@@ -551,6 +555,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
   }
 
   function getPiecesToTranslate(root = document.documentElement) {
+    const forceNoTranslateRoots = getForceNoTranslateRoots(root);
     const piecesToTranslate = [
       {
         isTranslated: false,
@@ -562,6 +567,21 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     ];
     let index = 0;
     let currentParagraphSize = 0;
+
+    function pushEmptyPieceAfterSkippedNode(lastHTMLElement) {
+      if (piecesToTranslate[index].nodes.length > 0) {
+        currentParagraphSize = 0;
+        piecesToTranslate[index].bottomElement = lastHTMLElement;
+        piecesToTranslate.push({
+          isTranslated: false,
+          parentElement: null,
+          topElement: null,
+          bottomElement: null,
+          nodes: [],
+        });
+        index++;
+      }
+    }
 
     const getAllNodes = function (
       node,
@@ -580,6 +600,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
             lastSelectOrDataListElement = node;
 
           if (
+            forceNoTranslateRoots.some((root) => root === node) ||
             htmlTagsInlineIgnore.indexOf(nodeName) !== -1 ||
             isNoTranslateNode(node) ||
             node.classList.contains("notranslate") ||
@@ -593,18 +614,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
               nodeName === "a" &&
               (node.matches ? node.matches("article a") : true)) // https://github.com/itworksig/A-Traductor/issues/449
           ) {
-            if (piecesToTranslate[index].nodes.length > 0) {
-              currentParagraphSize = 0;
-              piecesToTranslate[index].bottomElement = lastHTMLElement;
-              piecesToTranslate.push({
-                isTranslated: false,
-                parentElement: null,
-                topElement: null,
-                bottomElement: null,
-                nodes: [],
-              });
-              index++;
-            }
+            pushEmptyPieceAfterSkippedNode(lastHTMLElement);
             return;
           }
         }
@@ -742,6 +752,40 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
       .filter((selector) => typeof selector === "string" && selector.trim());
   }
 
+  function getForceNoTranslateSelectorsForCurrentHost() {
+    const rules = Array.isArray(forceNoTranslateRules)
+      ? forceNoTranslateRules
+      : [];
+    return rules
+      .filter(
+        (rule) =>
+          rule &&
+          rule.hostname === tabHostName &&
+          Array.isArray(rule.selectors)
+      )
+      .flatMap((rule) => rule.selectors)
+      .filter((selector) => typeof selector === "string" && selector.trim());
+  }
+
+  function getForceNoTranslateRoots(root = document.documentElement) {
+    const roots = [];
+    getForceNoTranslateSelectorsForCurrentHost().forEach((selector) => {
+      try {
+        if (root.matches && root.matches(selector)) {
+          roots.push(root);
+        }
+        root.querySelectorAll(selector).forEach((element) => {
+          if (!roots.includes(element)) {
+            roots.push(element);
+          }
+        });
+      } catch (error) {
+        console.warn("Invalid force no-translate selector", selector, error);
+      }
+    });
+    return roots;
+  }
+
   function getForcedTranslatePieces() {
     const forcedRoots = [];
     const forcedPieces = [];
@@ -778,6 +822,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
 
   function getAttributesToTranslate(root = document.body) {
     const attributesToTranslate = [];
+    const forceNoTranslateRoots = getForceNoTranslateRoots(root);
 
     const placeholdersElements = root.querySelectorAll(
       "input[placeholder], textarea[placeholder]"
@@ -793,7 +838,8 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     function hasNoTranslate(elem) {
       if (
         elem &&
-        (elem.classList.contains("notranslate") ||
+        (forceNoTranslateRoots.some((root) => root === elem || root.contains(elem)) ||
+          elem.classList.contains("notranslate") ||
           elem.getAttribute("translate") === "no")
       ) {
         return true;
@@ -1573,7 +1619,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     return parts.join(" > ");
   }
 
-  function startForceTranslateAreaPicker(sendResponse) {
+  function startForceTranslateAreaPicker(sendResponse, pickerHint) {
     let selectedElement = null;
     const overlay = document.createElement("div");
     overlay.style.cssText = [
@@ -1588,7 +1634,8 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     document.documentElement.appendChild(overlay);
 
     const tip = document.createElement("div");
-    tip.textContent = "Click to force translate this area. Press Esc to cancel.";
+    tip.textContent =
+      pickerHint || "Click to force translate this area. Press Esc to cancel.";
     tip.style.cssText = [
       "position:fixed",
       "left:16px",
@@ -1687,7 +1734,7 @@ Promise.all([twpConfig.onReady(), getTabHostName()]).then(function (_) {
     } else if (request.action === "swapTranslationService") {
       pageTranslator.swapTranslationService(request.newServiceName);
     } else if (request.action === "pickForceTranslateArea") {
-      startForceTranslateAreaPicker(sendResponse);
+      startForceTranslateAreaPicker(sendResponse, request.pickerHint);
       return true;
     } else if (request.action === "toggle-translation") {
       if (pageLanguageState === "translated") {

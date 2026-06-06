@@ -559,18 +559,26 @@ twpConfig
       return normalizedRules;
     }
 
-    function setForceTranslateRules(rules) {
-      twpConfig.set("forceTranslateRules", normalizeForceTranslateRules(rules));
-      renderForceTranslateRules();
+    function getAreaRuleControls(prefix) {
+      return {
+        hostname: $(`#${prefix}Hostname`),
+        selector: $(`#${prefix}Selector`),
+        list: $(`#${prefix}Rules`),
+      };
     }
 
-    function addForceTranslateRule(hostname, selector) {
+    function setAreaRules(configName, listPrefix, rules) {
+      twpConfig.set(configName, normalizeForceTranslateRules(rules));
+      renderAreaRules(configName, listPrefix);
+    }
+
+    function addAreaRule(configName, listPrefix, hostname, selector) {
       hostname = String(hostname || "").trim();
       selector = String(selector || "").trim();
       if (!hostname || !selector) return;
 
       const rules = normalizeForceTranslateRules(
-        twpConfig.get("forceTranslateRules")
+        twpConfig.get(configName)
       );
       let rule = rules.find((rule) => rule.hostname === hostname);
       if (!rule) {
@@ -580,12 +588,12 @@ twpConfig
       if (!rule.selectors.includes(selector)) {
         rule.selectors.push(selector);
       }
-      setForceTranslateRules(rules);
+      setAreaRules(configName, listPrefix, rules);
     }
 
-    function removeForceTranslateRule(hostname, selector) {
+    function removeAreaRule(configName, listPrefix, hostname, selector) {
       const rules = normalizeForceTranslateRules(
-        twpConfig.get("forceTranslateRules")
+        twpConfig.get(configName)
       )
         .map((rule) =>
           rule.hostname === hostname
@@ -596,10 +604,10 @@ twpConfig
             : rule
         )
         .filter((rule) => rule.selectors.length > 0);
-      setForceTranslateRules(rules);
+      setAreaRules(configName, listPrefix, rules);
     }
 
-    function createForceTranslateRuleListItem(hostname, selector) {
+    function createAreaRuleListItem(configName, listPrefix, hostname, selector) {
       const li = document.createElement("li");
       li.className = "w3-display-container";
       li.textContent = hostname;
@@ -614,41 +622,94 @@ twpConfig
       close.textContent = "\u00d7";
       close.onclick = (event) => {
         event.preventDefault();
-        removeForceTranslateRule(hostname, selector);
+        removeAreaRule(configName, listPrefix, hostname, selector);
       };
       li.appendChild(close);
       return li;
     }
 
-    function renderForceTranslateRules() {
-      $("#forceTranslateRules").textContent = "";
-      normalizeForceTranslateRules(twpConfig.get("forceTranslateRules"))
+    function renderAreaRules(configName, listPrefix) {
+      const controls = getAreaRuleControls(listPrefix);
+      controls.list.textContent = "";
+      normalizeForceTranslateRules(twpConfig.get(configName))
         .sort((a, b) => a.hostname.localeCompare(b.hostname))
         .forEach((rule) => {
           rule.selectors
             .slice()
             .sort((a, b) => a.localeCompare(b))
             .forEach((selector) => {
-              $("#forceTranslateRules").appendChild(
-                createForceTranslateRuleListItem(rule.hostname, selector)
+              controls.list.appendChild(
+                createAreaRuleListItem(
+                  configName,
+                  listPrefix,
+                  rule.hostname,
+                  selector
+                )
               );
             });
         });
     }
 
-    $("#addForceTranslateRule").onclick = () => {
-      addForceTranslateRule(
-        $("#forceTranslateHostname").value,
-        $("#forceTranslateSelector").value
-      );
-      $("#forceTranslateSelector").value = "";
-    };
-
-    function isForceTranslatePickableTab(tab) {
-      return tab && tab.id && (!tab.url || /^(https?|file):/.test(tab.url));
+    function wireAddAreaRuleButton(configName, listPrefix) {
+      const controls = getAreaRuleControls(listPrefix);
+      $(`#add${listPrefix[0].toUpperCase()}${listPrefix.slice(1)}Rule`).onclick =
+        () => {
+          addAreaRule(
+            configName,
+            listPrefix,
+            controls.hostname.value,
+            controls.selector.value
+          );
+          controls.selector.value = "";
+        };
     }
 
-    $("#pickForceTranslateArea").onclick = () => {
+    function exportAreaRules(configName, exportKey, fileName) {
+      const rulesJSON = JSON.stringify(
+        {
+          version: chrome.runtime.getManifest().version,
+          [exportKey]: normalizeForceTranslateRules(twpConfig.get(configName)),
+        },
+        null,
+        2
+      );
+      const element = document.createElement("a");
+      element.href =
+        "data:application/json;charset=utf-8," + encodeURIComponent(rulesJSON);
+      element.download = fileName;
+      document.body.appendChild(element);
+      element.click();
+      element.remove();
+    }
+
+    function importAreaRules(configName, listPrefix, exportKey) {
+      const element = document.createElement("input");
+      element.type = "file";
+      element.accept = "application/json,text/plain";
+      element.oninput = (event) => {
+        const input = event.target;
+        if (!input.files || !input.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            const importedRules = data[exportKey] || data;
+            setAreaRules(configName, listPrefix, importedRules);
+          } catch (error) {
+            alert(twpI18n.getMessage("fileIsCorrupted"));
+            console.error(error);
+          }
+        };
+        reader.readAsText(input.files[0]);
+      };
+      element.click();
+    }
+
+    wireAddAreaRuleButton("forceTranslateRules", "forceTranslate");
+    wireAddAreaRuleButton("forceNoTranslateRules", "forceNoTranslate");
+
+    function pickAreaRule(configName, listPrefix, pickerHint) {
+      const controls = getAreaRuleControls(listPrefix);
       chrome.tabs.query(
         {
           currentWindow: true,
@@ -668,63 +729,78 @@ twpConfig
           if (!tab || !tab.id) return;
           chrome.tabs.sendMessage(
             tab.id,
-            { action: "pickForceTranslateArea" },
+            { action: "pickForceTranslateArea", pickerHint },
             (response) => {
               checkedLastError();
               if (!response || !response.hostname || !response.selector) return;
-              $("#forceTranslateHostname").value = response.hostname;
-              $("#forceTranslateSelector").value = response.selector;
-              addForceTranslateRule(response.hostname, response.selector);
+              controls.hostname.value = response.hostname;
+              controls.selector.value = response.selector;
+              addAreaRule(
+                configName,
+                listPrefix,
+                response.hostname,
+                response.selector
+              );
             }
           );
         }
       );
+    }
+
+    $("#pickForceTranslateArea").onclick = () => {
+      pickAreaRule(
+        "forceTranslateRules",
+        "forceTranslate",
+        "Click to force translate this area. Press Esc to cancel."
+      );
+    };
+
+    function isForceTranslatePickableTab(tab) {
+      return tab && tab.id && (!tab.url || /^(https?|file):/.test(tab.url));
+    }
+
+    $("#pickForceNoTranslateArea").onclick = () => {
+      pickAreaRule(
+        "forceNoTranslateRules",
+        "forceNoTranslate",
+        "Click to never translate this area. Press Esc to cancel."
+      );
     };
 
     $("#exportForceTranslateRules").onclick = () => {
-      const rulesJSON = JSON.stringify(
-        {
-          version: chrome.runtime.getManifest().version,
-          forceTranslateRules: normalizeForceTranslateRules(
-            twpConfig.get("forceTranslateRules")
-          ),
-        },
-        null,
-        2
+      exportAreaRules(
+        "forceTranslateRules",
+        "forceTranslateRules",
+        "a-traductor-force-translate-rules.json"
       );
-      const element = document.createElement("a");
-      element.href =
-        "data:application/json;charset=utf-8," + encodeURIComponent(rulesJSON);
-      element.download = "a-traductor-force-translate-rules.json";
-      document.body.appendChild(element);
-      element.click();
-      element.remove();
+    };
+
+    $("#exportForceNoTranslateRules").onclick = () => {
+      exportAreaRules(
+        "forceNoTranslateRules",
+        "forceNoTranslateRules",
+        "a-traductor-force-no-translate-rules.json"
+      );
     };
 
     $("#importForceTranslateRules").onclick = () => {
-      const element = document.createElement("input");
-      element.type = "file";
-      element.accept = "application/json,text/plain";
-      element.oninput = (event) => {
-        const input = event.target;
-        if (!input.files || !input.files[0]) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          try {
-            const data = JSON.parse(reader.result);
-            const importedRules = data.forceTranslateRules || data;
-            setForceTranslateRules(importedRules);
-          } catch (error) {
-            alert(twpI18n.getMessage("fileIsCorrupted"));
-            console.error(error);
-          }
-        };
-        reader.readAsText(input.files[0]);
-      };
-      element.click();
+      importAreaRules(
+        "forceTranslateRules",
+        "forceTranslate",
+        "forceTranslateRules"
+      );
     };
 
-    renderForceTranslateRules();
+    $("#importForceNoTranslateRules").onclick = () => {
+      importAreaRules(
+        "forceNoTranslateRules",
+        "forceNoTranslate",
+        "forceNoTranslateRules"
+      );
+    };
+
+    renderAreaRules("forceTranslateRules", "forceTranslate");
+    renderAreaRules("forceNoTranslateRules", "forceNoTranslate");
 
     // translations options
     $("#pageTranslatorService").onchange = (e) => {
