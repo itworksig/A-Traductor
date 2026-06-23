@@ -3,6 +3,8 @@
 const toolbarAction = chrome.action || chrome.browserAction;
 const pageAction = chrome.pageAction;
 const toolbarActionContext = chrome.action ? "action" : "browser_action";
+const pageActionUsesToolbarAction =
+  !!chrome.action && pageAction && pageAction.__isActionShim === true;
 
 // get mimetype
 var tabToMimeType = {};
@@ -408,7 +410,7 @@ twpConfig.onReady(() => {
       );
     });
   } else {
-    if (pageAction) {
+    if (pageAction && !pageActionUsesToolbarAction) {
       pageAction.onClicked.addListener((tab) => {
         if (twpConfig.get("translateClickingOnce") === "yes") {
           chrome.tabs.sendMessage(

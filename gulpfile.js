@@ -175,6 +175,9 @@ gulp.task("chrome-rename", (cb) => {
     `build/${chromium_folder_name}/chrome_manifest.json`,
     `build/${chromium_folder_name}/manifest.json`
   );
+  fs.rmSync(`build/${chromium_folder_name}/firefox_manifest.json`, {
+    force: true,
+  });
   cb();
 });
 

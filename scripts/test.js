@@ -206,6 +206,10 @@ function testOrderedPageTranslation() {
 function testManifestV3() {
   const firefoxManifest = JSON.parse(read("src/manifest.json"));
   const chromiumManifest = JSON.parse(read("src/chrome_manifest.json"));
+  const serviceWorker = read("src/background/service-worker.js");
+  const mv3Shims = read("src/background/mv3-shims.js");
+  const backgroundJs = read("src/background/background.js");
+  const gulpfile = read("gulpfile.js");
 
   [firefoxManifest, chromiumManifest].forEach((manifest) => {
     assert(manifest.manifest_version === 3, `${manifest.name} must use Manifest V3`);
@@ -225,6 +229,10 @@ function testManifestV3() {
     "Chromium MV3 build must use a background service worker"
   );
   assert(
+    !chromiumManifest.update_url,
+    "Chromium Web Store uploads must not include update_url"
+  );
+  assert(
     !chromiumManifest.page_action,
     "Chromium MV3 build must not use page_action"
   );
@@ -235,6 +243,30 @@ function testManifestV3() {
   assert(
     firefoxManifest.page_action?.default_popup === "/popup/popup.html",
     "Firefox MV3 build must keep the address-bar page action"
+  );
+  assert(
+    serviceWorker.indexOf("/background/mv3-shims.js") <
+      serviceWorker.indexOf("/background/background.js"),
+    "Chromium MV3 service worker must load compatibility shims before background logic"
+  );
+  assert(
+    mv3Shims.includes("chrome.pageAction =") &&
+      mv3Shims.includes("__isActionShim: true") &&
+      mv3Shims.includes("setPopup(details") &&
+      mv3Shims.includes("setIcon(details") &&
+      mv3Shims.includes("chrome.action.enable") &&
+      mv3Shims.includes("chrome.action.disable"),
+    "Chromium MV3 must provide a pageAction compatibility shim backed by chrome.action"
+  );
+  assert(
+    backgroundJs.includes("pageActionUsesToolbarAction") &&
+      backgroundJs.includes("pageAction && !pageActionUsesToolbarAction"),
+    "Chromium MV3 must not attach duplicate click handlers to the single toolbar action"
+  );
+  assert(
+    gulpfile.includes("firefox_manifest.json") &&
+      gulpfile.includes("fs.rmSync(`build/${chromium_folder_name}/firefox_manifest.json`"),
+    "Chromium build must not ship the Firefox manifest backup"
   );
 }
 

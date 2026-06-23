@@ -1,6 +1,61 @@
 "use strict";
 
 (function () {
+  if (
+    typeof chrome !== "undefined" &&
+    chrome.action &&
+    typeof chrome.pageAction === "undefined"
+  ) {
+    const actionPageState = new Map();
+
+    function getTabId(details = {}) {
+      return typeof details.tabId === "number" ? details.tabId : null;
+    }
+
+    function remember(tabId, patch) {
+      if (tabId === null) return;
+      const state = actionPageState.get(tabId) || {};
+      actionPageState.set(tabId, Object.assign(state, patch));
+    }
+
+    chrome.pageAction = {
+      __isActionShim: true,
+      onClicked: chrome.action.onClicked,
+      openPopup: chrome.action.openPopup
+        ? chrome.action.openPopup.bind(chrome.action)
+        : undefined,
+      setIcon(details, callback) {
+        const tabId = getTabId(details);
+        remember(tabId, { icon: details.path || details.imageData });
+        chrome.action.setIcon(details, callback);
+      },
+      setPopup(details, callback) {
+        const tabId = getTabId(details);
+        remember(tabId, { popup: details.popup || "" });
+        chrome.action.setPopup(details, callback);
+      },
+      setTitle(details, callback) {
+        chrome.action.setTitle(details, callback);
+      },
+      show(tabId, callback) {
+        remember(tabId, { visible: true });
+        if (chrome.action.enable) {
+          chrome.action.enable(tabId, callback);
+        } else if (typeof callback === "function") {
+          callback();
+        }
+      },
+      hide(tabId, callback) {
+        remember(tabId, { visible: false });
+        if (chrome.action.disable) {
+          chrome.action.disable(tabId, callback);
+        } else if (typeof callback === "function") {
+          callback();
+        }
+      },
+    };
+  }
+
   if (typeof XMLHttpRequest === "undefined" && typeof fetch === "function") {
     class FetchXMLHttpRequest {
       constructor() {
